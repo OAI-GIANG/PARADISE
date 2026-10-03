@@ -1,0 +1,19 @@
+﻿{
+    "attestation":  "PARADISE_REMOTE_ATTESTATION_V2",
+    "repository":  "Sauthienthu89/PARADISE",
+    "ref":  "refs/heads/main",
+    "local_commit":  "056b3ec301d762c322d975c7951dd4615c3ea7cd",
+    "remote_commit":  "056b3ec301d762c322d975c7951dd4615c3ea7cd",
+    "local_tree":  "8faa907f615bf70371ff86f71608d7ad59b12817",
+    "independent_checkout_commit":  "056b3ec301d762c322d975c7951dd4615c3ea7cd",
+    "independent_checkout_tree":  "8faa907f615bf70371ff86f71608d7ad59b12817",
+    "kernel_git_blob":  "c1c5a79c102c82cb4e0e67c8ea6fb7030030b12d",
+    "test_git_blob":  "15c90ae4adc6fd50b463ec32a9718fbe7719b63b",
+    "independent_checkout_tests":  "16/16 PASS",
+    "independent_checkout_compile":  "PASS",
+    "independent_checkout_clean":  true,
+    "independent_host":  false,
+    "independent_host_status":  "NOT_EXECUTED",
+    "reason":  "Authorized execution device is LAPTOP-E9FGVI95; VPS is not a connected Desktop Commander device and direct SSH execution is unavailable through the current tool boundary.",
+    "semantic_kernel_changed":  false
+}
