@@ -1,4 +1,4 @@
-# PARADISE CANONICAL REGISTRY V1
+﻿# PARADISE CANONICAL REGISTRY V1
 
 Status: MATERIALIZED GOVERNANCE RECORD
 Authority: F:\OAI\PARADISE\control\PARADISE_CONTROL_MODEL_V1.md
@@ -49,5 +49,5 @@ COMMIT -> WORKTREE/WORKSPACE -> RUNTIME -> EVIDENCE
 - authority: PARADISE semantic design authority under local control
 - semantic_scope: 7 primitives + 5 obligations + I01-I19
 - historical_status: NEW CANONICAL DESIGN TARGET; not historical reconstruction
-- verification_status: PENDING until implementation/evidence gate passes
+- verification_status: VERIFIED by D8.4 semantic implementation/evidence gate
 - predecessor: 7 primitives + 5 obligations + K1-K8

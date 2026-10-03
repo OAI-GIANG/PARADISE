@@ -1,6 +1,6 @@
-# PARADISE MINIMAL SEMANTIC KERNEL V1
+﻿# PARADISE MINIMAL SEMANTIC KERNEL V1
 
-Status: CANONICAL SEMANTIC DESIGN — PENDING IMPLEMENTATION VERIFICATION
+Status: CANONICAL SEMANTIC DESIGN â€” PENDING IMPLEMENTATION VERIFICATION
 Authority: F:\OAI\PARADISE\control\
 Provenance decision: PARADISE_D8_SEMANTIC_PROVENANCE_DECISION_V1.md
 Historical status: NOT HISTORICAL; this V1 is a newly canonicalized design target after D8.3 provenance reconciliation.
@@ -29,43 +29,43 @@ O5 Temporal Validity
 
 ## 4. Canonical invariants
 
-I01 Explicit Authority Binding — an authorization MUST identify issuer, subject, action, scope, context, validity interval, status, and provenance.
+I01 Explicit Authority Binding â€” an authorization MUST identify issuer, subject, action, scope, context, validity interval, status, and provenance.
 
-I02 No Authority Escalation — no decision, evidence, execution, advisory, or change request may increase the authority scope available to it.
+I02 No Authority Escalation â€” no decision, evidence, execution, advisory, or change request may increase the authority scope available to it.
 
-I03 Temporal Authority Validity — authority MUST be valid at the authorization boundary and MUST be revalidated at the external side-effect boundary.
+I03 Temporal Authority Validity â€” authority MUST be valid at the authorization boundary and MUST be revalidated at the external side-effect boundary.
 
-I04 Context/Action/Scope Binding — authorization is valid only for the exact subject, action, scope, and execution context for which it was issued.
+I04 Context/Action/Scope Binding â€” authorization is valid only for the exact subject, action, scope, and execution context for which it was issued.
 
-I05 Explicit Gate Outcome — every gate evaluation MUST resolve to ALLOW, DENY, BLOCKED, CONFLICT, or UNKNOWN; implicit success is forbidden.
+I05 Explicit Gate Outcome â€” every gate evaluation MUST resolve to ALLOW, DENY, BLOCKED, CONFLICT, or UNKNOWN; implicit success is forbidden.
 
-I06 Unknown Is Not Allow — UNKNOWN policy, evidence, authority, or verification state MUST NOT produce ALLOW.
+I06 Unknown Is Not Allow â€” UNKNOWN policy, evidence, authority, or verification state MUST NOT produce ALLOW.
 
-I07 Conflict Is Explicit — contradictory authoritative inputs MUST produce CONFLICT or BLOCKED; silent selection is forbidden.
+I07 Conflict Is Explicit â€” contradictory authoritative inputs MUST produce CONFLICT or BLOCKED; silent selection is forbidden.
 
-I08 Versioned State Transition — a state mutation MUST bind the expected state/version, requested action, authority, and resulting version.
+I08 Versioned State Transition â€” a state mutation MUST bind the expected state/version, requested action, authority, and resulting version.
 
-I09 Stale State Rejection — a transition against a stale or mismatched expected version MUST be rejected and MUST NOT silently merge.
+I09 Stale State Rejection â€” a transition against a stale or mismatched expected version MUST be rejected and MUST NOT silently merge.
 
-I10 Lifecycle Boundary — a state transition MUST be valid for the declared lifecycle/state context; invalid lifecycle transitions MUST be rejected.
+I10 Lifecycle Boundary â€” a state transition MUST be valid for the declared lifecycle/state context; invalid lifecycle transitions MUST be rejected.
 
-I11 Evidence Integrity and Provenance — evidence MUST bind source, subject, scope, capture time, provenance, integrity, and verification status; unverifiable integrity MUST not be promoted.
+I11 Evidence Integrity and Provenance â€” evidence MUST bind source, subject, scope, capture time, provenance, integrity, and verification status; unverifiable integrity MUST not be promoted.
 
-I12 Evidence Is Not Authority — evidence may establish a claim but MUST NOT itself authorize an action.
+I12 Evidence Is Not Authority â€” evidence may establish a claim but MUST NOT itself authorize an action.
 
-I13 Context-Bound Verification — verification is valid only for the exact declared subject, scope, source/provenance context, and verification conditions.
+I13 Context-Bound Verification â€” verification is valid only for the exact declared subject, scope, source/provenance context, and verification conditions.
 
-I14 Unique Execution Identity — each execution MUST have a unique execution identity bound to its authorized action, subject, scope, input state/version, and result witness.
+I14 Unique Execution Identity â€” each execution MUST have a unique execution identity bound to its authorized action, subject, scope, input state/version, and result witness.
 
-I15 Replay Safety — non-idempotent execution identities MUST NOT be accepted twice; idempotent replay MUST be explicitly declared and bounded.
+I15 Replay Safety â€” non-idempotent execution identities MUST NOT be accepted twice; idempotent replay MUST be explicitly declared and bounded.
 
-I16 Side-Effect Authorization Freshness — an external side effect MUST use a fresh authorization bound to the exact effect; an old execution record is not fresh authority.
+I16 Side-Effect Authorization Freshness â€” an external side effect MUST use a fresh authorization bound to the exact effect; an old execution record is not fresh authority.
 
-I17 Cognition Is Advisory — cognition may propose, analyze, warn, or recommend, but its output MUST remain structurally distinct from authorization and execution permission.
+I17 Cognition Is Advisory â€” cognition may propose, analyze, warn, or recommend, but its output MUST remain structurally distinct from authorization and execution permission.
 
-I18 Bounded Change and Independent Authority — requested change scope MUST be contained by authorized scope; self-modification requires authority independent of the changed target.
+I18 Bounded Change and Independent Authority â€” requested change scope MUST be contained by authorized scope; self-modification requires authority independent of the changed target.
 
-I19 Recovery-Bound Change — every governed change MUST declare verification requirements and a recovery/rollback reference before execution; unbounded or unrecoverable governed change MUST be rejected.
+I19 Recovery-Bound Change â€” every governed change MUST declare verification requirements and a recovery/rollback reference before execution; unbounded or unrecoverable governed change MUST be rejected.
 
 ## 5. Forbidden transitions
 
@@ -161,4 +161,4 @@ K1-K8 are predecessor constraints. Their intent is preserved where covered by I0
 
 ## 12. Freeze rule
 
-This document may be promoted from CANONICAL SEMANTIC DESIGN to SEMANTIC FREEZE only after the acceptance criteria are VERIFIED. No implementation may introduce a semantic primitive or invariant outside I01-I19 without a new governed semantic review.
+The acceptance criteria are VERIFIED by the D8.4 implementation/evidence gate. This document is now the canonical semantic authority for PARADISE V1. No implementation may introduce a semantic primitive or invariant outside I01-I19 without a new governed semantic review.

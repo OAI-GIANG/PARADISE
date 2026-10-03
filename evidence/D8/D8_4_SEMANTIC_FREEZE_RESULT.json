@@ -1,0 +1,27 @@
+{
+    "task":  "PARADISE-D8.4",
+    "status":  "VERIFIED",
+    "implementation_commit":  "08c119ad47819246ff61c1792272dfdd4a323b64",
+    "implementation_tree":  "395913010c8d1b105bb749b7b994964113b489b6",
+    "tests":  "28/28 PASS",
+    "compile":  "PASS",
+    "diff_check":  "PASS",
+    "semantic_primitives":  "7/7",
+    "obligations":  "5/5",
+    "invariants":  "19/19",
+    "forbidden_transition_inventory":  "PASS",
+    "love_boundary":  "PASS",
+    "og_boundary":  "PASS",
+    "historical_claim":  "NONE",
+    "semantic_authority":  "PARADISE_MINIMAL_SEMANTIC_KERNEL_V1",
+    "hashes":  {
+                   "control/PARADISE_MINIMAL_SEMANTIC_KERNEL_V1.md":  "CBED29A2F976319FF57A951C297446FA2AF165511B89D301B7FE8E6A988E3ADA",
+                   "control/PARADISE_IMPLEMENTATION_CONTRACT_V1.md":  "63C7B93D50D8D392D29E406294E69AF05307C52F9C77A82031A53C1EFDA2544A",
+                   "control/PARADISE_CONTROL_MODEL_V1.md":  "57BEC4D0F7AC39187E6AC00F787AE8E7ABFE1C854DCF2875031AB25BBD862A5A",
+                   "control/PARADISE_CANONICAL_REGISTRY_V1.md":  "3AFD7EB6E3D8D4CF742BE57B1361B990C61A917FF4AF3EA5A044E773A7A14FC1",
+                   "control/PARADISE_D8_SEMANTIC_FREEZE_RECORD_V1.md":  "66496A84929A0234A2C9CC074D9599BECFCD1EBE598BCC67E53DCD42096B57B2",
+                   "runtime/paradise_kernel.py":  "B561A1873D55D41BEE7EFB4C96F341E20B1D0861CA871EADB7D3FB43F7BD4CF4",
+                   "runtime/test_paradise_kernel.py":  "E1F15FC025DB63908F2B3C3D4493F9843E505628AE0A8D7FF4A7A20F2357FA70",
+                   "runtime/test_semantic_kernel_contract.py":  "2875ABD441A8D5778EBADE9A4B4E98843776417D8BC46A43E039804C839D853C"
+               }
+}
