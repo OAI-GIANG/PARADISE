@@ -28,7 +28,7 @@ The following are blocked unless a specific governance gate and authorization pe
 
 ## Legacy state
 control-plane/ is preserved legacy governance input and is not active authority.
-projects/LOVE/ and projects/OG/ are empty legacy placeholders according to the latest read-only reconciliation.
+projects/LOVE/ is a provenance-preserved distilled source/design snapshot; it is not a LOVE source mirror or runtime authority. projects/OG/ remains a legacy placeholder.
 
 ## Promotion rule
 A decision or design document is not by itself authorization for destructive or production actions.

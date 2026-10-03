@@ -19,6 +19,7 @@ PARADISE is the local governance/evolution root for the current system. LOVE is 
 - LOVE source authority: GitHub Sauthienthu89/LOVE, main @ 0c4e40f95b2d3c20289a4a5e99983ceec93a6b8d.
 - PARADISE local governance authority: F:\OAI\PARADISE\control\.
 - No LOVE source mirror is created under PARADISE.
+- `projects/LOVE` is permitted only as a provenance-preserved distilled source/design snapshot and never as source or runtime authority.
 - No OG project boundary is created.
 
 ## Classification

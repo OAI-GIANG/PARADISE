@@ -16,7 +16,7 @@ F:\OAI\PARADISE\
 - archive/       retained history; non-canonical
 - secrets/       protected local credentials; never canonical source
 
-No projects/ directory is required. LOVE source is not duplicated under PARADISE.
+projects/LOVE may contain a provenance-preserved distilled source/design snapshot. It is not the LOVE source authority, not a source mirror, and not a runtime authority.
 
 ## 3. Authority model
 A. LOVE source authority: GitHub Sauthienthu89/LOVE, main @ 0c4e40f95b2d3c20289a4a5e99983ceec93a6b8d.
@@ -49,8 +49,13 @@ LOVE is the active canonical project governed by PARADISE. GitHub remains LOVE s
 
 Canonical execution anchor currently identified by governance:
 C:\LOVE\canonical-execution-anchor
-Pinned commit:
+Pinned source-authority reference:
 0c4e40f95b2d3c20289a4a5e99983ceec93a6b8d
+
+Distillation snapshot:
+projects/LOVE @ source commit 41db094dcad8a857bf6dfc255e37ec889dd2515f
+
+The 0c4e... identity and 41db... distillation snapshot are intentionally distinct until Git lineage between them is independently verified.
 
 This record is a governance reference; it does not authorize deployment or runtime mutation.
 

@@ -39,7 +39,7 @@ COMMIT -> WORKTREE/WORKSPACE -> RUNTIME -> EVIDENCE
 
 ## Legacy boundary
 - F:\OAI\PARADISE\control-plane\ remains preserved legacy governance input
-- F:\OAI\PARADISE\projects\LOVE\ is empty legacy placeholder
+- F:\OAI\PARADISE\projects\LOVE\ is a provenance-preserved distilled source/design snapshot, not a source mirror or runtime authority
 - F:\OAI\PARADISE\projects\OG\ is empty legacy placeholder
 - no cleanup action is implied by this registry
 
