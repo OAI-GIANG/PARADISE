@@ -1,0 +1,16 @@
+﻿{
+    "evidence_id":  "PARADISE-D12-IMPLEMENTATION-001",
+    "status":  "TESTED / NOT VERIFIED",
+    "timestamp":  "2026-10-03T20:10:56.4025459Z",
+    "source_identity":  "LOCAL-FILESYSTEM-NON-GIT",
+    "kernel_sha256":  "2ABEAED1655DC404E335CC26835747072C92424F7679474983FBE0C4FA60392B",
+    "tests_sha256":  "1D903976413A86A82E47AD809744320660091A77F01C1C2D8F604A8CB17401E2",
+    "contract_sha256":  "CC354E2D060F193D6B621A0A47325442BA2889A542CA32F1E84C53214AA7E843",
+    "command":  "python -m unittest -v test_paradise_kernel.py",
+    "result":  "16/16 PASS",
+    "compile_command":  "python -m py_compile paradise_kernel.py test_paradise_kernel.py",
+    "compile_result":  "PASS",
+    "semantic_baseline":  "7 primitives + 5 obligations + K1-K8",
+    "mutation":  "PARADISE materialized locally; LOVE untouched; no commit/push",
+    "limitation":  "No Git commit/tree identity exists for F:\\OAI\\PARADISE, so VERIFIED status is not claimed."
+}
