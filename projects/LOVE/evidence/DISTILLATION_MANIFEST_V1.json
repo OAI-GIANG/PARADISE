@@ -1,0 +1,152 @@
+﻿{
+    "schema_version":  "PARADISE-LOVE-DISTILLATION-MANIFEST-1.0",
+    "status":  "DISTILLED_SNAPSHOT",
+    "target":  "PARADISE/projects/LOVE",
+    "source_repo":  "Sauthienthu89/LOVE",
+    "source_branch":  "love-reconstruction-impl-20261003",
+    "source_commit":  "41db094dcad8a857bf6dfc255e37ec889dd2515f",
+    "source_tree":  "a50554ff3a6c2a37802eb28a8ceb6f097ca5f0ab",
+    "purpose":  "Carry forward selected LOVE architecture/capability contracts into PARADISE without copying the full LOVE repository.",
+    "excluded":  [
+                     "legacy 99-command user-facing layer",
+                     "full Flutter/client build artifacts",
+                     "Windows installer binaries and bundled runtimes",
+                     "production deployment configuration",
+                     "prototype/superseded branches",
+                     "whole LOVE repository as a runtime dependency"
+                 ],
+    "artifacts":  [
+                      {
+                          "path":  "docs/ARCHITECTURE.md",
+                          "sha256":  "e67b8e52b053ef77b6ea9a2cd86b9b48755d2aacef89dbf58d9dead0500b3d90"
+                      },
+                      {
+                          "path":  "docs/BOUNDARIES.md",
+                          "sha256":  "f6f6c8d26c8db35362c39a322c1edfeef7feb3546aedcf88456a8e7e00d68d11"
+                      },
+                      {
+                          "path":  "docs/LOVE_AUTONOMOUS_WORK_LOOP_V1.md",
+                          "sha256":  "bd43240ac3df06d3dd7098b9cf324c4da0b66d932678cc934630f69f19a83cec"
+                      },
+                      {
+                          "path":  "docs/LOVE_AUTONOMOUS_WORK_QUEUE_V1.md",
+                          "sha256":  "243b13684d0566b210a24fd6708436f3eef7d801fc95bf1a80f91cf090087594"
+                      },
+                      {
+                          "path":  "docs/LOVE_CAPABILITY_INVENTORY.md",
+                          "sha256":  "71a98732d9a4ee9cd795cb0d13440b13ab5e2d1dc56754b6a682cea49717cbde"
+                      },
+                      {
+                          "path":  "docs/LOVE_EVOLUTION_FIRST_REBASELINE_RULE.md",
+                          "sha256":  "488c1a8d991131d5a4d6029106a72c2822277ab27bd87f91feb8f734b4902184"
+                      },
+                      {
+                          "path":  "docs/LOVE_PROVENANCE_CONTRACT.md",
+                          "sha256":  "bf663eee06db6dd6f161789d7bb971447cb622aa62bac7846d545fed9502ab3a"
+                      },
+                      {
+                          "path":  "docs/LOVE_REBASELINE_GAP_REGISTER.md",
+                          "sha256":  "6e6a79c88fa998d5564ca2ad8d44493551ec43bf91485bcd3158ded0f1acbcce"
+                      },
+                      {
+                          "path":  "evidence/MIGRATION_PROVENANCE.json",
+                          "sha256":  "44655c169557dbf0d58fc7ae65e86624a5df0f7b0c89681e230a0d40f5cf76ca"
+                      },
+                      {
+                          "path":  "evidence/post-restructure-caller-matrix-20261004.json",
+                          "sha256":  "076c625c89728a12b077929a704dcadce62140963b150ffeb2903a35923f3d95"
+                      },
+                      {
+                          "path":  "evidence/post-restructure-canonicalization-20261004.json",
+                          "sha256":  "62abe11e84632d7e6cc3b00be40925c0cd9e50f9d1eb4307b0e663db8fd799f8"
+                      },
+                      {
+                          "path":  "stt_love/durable_execution.py",
+                          "sha256":  "a2568b198c326b8b203a89287127f1ff9a895308f78bd03103d61efae17266d5"
+                      },
+                      {
+                          "path":  "stt_love/learning.py",
+                          "sha256":  "73c93022696768a84b0bdc8c6e46f0f38dbc7c27a32a4275791ff0ac51a1e001"
+                      },
+                      {
+                          "path":  "stt_love/memory_trust.py",
+                          "sha256":  "25f6a7e216c93124053ec77b1c201ab2d365eef015f2789a6f81361d25fad209"
+                      },
+                      {
+                          "path":  "stt_love/semantics.py",
+                          "sha256":  "85ca8d856dcaa0f06017acc49c22e1252807b47bc608d52a0f192383acd45676"
+                      },
+                      {
+                          "path":  "stt_love/state_semantics.py",
+                          "sha256":  "70824e12220cfe06af92bd2234b9677e504fdd6cde560b2c5c1cb9bbcddd162f"
+                      },
+                      {
+                          "path":  "stt_love/task_contract.py",
+                          "sha256":  "d83fbc8716195dc717851c2a1a319a95ba288fe58e49588b0c1d83f68e36cb2c"
+                      },
+                      {
+                          "path":  "stt_love/evidence/ledger.py",
+                          "sha256":  "cb5516b6ab278ac1faf572b26bf2b362ebbf607bd3383e6c88ce643ef9dfffb9"
+                      },
+                      {
+                          "path":  "stt_love/evidence/replay.py",
+                          "sha256":  "ebc9ee82638a319b3d69b39e3282019f0d33f67323468926cf058b9e765afee7"
+                      },
+                      {
+                          "path":  "stt_love/evidence/trust.py",
+                          "sha256":  "26dfc342c24ccfbf5bc37bb138e01d174a3a48883c631f10365894ecc37048fd"
+                      },
+                      {
+                          "path":  "stt_love/inference/model_identity.py",
+                          "sha256":  "f9d6e473ed777008b698bd16dc79d092d2b38520e4075da17ff349c4f7511f2f"
+                      },
+                      {
+                          "path":  "stt_love/love/kernel.py",
+                          "sha256":  "6ca93b1e96e5c65f1a2c834f7fa80b6079d5568a27ed839850ca012dfcfd1a13"
+                      },
+                      {
+                          "path":  "stt_love/og/aegr.py",
+                          "sha256":  "5ebb0ffff160b8bc016d44dc045e4b0f4547a98310d58e7ec9fa460622aa86a7"
+                      },
+                      {
+                          "path":  "stt_love/og/capability_registry.py",
+                          "sha256":  "cb84eb581db21c7f31b759e0605dfd0d8be2c4e353f85ef2d8ecad2ce4603bb0"
+                      },
+                      {
+                          "path":  "stt_love/og/command_router.py",
+                          "sha256":  "4476c5a8a19f295d496c86a23685d9aca63fd7b30c1d56dc11ae2e986bb95a8e"
+                      },
+                      {
+                          "path":  "stt_love/og/context_adaptation.py",
+                          "sha256":  "8ba2b1ffac95b62decb5e394899c662c5dd924405e3676b65e196cd3eb5e8b0f"
+                      },
+                      {
+                          "path":  "stt_love/og/execution_graph.py",
+                          "sha256":  "6e795aec065edba256cda18640ee2029619ca724826bb6399d661a02366ea3f3"
+                      },
+                      {
+                          "path":  "stt_love/og/execution_plan.py",
+                          "sha256":  "b18dfeabe4182f907e2dffd45c79a429b60160d6c5e199561ba52521c2cc4dba"
+                      },
+                      {
+                          "path":  "stt_love/og/repo_intelligence.py",
+                          "sha256":  "0d5f8c54523e48b8c6932ba4ec57d22b8dc3c61cfee069737c06ae7e14b54ded"
+                      },
+                      {
+                          "path":  "stt_love/og/source_convergence.py",
+                          "sha256":  "3392a9b78f45313d4eb7c56392f1ce7a90a9da2eb6a7e36f996d4d3111fcff19"
+                      },
+                      {
+                          "path":  "stt_love/og/verification_contract.py",
+                          "sha256":  "a7890e778b5ff227ae53fff8a995b786a71e094fca992e133371979c13b00316"
+                      },
+                      {
+                          "path":  "stt_love/stt/capability_selector.py",
+                          "sha256":  "ffe268771fbdeae158f0b55d995c2359fb73b1648342cc9685fbbbc20dadd416"
+                      },
+                      {
+                          "path":  "stt_love/stt/core.py",
+                          "sha256":  "d71bdb55a066eddb2bc1fc2b02e83c01a5a2b9c93d38e3c6cc5b75e76573a771"
+                      }
+                  ]
+}

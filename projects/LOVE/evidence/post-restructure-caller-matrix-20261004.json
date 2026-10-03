@@ -1,0 +1,79 @@
+{
+  "schema_version": "LOVE-POST-RESTRUCTURE-CALLER-MATRIX-1.0",
+  "date": "2026-10-04",
+  "branch": "love-reconstruction-impl-20261003",
+  "matrix": [
+    {
+      "caller": "stt_love.server.LoveHandler._execute_goal",
+      "current_after_migration": "TaskContract(message).submit(...) -> DurableExecution.enqueue_submission(Submission)",
+      "canonical": "Submission -> DurableExecution",
+      "gap": "NONE",
+      "risk": "LOW",
+      "status": "VERIFIED"
+    },
+    {
+      "caller": "stt_love.server.LoveHandler /api/v1/tasks/async",
+      "current_after_migration": "TaskContract(message).submit(...) -> DurableExecution.enqueue_submission(Submission)",
+      "canonical": "Submission -> DurableExecution",
+      "gap": "NONE",
+      "risk": "LOW",
+      "status": "VERIFIED"
+    },
+    {
+      "caller": "stt_love.og.core.OGCore.plan / plan_sequence",
+      "current_after_migration": "TaskContract -> Submission + GovernanceSpec -> GovernedExecutionPlan",
+      "canonical": "TaskContract + Submission + GovernanceSpec + GovernedExecutionPlan",
+      "gap": "NONE",
+      "risk": "LOW",
+      "status": "VERIFIED"
+    },
+    {
+      "caller": "stt_love.og.aegr.AdaptiveExecutionGovernanceRouter.assure_plan",
+      "current_after_migration": "governance=GovernanceSpec",
+      "canonical": "AEGR evaluates governance inputs, not execution state",
+      "gap": "NONE",
+      "risk": "LOW",
+      "status": "VERIFIED"
+    },
+    {
+      "caller": "stt_love.runtime.Runtime.run_goal",
+      "current_after_migration": "GovernedExecutionPlan + read-only execution_snapshot",
+      "canonical": "Runtime consumes authorized plan; DurableExecution owns state",
+      "gap": "NONE",
+      "risk": "LOW",
+      "status": "VERIFIED"
+    },
+    {
+      "caller": "stt_love.durable_execution.DurableExecution.enqueue_submission",
+      "current_after_migration": "accepts Submission only; explicit type gate",
+      "canonical": "Submission -> DurableExecution state machine",
+      "gap": "NONE",
+      "risk": "LOW",
+      "status": "VERIFIED"
+    },
+    {
+      "caller": "stt_love.og.task_contract",
+      "current_after_migration": "retired namespace with no contract implementation",
+      "canonical": "no legacy governance/task contract alias",
+      "gap": "NONE",
+      "risk": "LOW",
+      "status": "VERIFIED"
+    }
+  ],
+  "negative_surface": {
+    "legacy_governed_task_contract": "REJECTED/ABSENT",
+    "plan_task_alias": "REJECTED/ABSENT",
+    "durable_enqueue_task_contract": "REJECTED",
+    "aegr_task_keyword": "REJECTED",
+    "runtime_state_transition_method": "REJECTED/ABSENT"
+  },
+  "state_owners": {
+    "intent": "TaskContract",
+    "submission": "Submission",
+    "governance_inputs": "GovernanceSpec",
+    "governance_decision": "AEGR/RouteDecision",
+    "execution_state": "DurableExecution",
+    "evidence": "EvidenceLedger",
+    "replay": "ExecutionReplay"
+  }
+}

@@ -1,0 +1,259 @@
+﻿{
+    "schema_version":  "PARADISE-LOVE-MIGRATION-VERIFICATION-1.0",
+    "source_repository":  "Sauthienthu89/LOVE",
+    "source_branch":  "love-reconstruction-impl-20261003",
+    "source_commit":  "41db094dcad8a857bf6dfc255e37ec889dd2515f",
+    "target_repository":  "Sauthienthu89/PARADISE",
+    "target_branch":  "feature/love-oai-giang-distillation-20261004",
+    "focused_regression":  "tests/test_reconstruction_contracts.py: 14 passed in 0.19s",
+    "negative_tests":  "included in reconstruction contract suite",
+    "compileall":  "PASS",
+    "git_diff_check":  "PASS",
+    "artifact_count":  34,
+    "artifact_hash_matches":  33,
+    "artifact_hash_mismatches":  0,
+    "artifacts":  [
+                      {
+                          "path":  "README.md",
+                          "source_path":  "README.md",
+                          "source_sha256":  null,
+                          "target_sha256":  "7f30bc01caf0855b976b61e15a8297d6201271846db9064a94c96018ecd915cc",
+                          "match":  false
+                      },
+                      {
+                          "path":  "docs/ARCHITECTURE.md",
+                          "source_path":  "docs/ARCHITECTURE.md",
+                          "source_sha256":  "e67b8e52b053ef77b6ea9a2cd86b9b48755d2aacef89dbf58d9dead0500b3d90",
+                          "target_sha256":  "e67b8e52b053ef77b6ea9a2cd86b9b48755d2aacef89dbf58d9dead0500b3d90",
+                          "match":  true
+                      },
+                      {
+                          "path":  "docs/BOUNDARIES.md",
+                          "source_path":  "docs/BOUNDARIES.md",
+                          "source_sha256":  "f6f6c8d26c8db35362c39a322c1edfeef7feb3546aedcf88456a8e7e00d68d11",
+                          "target_sha256":  "f6f6c8d26c8db35362c39a322c1edfeef7feb3546aedcf88456a8e7e00d68d11",
+                          "match":  true
+                      },
+                      {
+                          "path":  "docs/LOVE_AUTONOMOUS_WORK_LOOP_V1.md",
+                          "source_path":  "docs/LOVE_AUTONOMOUS_WORK_LOOP_V1.md",
+                          "source_sha256":  "bd43240ac3df06d3dd7098b9cf324c4da0b66d932678cc934630f69f19a83cec",
+                          "target_sha256":  "bd43240ac3df06d3dd7098b9cf324c4da0b66d932678cc934630f69f19a83cec",
+                          "match":  true
+                      },
+                      {
+                          "path":  "docs/LOVE_AUTONOMOUS_WORK_QUEUE_V1.md",
+                          "source_path":  "docs/LOVE_AUTONOMOUS_WORK_QUEUE_V1.md",
+                          "source_sha256":  "243b13684d0566b210a24fd6708436f3eef7d801fc95bf1a80f91cf090087594",
+                          "target_sha256":  "243b13684d0566b210a24fd6708436f3eef7d801fc95bf1a80f91cf090087594",
+                          "match":  true
+                      },
+                      {
+                          "path":  "docs/LOVE_CAPABILITY_INVENTORY.md",
+                          "source_path":  "docs/LOVE_CAPABILITY_INVENTORY.md",
+                          "source_sha256":  "71a98732d9a4ee9cd795cb0d13440b13ab5e2d1dc56754b6a682cea49717cbde",
+                          "target_sha256":  "71a98732d9a4ee9cd795cb0d13440b13ab5e2d1dc56754b6a682cea49717cbde",
+                          "match":  true
+                      },
+                      {
+                          "path":  "docs/LOVE_EVOLUTION_FIRST_REBASELINE_RULE.md",
+                          "source_path":  "docs/LOVE_EVOLUTION_FIRST_REBASELINE_RULE.md",
+                          "source_sha256":  "488c1a8d991131d5a4d6029106a72c2822277ab27bd87f91feb8f734b4902184",
+                          "target_sha256":  "488c1a8d991131d5a4d6029106a72c2822277ab27bd87f91feb8f734b4902184",
+                          "match":  true
+                      },
+                      {
+                          "path":  "docs/LOVE_PROVENANCE_CONTRACT.md",
+                          "source_path":  "docs/LOVE_PROVENANCE_CONTRACT.md",
+                          "source_sha256":  "bf663eee06db6dd6f161789d7bb971447cb622aa62bac7846d545fed9502ab3a",
+                          "target_sha256":  "bf663eee06db6dd6f161789d7bb971447cb622aa62bac7846d545fed9502ab3a",
+                          "match":  true
+                      },
+                      {
+                          "path":  "docs/LOVE_REBASELINE_GAP_REGISTER.md",
+                          "source_path":  "docs/LOVE_REBASELINE_GAP_REGISTER.md",
+                          "source_sha256":  "6e6a79c88fa998d5564ca2ad8d44493551ec43bf91485bcd3158ded0f1acbcce",
+                          "target_sha256":  "6e6a79c88fa998d5564ca2ad8d44493551ec43bf91485bcd3158ded0f1acbcce",
+                          "match":  true
+                      },
+                      {
+                          "path":  "evidence/MIGRATION_PROVENANCE.json",
+                          "source_path":  "evidence/MIGRATION_PROVENANCE.json",
+                          "source_sha256":  "44655c169557dbf0d58fc7ae65e86624a5df0f7b0c89681e230a0d40f5cf76ca",
+                          "target_sha256":  "44655c169557dbf0d58fc7ae65e86624a5df0f7b0c89681e230a0d40f5cf76ca",
+                          "match":  true
+                      },
+                      {
+                          "path":  "evidence/post-restructure-caller-matrix-20261004.json",
+                          "source_path":  "evidence/post-restructure-caller-matrix-20261004.json",
+                          "source_sha256":  "076c625c89728a12b077929a704dcadce62140963b150ffeb2903a35923f3d95",
+                          "target_sha256":  "076c625c89728a12b077929a704dcadce62140963b150ffeb2903a35923f3d95",
+                          "match":  true
+                      },
+                      {
+                          "path":  "evidence/post-restructure-canonicalization-20261004.json",
+                          "source_path":  "evidence/post-restructure-canonicalization-20261004.json",
+                          "source_sha256":  "62abe11e84632d7e6cc3b00be40925c0cd9e50f9d1eb4307b0e663db8fd799f8",
+                          "target_sha256":  "62abe11e84632d7e6cc3b00be40925c0cd9e50f9d1eb4307b0e663db8fd799f8",
+                          "match":  true
+                      },
+                      {
+                          "path":  "stt_love/durable_execution.py",
+                          "source_path":  "stt_love/durable_execution.py",
+                          "source_sha256":  "a2568b198c326b8b203a89287127f1ff9a895308f78bd03103d61efae17266d5",
+                          "target_sha256":  "a2568b198c326b8b203a89287127f1ff9a895308f78bd03103d61efae17266d5",
+                          "match":  true
+                      },
+                      {
+                          "path":  "stt_love/learning.py",
+                          "source_path":  "stt_love/learning.py",
+                          "source_sha256":  "73c93022696768a84b0bdc8c6e46f0f38dbc7c27a32a4275791ff0ac51a1e001",
+                          "target_sha256":  "73c93022696768a84b0bdc8c6e46f0f38dbc7c27a32a4275791ff0ac51a1e001",
+                          "match":  true
+                      },
+                      {
+                          "path":  "stt_love/memory_trust.py",
+                          "source_path":  "stt_love/memory_trust.py",
+                          "source_sha256":  "25f6a7e216c93124053ec77b1c201ab2d365eef015f2789a6f81361d25fad209",
+                          "target_sha256":  "25f6a7e216c93124053ec77b1c201ab2d365eef015f2789a6f81361d25fad209",
+                          "match":  true
+                      },
+                      {
+                          "path":  "stt_love/semantics.py",
+                          "source_path":  "stt_love/semantics.py",
+                          "source_sha256":  "85ca8d856dcaa0f06017acc49c22e1252807b47bc608d52a0f192383acd45676",
+                          "target_sha256":  "85ca8d856dcaa0f06017acc49c22e1252807b47bc608d52a0f192383acd45676",
+                          "match":  true
+                      },
+                      {
+                          "path":  "stt_love/state_semantics.py",
+                          "source_path":  "stt_love/state_semantics.py",
+                          "source_sha256":  "70824e12220cfe06af92bd2234b9677e504fdd6cde560b2c5c1cb9bbcddd162f",
+                          "target_sha256":  "70824e12220cfe06af92bd2234b9677e504fdd6cde560b2c5c1cb9bbcddd162f",
+                          "match":  true
+                      },
+                      {
+                          "path":  "stt_love/task_contract.py",
+                          "source_path":  "stt_love/task_contract.py",
+                          "source_sha256":  "d83fbc8716195dc717851c2a1a319a95ba288fe58e49588b0c1d83f68e36cb2c",
+                          "target_sha256":  "d83fbc8716195dc717851c2a1a319a95ba288fe58e49588b0c1d83f68e36cb2c",
+                          "match":  true
+                      },
+                      {
+                          "path":  "stt_love/evidence/ledger.py",
+                          "source_path":  "stt_love/evidence/ledger.py",
+                          "source_sha256":  "cb5516b6ab278ac1faf572b26bf2b362ebbf607bd3383e6c88ce643ef9dfffb9",
+                          "target_sha256":  "cb5516b6ab278ac1faf572b26bf2b362ebbf607bd3383e6c88ce643ef9dfffb9",
+                          "match":  true
+                      },
+                      {
+                          "path":  "stt_love/evidence/replay.py",
+                          "source_path":  "stt_love/evidence/replay.py",
+                          "source_sha256":  "ebc9ee82638a319b3d69b39e3282019f0d33f67323468926cf058b9e765afee7",
+                          "target_sha256":  "ebc9ee82638a319b3d69b39e3282019f0d33f67323468926cf058b9e765afee7",
+                          "match":  true
+                      },
+                      {
+                          "path":  "stt_love/evidence/trust.py",
+                          "source_path":  "stt_love/evidence/trust.py",
+                          "source_sha256":  "26dfc342c24ccfbf5bc37bb138e01d174a3a48883c631f10365894ecc37048fd",
+                          "target_sha256":  "26dfc342c24ccfbf5bc37bb138e01d174a3a48883c631f10365894ecc37048fd",
+                          "match":  true
+                      },
+                      {
+                          "path":  "stt_love/inference/model_identity.py",
+                          "source_path":  "stt_love/inference/model_identity.py",
+                          "source_sha256":  "f9d6e473ed777008b698bd16dc79d092d2b38520e4075da17ff349c4f7511f2f",
+                          "target_sha256":  "f9d6e473ed777008b698bd16dc79d092d2b38520e4075da17ff349c4f7511f2f",
+                          "match":  true
+                      },
+                      {
+                          "path":  "stt_love/love/kernel.py",
+                          "source_path":  "stt_love/love/kernel.py",
+                          "source_sha256":  "6ca93b1e96e5c65f1a2c834f7fa80b6079d5568a27ed839850ca012dfcfd1a13",
+                          "target_sha256":  "6ca93b1e96e5c65f1a2c834f7fa80b6079d5568a27ed839850ca012dfcfd1a13",
+                          "match":  true
+                      },
+                      {
+                          "path":  "stt_love/og/aegr.py",
+                          "source_path":  "stt_love/og/aegr.py",
+                          "source_sha256":  "5ebb0ffff160b8bc016d44dc045e4b0f4547a98310d58e7ec9fa460622aa86a7",
+                          "target_sha256":  "5ebb0ffff160b8bc016d44dc045e4b0f4547a98310d58e7ec9fa460622aa86a7",
+                          "match":  true
+                      },
+                      {
+                          "path":  "stt_love/og/capability_registry.py",
+                          "source_path":  "stt_love/og/capability_registry.py",
+                          "source_sha256":  "cb84eb581db21c7f31b759e0605dfd0d8be2c4e353f85ef2d8ecad2ce4603bb0",
+                          "target_sha256":  "cb84eb581db21c7f31b759e0605dfd0d8be2c4e353f85ef2d8ecad2ce4603bb0",
+                          "match":  true
+                      },
+                      {
+                          "path":  "stt_love/og/command_router.py",
+                          "source_path":  "stt_love/og/command_router.py",
+                          "source_sha256":  "4476c5a8a19f295d496c86a23685d9aca63fd7b30c1d56dc11ae2e986bb95a8e",
+                          "target_sha256":  "4476c5a8a19f295d496c86a23685d9aca63fd7b30c1d56dc11ae2e986bb95a8e",
+                          "match":  true
+                      },
+                      {
+                          "path":  "stt_love/og/context_adaptation.py",
+                          "source_path":  "stt_love/og/context_adaptation.py",
+                          "source_sha256":  "8ba2b1ffac95b62decb5e394899c662c5dd924405e3676b65e196cd3eb5e8b0f",
+                          "target_sha256":  "8ba2b1ffac95b62decb5e394899c662c5dd924405e3676b65e196cd3eb5e8b0f",
+                          "match":  true
+                      },
+                      {
+                          "path":  "stt_love/og/execution_graph.py",
+                          "source_path":  "stt_love/og/execution_graph.py",
+                          "source_sha256":  "6e795aec065edba256cda18640ee2029619ca724826bb6399d661a02366ea3f3",
+                          "target_sha256":  "6e795aec065edba256cda18640ee2029619ca724826bb6399d661a02366ea3f3",
+                          "match":  true
+                      },
+                      {
+                          "path":  "stt_love/og/execution_plan.py",
+                          "source_path":  "stt_love/og/execution_plan.py",
+                          "source_sha256":  "b18dfeabe4182f907e2dffd45c79a429b60160d6c5e199561ba52521c2cc4dba",
+                          "target_sha256":  "b18dfeabe4182f907e2dffd45c79a429b60160d6c5e199561ba52521c2cc4dba",
+                          "match":  true
+                      },
+                      {
+                          "path":  "stt_love/og/repo_intelligence.py",
+                          "source_path":  "stt_love/og/repo_intelligence.py",
+                          "source_sha256":  "0d5f8c54523e48b8c6932ba4ec57d22b8dc3c61cfee069737c06ae7e14b54ded",
+                          "target_sha256":  "0d5f8c54523e48b8c6932ba4ec57d22b8dc3c61cfee069737c06ae7e14b54ded",
+                          "match":  true
+                      },
+                      {
+                          "path":  "stt_love/og/source_convergence.py",
+                          "source_path":  "stt_love/og/source_convergence.py",
+                          "source_sha256":  "3392a9b78f45313d4eb7c56392f1ce7a90a9da2eb6a7e36f996d4d3111fcff19",
+                          "target_sha256":  "3392a9b78f45313d4eb7c56392f1ce7a90a9da2eb6a7e36f996d4d3111fcff19",
+                          "match":  true
+                      },
+                      {
+                          "path":  "stt_love/og/verification_contract.py",
+                          "source_path":  "stt_love/og/verification_contract.py",
+                          "source_sha256":  "a7890e778b5ff227ae53fff8a995b786a71e094fca992e133371979c13b00316",
+                          "target_sha256":  "a7890e778b5ff227ae53fff8a995b786a71e094fca992e133371979c13b00316",
+                          "match":  true
+                      },
+                      {
+                          "path":  "stt_love/stt/capability_selector.py",
+                          "source_path":  "stt_love/stt/capability_selector.py",
+                          "source_sha256":  "ffe268771fbdeae158f0b55d995c2359fb73b1648342cc9685fbbbc20dadd416",
+                          "target_sha256":  "ffe268771fbdeae158f0b55d995c2359fb73b1648342cc9685fbbbc20dadd416",
+                          "match":  true
+                      },
+                      {
+                          "path":  "stt_love/stt/core.py",
+                          "source_path":  "stt_love/stt/core.py",
+                          "source_sha256":  "d71bdb55a066eddb2bc1fc2b02e83c01a5a2b9c93d38e3c6cc5b75e76573a771",
+                          "target_sha256":  "d71bdb55a066eddb2bc1fc2b02e83c01a5a2b9c93d38e3c6cc5b75e76573a771",
+                          "match":  true
+                      }
+                  ],
+    "generated_local_artifacts":  [
+                                      "README.md"
+                                  ],
+    "note":  "All 33 source-derived artifacts match source SHA-256. README.md is target-local and intentionally not source-derived."
+}

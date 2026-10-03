@@ -1,0 +1,113 @@
+{
+  "schema_version": "STT-LOVE-MIGRATION-1.0",
+  "migration_status": "LOCAL_CORE_MIGRATION_TESTED",
+  "legacy_source": {
+    "repository": "OG-MASTER-AI-OS",
+    "branch": "feature/og-autonomous-self-development-consolidation-20260928",
+    "commit": "df81b6f26a6cbef016328da960cf68b7b92eb9fb",
+    "tree_sha": "3b6c51ddd75249712035ff9ffc95b89f10b1adbd"
+  },
+  "clean_target": {
+    "repository": "STT-LOVE",
+    "branch": "main"
+  },
+  "exact_adoptions": [
+    {
+      "source": "og/aegr.py",
+      "target": "stt_love/og/aegr.py",
+      "source_sha256": "226fda13718a27c54ad337a55e755f39a0a7fbe20e6339d90c554c13e6d2d766",
+      "target_sha256": "226fda13718a27c54ad337a55e755f39a0a7fbe20e6339d90c554c13e6d2d766"
+    },
+    {
+      "source": "og/command_router.py",
+      "target": "stt_love/og/command_router.py",
+      "source_sha256": "4476c5a8a19f295d496c86a23685d9aca63fd7b30c1d56dc11ae2e986bb95a8e",
+      "target_sha256": "4476c5a8a19f295d496c86a23685d9aca63fd7b30c1d56dc11ae2e986bb95a8e"
+    },
+    {
+      "source": "og/context_adaptation.py",
+      "target": "stt_love/og/context_adaptation.py",
+      "source_sha256": "8ba2b1ffac95b62decb5e394899c662c5dd924405e3676b65e196cd3eb5e8b0f",
+      "target_sha256": "8ba2b1ffac95b62decb5e394899c662c5dd924405e3676b65e196cd3eb5e8b0f"
+    },
+    {
+      "source": "runtime/og_unified/execution_graph.py",
+      "target": "stt_love/og/execution_graph.py",
+      "source_sha256": "d3b1446ef36284d55158cd515c63729f5cedd00d7e47380f029afa8aa81bcf92",
+      "target_sha256": "d3b1446ef36284d55158cd515c63729f5cedd00d7e47380f029afa8aa81bcf92"
+    },
+    {
+      "source": "runtime/og_unified/verification_contract.py",
+      "target": "stt_love/og/verification_contract.py",
+      "source_sha256": "33a043358f1f105123c6f72aa98eb12bd4ea5d85f8aacd1758db40662bce12a8",
+      "target_sha256": "33a043358f1f105123c6f72aa98eb12bd4ea5d85f8aacd1758db40662bce12a8"
+    },
+    {
+      "source": "runtime/og_unified/task_contract.py",
+      "target": "stt_love/og/task_contract.py",
+      "source_sha256": "1f46f32da534bfa9aafed4934276a676ec10780d992927092bf0fb45514cec16",
+      "target_sha256": "1f46f32da534bfa9aafed4934276a676ec10780d992927092bf0fb45514cec16"
+    },
+    {
+      "source": "runtime/og_unified/repo_intelligence.py",
+      "target": "stt_love/og/repo_intelligence.py",
+      "source_sha256": "0d5f8c54523e48b8c6932ba4ec57d22b8dc3c61cfee069737c06ae7e14b54ded",
+      "target_sha256": "0d5f8c54523e48b8c6932ba4ec57d22b8dc3c61cfee069737c06ae7e14b54ded"
+    },
+    {
+      "source": "runtime/og_unified/source_convergence.py",
+      "target": "stt_love/og/source_convergence.py",
+      "source_sha256": "53a815b25d32f68bc80e2c98b82da47b3844b1ba8a7084a1b91167e6be604376",
+      "target_sha256": "53a815b25d32f68bc80e2c98b82da47b3844b1ba8a7084a1b91167e6be604376"
+    },
+    {
+      "source": "runtime/og_unified/execution_replay.py",
+      "target": "stt_love/evidence/replay.py",
+      "source_sha256": "ebc9ee82638a319b3d69b39e3282019f0d33f67323468926cf058b9e765afee7",
+      "target_sha256": "ebc9ee82638a319b3d69b39e3282019f0d33f67323468926cf058b9e765afee7"
+    },
+    {
+      "source": "runtime/og_unified/evidence_ledger.py",
+      "target": "stt_love/evidence/ledger.py",
+      "source_sha256": "cb5516b6ab278ac1faf572b26bf2b362ebbf607bd3383e6c88ce643ef9dfffb9",
+      "target_sha256": "cb5516b6ab278ac1faf572b26bf2b362ebbf607bd3383e6c88ce643ef9dfffb9"
+    }
+  ],
+  "adapted_or_derived": [
+    {
+      "source": "og/capability_registry.py",
+      "target": "stt_love/og/capability_registry.py",
+      "source_sha256": "b92801a4d10ca3098271dd922b80447ad5433be1506cce27a66c860c9f15b011",
+      "target_sha256": "7099c22e88098eb49b5cca3c80d2e0989c82a9811de57bc5595c7f67511a71c5",
+      "status": "ADAPTED_PATH_AND_ENCODING"
+    },
+    {
+      "source": "governance/OG_COMMAND_REGISTRY_V1.json",
+      "target": "stt_love/og/registry.json",
+      "source_sha256": "0ee70d11288fb0cd0ab077aaee62505673081b073bcb6a605cb9593c5a50943a",
+      "target_sha256": "6bba35bb4de8ec7bcc43b66dba30906eefbe69527100929dc0976b832a2b798b",
+      "status": "SELECTED_DERIVATION_11_COMMANDS"
+    }
+  ],
+  "deliberately_not_carried": [
+    "legacy 99-command surface as a user-facing command layer",
+    "large orchestrator implementation",
+    "Brain Council runtime pending real multi-provider evidence",
+    "MCP as a core rather than external interface",
+    "production deployment configuration",
+    "superseded/prototype execution branches",
+    "historical archives as runtime dependencies"
+  ],
+  "stt_source_basis": {
+    "source": "STT_MASTER_AI_V42_1_Cumulative_Integration_Spec_for_Gemini.md",
+    "adopted_concepts": [
+      "unified capability registry",
+      "task-adaptive capability selection",
+      "capability composition",
+      "supersession/conflict preservation",
+      "execution contract",
+      "audit/evidence boundary",
+      "independent verification"
+    ]
+  }
+}

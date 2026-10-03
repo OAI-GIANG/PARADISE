@@ -1,0 +1,54 @@
+{
+  "schema_version": "LOVE-POST-RESTRUCTURE-CANONICALIZATION-1.0",
+  "date": "2026-10-04",
+  "scope": "TaskContract / Submission / GovernanceSpec / GovernedExecutionPlan / ExecutionState ownership separation",
+  "branch": "love-reconstruction-impl-20261003",
+  "base_commit": "3bc3f63aa4b3def02c17dd4a778f89c353f5b6e2",
+  "remote_base_at_audit": "47911fb27d69c13f0ba47d8d300fbda419fdd684",
+  "finding": "Former GovernedTaskContract combined governance inputs with mutable execution lifecycle state and Runtime mutated that state directly. DurableExecution already owned persisted runtime state, creating dual state ownership.",
+  "canonical_model": {
+    "TaskContract": "immutable intent only",
+    "Submission": "immutable submitted work instance",
+    "GovernanceSpec": "immutable authorization/risk/constraint inputs",
+    "GovernedExecutionPlan": "immutable plan joining Submission + GovernanceSpec + routed steps + assurance",
+    "AEGR": "evaluates GovernanceSpec and RouteDecision; does not own execution state",
+    "Runtime": "executes an already authorized plan and records observations; does not transition authoritative task state",
+    "DurableExecution": "sole authoritative execution-state owner and persistence adapter",
+    "Evidence": "observes/proves execution; does not authorize it"
+  },
+  "implemented": [
+    "Introduced explicit Submission contract and separated it from TaskContract intent.",
+    "Introduced GovernanceSpec and GovernedExecutionPlan canonical contracts.",
+    "Retired the former stt_love.og.task_contract implementation; namespace exposes no legacy contract.",
+    "Migrated AEGR assurance from task/state-bearing contract to GovernanceSpec.",
+    "Migrated Runtime from plan.task state transitions to plan/submission observations plus DurableExecution snapshot.",
+    "Migrated server sync/async submission paths to enqueue_submission().",
+    "Added negative tests for legacy task keyword, direct TaskContract enqueue, legacy contract surface, and plan state aliasing.",
+    "Made TaskContract, Submission and GovernanceSpec metadata/context mapping-backed to prevent shallow mutation through frozen dataclasses."
+  ],
+  "invariants": [
+    "TaskContract != Submission",
+    "Submission != GovernanceSpec",
+    "TaskContract != GovernedExecutionPlan",
+    "GovernedExecutionPlan has no task/state/transition surface",
+    "GovernanceSpec has no execution lifecycle state",
+    "Runtime does not mutate authoritative execution state",
+    "DurableExecution is the sole execution-state owner",
+    "AEGR does not receive the legacy task/state contract",
+    "No internal caller uses GovernedTaskContract, plan.task, or enqueue_contract"
+  ],
+  "validation": {
+    "focused_regression": "47 passed",
+    "compileall": "PASS",
+    "full_regression_expected": "479 passed, 1 skipped from the latest pre-final full run; final post-contract-immutability run must be recorded before commit"
+  },
+  "governance": {
+    "implementation_authorized_by_user": true,
+    "main_modified": false,
+    "merge_performed": false,
+    "production_deploy_performed": false,
+    "new_love_version_created": false
+  },
+  "implementation_commit": "72f30e3ce89e2366778a9549ec6ce8d94775bbb7",
+  "status": "VERIFIED_COMMITTED"
+}
