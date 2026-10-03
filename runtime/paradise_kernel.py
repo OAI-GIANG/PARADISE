@@ -1,7 +1,4 @@
-"""Minimal PARADISE kernel implementation derived from the frozen DESIGN contract.
-
-No new semantic primitives are introduced here.
-"""
+"""Minimal PARADISE kernel implementation for semantic kernel V1."""
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
@@ -81,6 +78,7 @@ class State:
     entity_id: str
     value: str
     version: int
+    lifecycle: str = "ACTIVE"
 
 
 @dataclass(frozen=True)
@@ -113,6 +111,7 @@ class Execution:
     input_version: int
     authorization: Authorization
     idempotent: bool = False
+    result_witness: str = ""
 
 
 @dataclass(frozen=True)
@@ -124,18 +123,22 @@ class ChangeRequest:
     authorized_scope: FrozenSet[str]
     authority_subject: str = ""
     self_modification: bool = False
+    verification_required: bool = True
+    recovery_ref: str = ""
 
     def bounded(self) -> bool:
         if not self.requested_scope.issubset(self.authorized_scope):
             return False
         if self.self_modification and self.authority_subject == self.target:
             return False
+        if self.verification_required and not self.recovery_ref:
+            return False
         return True
 
 
 @dataclass
 class Kernel:
-    """Enforcement facade for the frozen semantic kernel."""
+    """Enforcement facade for PARADISE semantic kernel V1."""
     trusted_evidence_sources: FrozenSet[str] = frozenset()
     consumed_executions: set[str] = field(default_factory=set)
 
@@ -177,15 +180,15 @@ class Kernel:
         return GateResult.DENY
 
     def transition(self, current: State, expected_version: int, new_value: str) -> tuple[GateResult, Optional[State]]:
+        if current.lifecycle != "ACTIVE":
+            return GateResult.BLOCKED, None
         if expected_version != current.version:
             return GateResult.CONFLICT, None
-        return GateResult.ALLOW, State(current.entity_id, new_value, current.version + 1)
+        if not new_value:
+            return GateResult.DENY, None
+        return GateResult.ALLOW, State(current.entity_id, new_value, current.version + 1, current.lifecycle)
 
-    def execute_external(
-        self,
-        execution: Execution,
-        at: Optional[datetime] = None,
-    ) -> GateResult:
+    def execute_external(self, execution: Execution, at: Optional[datetime] = None) -> GateResult:
         at = at or now_utc()
         if not execution.authorization.fresh(at):
             return GateResult.DENY
@@ -195,6 +198,8 @@ class Kernel:
             return GateResult.DENY
         if execution.authorization.scope != execution.scope:
             return GateResult.DENY
+        if not execution.result_witness:
+            return GateResult.BLOCKED
         if execution.execution_id in self.consumed_executions and not execution.idempotent:
             return GateResult.DENY
         self.consumed_executions.add(execution.execution_id)

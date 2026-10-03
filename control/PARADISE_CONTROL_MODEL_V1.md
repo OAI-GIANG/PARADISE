@@ -20,7 +20,8 @@ No projects/ directory is required. LOVE source is not duplicated under PARADISE
 
 ## 3. Authority model
 A. LOVE source authority: GitHub Sauthienthu89/LOVE, main @ 0c4e40f95b2d3c20289a4a5e99983ceec93a6b8d.
-B. PARADISE local governance authority: F:\OAI\PARADISE\control\.
+B. PARADISE local governance authority: F:\OAI\PARADISE\control.
+C. PARADISE semantic authority: F:\OAI\PARADISE\control\PARADISE_MINIMAL_SEMANTIC_KERNEL_V1.md.
 C. Workspace/worktrees are mutable execution state and are non-canonical by default.
 D. Runtime is derived from a bound source/worktree identity.
 E. Evidence is verification state and must bind to source, worktree, runtime, and test identity.

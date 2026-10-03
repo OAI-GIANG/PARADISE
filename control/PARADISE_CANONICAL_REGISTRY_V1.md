@@ -42,3 +42,12 @@ COMMIT -> WORKTREE/WORKSPACE -> RUNTIME -> EVIDENCE
 - F:\OAI\PARADISE\projects\LOVE\ is empty legacy placeholder
 - F:\OAI\PARADISE\projects\OG\ is empty legacy placeholder
 - no cleanup action is implied by this registry
+
+## Semantic Kernel
+- identity: PARADISE_MINIMAL_SEMANTIC_KERNEL_V1
+- artifact: F:\OAI\PARADISE\control\PARADISE_MINIMAL_SEMANTIC_KERNEL_V1.md
+- authority: PARADISE semantic design authority under local control
+- semantic_scope: 7 primitives + 5 obligations + I01-I19
+- historical_status: NEW CANONICAL DESIGN TARGET; not historical reconstruction
+- verification_status: PENDING until implementation/evidence gate passes
+- predecessor: 7 primitives + 5 obligations + K1-K8
