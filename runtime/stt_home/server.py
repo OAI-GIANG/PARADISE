@@ -11,6 +11,7 @@ from urllib.parse import urlparse
 
 from core import STTHome
 from capabilities import WorkspaceCapability, capability_catalog
+from code_env import CodeEnvironment, CodeEnvironmentError
 from media import MediaError, LocalMediaWorker, OpenAIMediaProvider, media_policy
 
 BASE = Path(__file__).resolve().parent
@@ -27,6 +28,7 @@ if REQUIRE_AUTH and not API_TOKEN:
 class Handler(BaseHTTPRequestHandler):
     home = STTHome()
     workspace = WorkspaceCapability(WORKSPACE)
+    code = CodeEnvironment(WORKSPACE)
     media_root = BASE / "media_artifacts"
     local_media = LocalMediaWorker(media_root)
     paid_media = OpenAIMediaProvider(media_root)
@@ -80,6 +82,18 @@ class Handler(BaseHTTPRequestHandler):
             from urllib.parse import parse_qs
             q = parse_qs(urlparse(self.path).query)
             return self._json(HTTPStatus.OK, self.workspace.read(q.get("path", [""])[0]))
+        if path == "/api/code/status":
+            if not self._require_auth(): return
+            return self._json(HTTPStatus.OK, {"workspace": str(WORKSPACE), "capability": "code.workspace"})
+        if path == "/api/code/git-status":
+            if not self._require_auth(): return
+            return self._json(HTTPStatus.OK, self.code.git_status())
+        if path == "/api/code/diff":
+            if not self._require_auth(): return
+            return self._json(HTTPStatus.OK, self.code.git_diff(False))
+        if path == "/api/code/diff-staged":
+            if not self._require_auth(): return
+            return self._json(HTTPStatus.OK, self.code.git_diff(True))
         if path == "/api/events":
             if not self._require_auth(): return
             rows = self.home.store.conn.execute(
@@ -130,6 +144,16 @@ class Handler(BaseHTTPRequestHandler):
             return
         try:
             payload = self._body()
+            if path == "/api/code/run-python":
+                if not payload.get("confirm"): return self._json(HTTPStatus.CONFLICT,{"error":"explicit confirmation required"})
+                result=self.code.run_python(str(payload.get("path","")),payload.get("args") or [],int(payload.get("timeout_s",20)))
+                result["evidence_id"]=self.home.store.record_event("CODE_RUN",str(payload.get("path","")),{"status":result.get("status")})
+                return self._json(HTTPStatus.OK,result)
+            if path == "/api/code/test":
+                if not payload.get("confirm"): return self._json(HTTPStatus.CONFLICT,{"error":"explicit confirmation required"})
+                result=self.code.run_tests(str(payload.get("target",".")),int(payload.get("timeout_s",60)))
+                result["evidence_id"]=self.home.store.record_event("CODE_TEST",str(payload.get("target",".")),{"status":result.get("status")})
+                return self._json(HTTPStatus.OK,result)
             if path == "/api/workspace/write":
                 if not payload.get("confirm"):
                     return self._json(HTTPStatus.CONFLICT, {"error": "explicit confirmation required"})
@@ -200,6 +224,8 @@ class Handler(BaseHTTPRequestHandler):
                 )
                 return self._json(HTTPStatus.OK if ok else HTTPStatus.CONFLICT, {"ok": ok})
             return self._json(HTTPStatus.NOT_FOUND, {"error": "not found"})
+        except CodeEnvironmentError as exc:
+            return self._json(HTTPStatus.BAD_REQUEST, {"error": str(exc)})
         except MediaError as exc:
             return self._json(HTTPStatus.CONFLICT, {"error": str(exc)})
         except ValueError as exc:
