@@ -2,7 +2,7 @@
   "evidence_id": "PARADISE_ZERO_API_MEDIA_001",
   "type": "ZERO_API_COST_MEDIA_RUNTIME_TEST",
   "branch": "feature/paradise-zero-api-media-20261004",
-  "commit": "3f1a833",
+  "commit": "d5b9883",
   "tested_host": "LAPTOP-E9FGVI95",
   "hardware": {
     "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
@@ -17,17 +17,22 @@
   },
   "implementation": {
     "worker_contract": "JSON over stdin/stdout",
-    "operations": ["image.generate", "video.generate"],
+    "operations": [
+      "image.generate",
+      "video.generate"
+    ],
     "artifact_hash": "SHA-256",
     "artifact_preview_route": "/api/media/<artifact>",
     "policy_route": "/api/media/policy"
   },
   "tests": {
-    "full_runtime_suite": "41/41_PASS",
+    "full_runtime_suite": "41/41_PASS on laptop and independent VPS",
     "media_unit_tests": "3/3_PASS",
     "zero_cost_negative": "PASS",
     "paid_fallback_negative": "PASS",
-    "artifact_hash_provenance": "PASS"
+    "artifact_hash_provenance": "PASS",
+    "independent_vps_suite": "41/41_PASS",
+    "independent_vps_commit": "d5b98838b18a5486d54efd3ad12d487ef5408b78"
   },
   "live_media_generation": {
     "image": "NOT_EXECUTED",
@@ -39,7 +44,7 @@
     "ubuntu": "24.04 LTS",
     "docker": "UNAVAILABLE",
     "native_python": "AVAILABLE",
-    "production_deployment": "NOT_ATTEMPTED_IN_THIS_CHANGE"
+    "production_deployment": "NOT_ATTEMPTED; current VPS used only as independent verification host"
   },
   "governance": {
     "g1_g4_reopened": false,
@@ -47,5 +52,5 @@
     "new_semantic_engine_created": false,
     "paid_api_dependency_added": false
   },
-  "verification": "LOCAL_RUNTIME_VERIFIED; LIVE_IMAGE_VIDEO_UNVERIFIED"
+  "verification": "LOCAL_RUNTIME_VERIFIED; INDEPENDENT_VPS_REGRESSION_VERIFIED; LIVE_IMAGE_VIDEO_UNVERIFIED"
 }
