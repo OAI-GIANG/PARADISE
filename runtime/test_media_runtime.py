@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -49,7 +50,7 @@ class MediaRuntimeTests(unittest.TestCase):
                 encoding="utf-8",
             )
             old = os.environ.get("PARADISE_MEDIA_WORKER_CMD")
-            os.environ["PARADISE_MEDIA_WORKER_CMD"] = f'python "{worker_script}"'
+            os.environ["PARADISE_MEDIA_WORKER_CMD"] = f'"{sys.executable}" "{worker_script}"'
             try:
                 worker = LocalMediaWorker(root)
                 result = worker.generate("image.generate", "test prompt")

@@ -8,6 +8,7 @@ from __future__ import annotations
 import json
 import os
 import subprocess
+import sys
 import uuid
 from pathlib import Path
 from typing import Any
@@ -66,7 +67,7 @@ class WorkspaceCapability:
         if path.suffix.lower() != ".py":
             raise CapabilityError("workspace_run_allows_python_only")
         timeout_s = max(1, min(int(timeout_s), 60))
-        command = [os.environ.get("PYTHON", "python"), str(path), *(args or [])]
+        command = [os.environ.get("PYTHON", sys.executable), str(path), *(args or [])]
         try:
             proc = subprocess.run(command, cwd=self.root, capture_output=True, text=True, timeout=timeout_s)
         except subprocess.TimeoutExpired as exc:
