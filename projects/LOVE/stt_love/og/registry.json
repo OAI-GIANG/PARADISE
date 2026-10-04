@@ -1,0 +1,77 @@
+﻿{
+    "schema_version":  "LOVE-CAPABILITY-REGISTRY-1.0",
+    "status":  "CANONICAL",
+    "owner":  "OAI-GIANG-LOVE-CAPABILITY-REGISTRY",
+    "capabilities":  {
+                         "research":  "research",
+                         "verification":  "verification",
+                         "comparison":  "reasoning",
+                         "decision":  "governance",
+                         "strategy":  "strategy",
+                         "roadmap":  "planning",
+                         "action":  "execution",
+                         "analysis":  "analysis",
+                         "root_cause":  "diagnostics",
+                         "debugging":  "diagnostics",
+                         "factcheck":  "verification"
+                     },
+    "providers":  {
+                      "research":  "research",
+                      "verification":  "verification",
+                      "comparison":  "reasoning",
+                      "decision":  "governance",
+                      "strategy":  "strategy",
+                      "roadmap":  "planning",
+                      "action":  "execution",
+                      "analysis":  "analysis",
+                      "root_cause":  "diagnostics",
+                      "debugging":  "diagnostics",
+                      "factcheck":  "verification"
+                  },
+    "commands":  [
+                     {
+                         "command":  "/research",
+                         "capability":  "research"
+                     },
+                     {
+                         "command":  "/verify",
+                         "capability":  "verification"
+                     },
+                     {
+                         "command":  "/compare",
+                         "capability":  "comparison"
+                     },
+                     {
+                         "command":  "/decision",
+                         "capability":  "decision"
+                     },
+                     {
+                         "command":  "/strategy",
+                         "capability":  "strategy"
+                     },
+                     {
+                         "command":  "/roadmap",
+                         "capability":  "roadmap"
+                     },
+                     {
+                         "command":  "/action",
+                         "capability":  "action"
+                     },
+                     {
+                         "command":  "/analyst",
+                         "capability":  "analysis"
+                     },
+                     {
+                         "command":  "/rootcause",
+                         "capability":  "root_cause"
+                     },
+                     {
+                         "command":  "/debug",
+                         "capability":  "debugging"
+                     },
+                     {
+                         "command":  "/factcheck",
+                         "capability":  "factcheck"
+                     }
+                 ]
+}
