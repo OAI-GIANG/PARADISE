@@ -102,6 +102,18 @@ class STTHomeRuntimeTests(unittest.TestCase):
         self.assertEqual(body["status"], "COMPLETED")
         self.assertTrue(body["evidence_id"])
 
+    def test_media_policy_is_zero_cost_and_media_fails_closed(self):
+        status, policy = request_json(f"http://127.0.0.1:{PORT}/api/media/policy", token=TOKEN)
+        self.assertEqual(status, 200)
+        self.assertEqual(policy["default_route"], "local_self_host")
+        self.assertFalse(policy["paid_provider_authorized"])
+        status, body = request_json(
+            f"http://127.0.0.1:{PORT}/api/media/image",
+            {"prompt": "test"}, TOKEN
+        )
+        self.assertEqual(status, 409)
+        self.assertEqual(body["error"], "local_media_worker_not_configured")
+
     def test_invalid_task_transition_is_rejected(self):
         _, task = request_json(f"http://127.0.0.1:{PORT}/api/task", {"title": "bounded"}, TOKEN)
         result = request_json(f"http://127.0.0.1:{PORT}/api/task/transition",

@@ -11,7 +11,7 @@ from urllib.parse import urlparse
 
 from core import STTHome
 from capabilities import WorkspaceCapability, capability_catalog
-from media import MediaError, OpenAIMediaProvider
+from media import MediaError, LocalMediaWorker, OpenAIMediaProvider, media_policy
 
 BASE = Path(__file__).resolve().parent
 STATIC = BASE / "static"
@@ -28,7 +28,8 @@ class Handler(BaseHTTPRequestHandler):
     home = STTHome()
     workspace = WorkspaceCapability(WORKSPACE)
     media_root = BASE / "media_artifacts"
-    media = OpenAIMediaProvider(media_root)
+    local_media = LocalMediaWorker(media_root)
+    paid_media = OpenAIMediaProvider(media_root)
 
     def _json(self, status: int, data: dict) -> None:
         body = json.dumps(data, ensure_ascii=False).encode("utf-8")
@@ -66,6 +67,9 @@ class Handler(BaseHTTPRequestHandler):
         if path == "/api/capabilities":
             if not self._require_auth(): return
             return self._json(HTTPStatus.OK, {"capabilities": capability_catalog()})
+        if path == "/api/media/policy":
+            if not self._require_auth(): return
+            return self._json(HTTPStatus.OK, media_policy())
         if path == "/api/workspace/list":
             if not self._require_auth(): return
             from urllib.parse import parse_qs
@@ -145,29 +149,35 @@ class Handler(BaseHTTPRequestHandler):
                 sid = str(payload.get("session_id") or self.home.store.create_session())
                 result = self.home.chat(sid, str(payload.get("message", "")))
                 return self._json(HTTPStatus.OK, result)
+            if path == "/api/media/policy":
+                return self._json(HTTPStatus.OK, media_policy())
             if path == "/api/media/image":
-                result = self.media.generate_image(
-                    str(payload.get("prompt", "")),
-                    str(payload.get("size", "1024x1024")),
-                    str(payload.get("quality", "auto")),
-                )
-                result["url"] = "/api/media/" + Path(result["path"]).name
-                result["evidence_id"] = self.home.store.record_event("MEDIA_IMAGE_GENERATION", result["artifact_id"], {"provider": "openai", "model": result["model"], "prompt": result["prompt"]})
+                prompt = str(payload.get("prompt", ""))
+                provider = str(payload.get("provider", "local"))
+                if provider == "paid":
+                    result = self.paid_media.generate_image(prompt, str(payload.get("size", "1024x1024")), str(payload.get("quality", "auto")))
+                    result["provider"] = "paid"
+                    artifact_path = result.get("path")
+                else:
+                    result = self.local_media.generate("image.generate", prompt, size=str(payload.get("size", "1024x1024")), quality=str(payload.get("quality", "auto")))
+                    result["provider"] = "local"
+                    artifact_path = result.get("artifact_path")
+                if artifact_path:
+                    result["url"] = "/api/media/" + Path(artifact_path).name
+                result["evidence_id"] = self.home.store.record_event("MEDIA_IMAGE_GENERATION", result.get("artifact_id", "unknown"), {"provider": result["provider"], "prompt": prompt, "sha256": result.get("sha256")})
                 return self._json(HTTPStatus.CREATED, result)
             if path == "/api/media/video":
-                result = self.media.generate_video(
-                    str(payload.get("prompt", "")),
-                    str(payload.get("seconds", "4")),
-                    str(payload.get("size", "1280x720")),
-                )
-                if payload.get("wait", False):
-                    final = self.media.poll_video(result["remote_id"], int(payload.get("timeout_s", 180)))
-                    downloaded = self.media.download_video(result["remote_id"], result["artifact_id"])
-                    result.update(final)
-                    result.update(downloaded)
-                    result["url"] = "/api/media/" + Path(downloaded["path"]).name
-                result["evidence_id"] = self.home.store.record_event("MEDIA_VIDEO_GENERATION", result["artifact_id"], {"provider": "openai", "model": result["model"], "prompt": result["prompt"], "status": result.get("status")})
-                return self._json(HTTPStatus.ACCEPTED if result.get("status") != "completed" else HTTPStatus.CREATED, result)
+                prompt = str(payload.get("prompt", ""))
+                provider = str(payload.get("provider", "local"))
+                if provider != "local":
+                    return self._json(HTTPStatus.CONFLICT, {"error": "paid_video_route_not_enabled_in_zero_cost_runtime"})
+                result = self.local_media.generate("video.generate", prompt, seconds=str(payload.get("seconds", "4")), size=str(payload.get("size", "1280x720")))
+                result["provider"] = "local"
+                artifact_path = result.get("artifact_path")
+                if artifact_path:
+                    result["url"] = "/api/media/" + Path(artifact_path).name
+                result["evidence_id"] = self.home.store.record_event("MEDIA_VIDEO_GENERATION", result.get("artifact_id", "unknown"), {"provider": "local", "prompt": prompt, "sha256": result.get("sha256"), "status": result.get("status")})
+                return self._json(HTTPStatus.ACCEPTED if result.get("status") != "COMPLETED" else HTTPStatus.CREATED, result)
             if path == "/api/memory":
                 mid = self.home.remember(
                     str(payload.get("content", "")),
@@ -190,6 +200,8 @@ class Handler(BaseHTTPRequestHandler):
                 )
                 return self._json(HTTPStatus.OK if ok else HTTPStatus.CONFLICT, {"ok": ok})
             return self._json(HTTPStatus.NOT_FOUND, {"error": "not found"})
+        except MediaError as exc:
+            return self._json(HTTPStatus.CONFLICT, {"error": str(exc)})
         except ValueError as exc:
             return self._json(HTTPStatus.BAD_REQUEST, {"error": str(exc)})
         except Exception as exc:
