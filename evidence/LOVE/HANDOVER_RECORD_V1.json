@@ -7,7 +7,7 @@
     "source_commit":  "1dc421399ed15d1749f9f832e603df53321fcf38",
     "source_tree":  "142a20875fc7fc0dc52d2f4a570940a385355f79",
     "status":  "HANDOVERED",
-    "receipt":  "PENDING",
+    "receipt":  "RECEIVED",
     "acceptance":  "PENDING",
     "conditional_acceptance":  "PENDING",
     "rejection":  "PENDING",
@@ -19,5 +19,7 @@
     "evidence_refs":  [
                           "evidence/LOVE/OAI_GIANG_LOVE_IMPLEMENTATION_EVIDENCE_V1.1.json"
                       ],
-    "governance":  "No merge/default-branch/runtime/production action authorized by this record"
+    "governance":  "No merge/default-branch/runtime/production action authorized by this record",
+    "receipt_timestamp":  "2026-10-04T09:20:04.5617025Z",
+    "receipt_source":  "OAI-GIANG canonical receiving authority"
 }
