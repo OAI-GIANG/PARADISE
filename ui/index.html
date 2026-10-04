@@ -1,0 +1,57 @@
+﻿<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PARADISE — STT Home</title>
+<style>
+:root{--bg:#071018;--panel:#0c1721;--panel2:#101f2b;--line:#203544;--text:#eef6fb;--muted:#91a7b5;--accent:#7dd3fc;--accent2:#c4b5fd;--good:#86efac;--danger:#fca5a5;--shadow:0 24px 70px rgba(0,0,0,.32)}
+*{box-sizing:border-box}html,body{height:100%;margin:0}body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(1200px 700px at 75% -10%,#163149 0%,transparent 58%),var(--bg);color:var(--text);overflow:hidden}
+button,input,textarea{font:inherit}button{cursor:pointer}.app{height:100%;display:grid;grid-template-columns:280px 1fr}.sidebar{border-right:1px solid var(--line);background:rgba(7,16,24,.84);backdrop-filter:blur(20px);display:flex;flex-direction:column;padding:18px 14px}.brand{display:flex;align-items:center;gap:12px;padding:8px 8px 22px}.orb{width:38px;height:38px;border-radius:13px;background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 0 35px rgba(125,211,252,.25);position:relative}.orb:after{content:"";position:absolute;inset:8px;border:1px solid rgba(255,255,255,.7);border-radius:9px}.brand b{letter-spacing:.12em}.brand small{display:block;color:var(--muted);font-size:11px;margin-top:2px}.new{width:100%;border:1px solid #315267;background:#102433;color:var(--text);padding:11px 13px;border-radius:12px;text-align:left}.new:hover{border-color:var(--accent)}.nav{margin-top:18px;display:grid;gap:5px}.nav button{border:0;background:transparent;color:var(--muted);padding:10px 12px;border-radius:10px;text-align:left}.nav button.active,.nav button:hover{background:#10202d;color:var(--text)}.history{margin-top:20px;overflow:auto;flex:1}.history label{display:block;color:#667f8e;font-size:11px;text-transform:uppercase;letter-spacing:.14em;padding:0 10px 8px}.history-item{display:block;width:100%;border:0;background:transparent;color:#b5c5ce;text-align:left;padding:9px 10px;border-radius:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.history-item:hover{background:#0d1b26;color:var(--text)}.profile{border-top:1px solid var(--line);padding:14px 8px 4px;display:flex;align-items:center;gap:10px}.avatar{width:32px;height:32px;border-radius:10px;background:#172b39;display:grid;place-items:center;color:var(--accent)}.profile span{font-size:13px}.profile small{display:block;color:var(--muted);font-size:10px;margin-top:2px}.main{min-width:0;display:flex;flex-direction:column}.top{height:68px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 28px;background:rgba(7,16,24,.5);backdrop-filter:blur(18px)}.title{font-size:14px;color:#d7e5ed}.title span{color:var(--muted)}.status{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:12px}.dot{width:8px;height:8px;border-radius:50%;background:var(--good);box-shadow:0 0 12px rgba(134,239,172,.55)}.dot.off{background:var(--danger);box-shadow:none}.workspace{flex:1;overflow:auto}.hero{max-width:940px;margin:0 auto;padding:72px 28px 35px}.eyebrow{color:var(--accent);font-size:12px;letter-spacing:.16em;text-transform:uppercase}.hero h1{font-size:clamp(38px,5vw,68px);line-height:.98;letter-spacing:-.045em;margin:13px 0 18px;max-width:800px}.hero p{color:var(--muted);font-size:16px;line-height:1.7;max-width:690px;margin:0}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:42px}.card{border:1px solid var(--line);background:linear-gradient(145deg,rgba(16,31,43,.92),rgba(10,21,30,.75));border-radius:16px;padding:17px;min-height:125px;box-shadow:var(--shadow)}.card b{display:block;font-size:13px;margin-bottom:8px}.card span{color:var(--muted);font-size:12px;line-height:1.55}.chat{max-width:940px;margin:0 auto;padding:0 28px 32px}.messages{display:grid;gap:14px;margin-bottom:16px}.msg{display:flex;gap:11px}.msg.user{justify-content:flex-end}.bubble{max-width:76%;border:1px solid var(--line);background:#0c1923;padding:12px 14px;border-radius:15px;line-height:1.6;font-size:14px;white-space:pre-wrap}.user .bubble{background:#153246;border-color:#2b566e}.composer{border:1px solid #2a4556;background:rgba(12,23,33,.94);border-radius:18px;box-shadow:0 18px 50px rgba(0,0,0,.25);padding:12px}.composer textarea{width:100%;min-height:64px;max-height:180px;resize:none;background:transparent;border:0;outline:0;color:var(--text);padding:5px;font-size:14px}.composer textarea::placeholder{color:#637b89}.compose-row{display:flex;justify-content:space-between;align-items:center;gap:10px}.hint{color:#607987;font-size:11px}.send{border:0;border-radius:11px;padding:10px 16px;background:linear-gradient(135deg,#8edbfa,#b9a7fa);color:#071018;font-weight:700}.send:disabled{opacity:.45;cursor:not-allowed}.drawer{position:fixed;inset:0;background:rgba(0,0,0,.48);display:none;align-items:flex-start;justify-content:flex-end}.drawer.open{display:flex}.panel{height:100%;width:min(390px,92vw);background:#0b1721;border-left:1px solid var(--line);padding:22px;box-shadow:var(--shadow)}.panel h2{margin:0 0 18px}.field{margin:14px 0}.field label{display:block;color:var(--muted);font-size:12px;margin-bottom:7px}.field input{width:100%;border:1px solid var(--line);border-radius:10px;background:#071018;color:var(--text);padding:10px;outline:0}.field input:focus{border-color:var(--accent)}.panel button{border:1px solid var(--line);background:#102433;color:var(--text);padding:9px 12px;border-radius:10px}.notice{font-size:12px;color:var(--muted);line-height:1.6}.toast{position:fixed;bottom:24px;right:24px;background:#122432;border:1px solid #2d4d60;padding:11px 14px;border-radius:11px;color:var(--text);display:none;box-shadow:var(--shadow)}.toast.show{display:block}
+@media(max-width:820px){.app{grid-template-columns:1fr}.sidebar{display:none}.top{padding:0 18px}.hero,.chat{padding-left:18px;padding-right:18px}.cards{grid-template-columns:1fr}.hero{padding-top:48px}.hero h1{font-size:44px}.bubble{max-width:88%}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="brand"><div class="orb"></div><div><b>PARADISE</b><small>STT HOME</small></div></div>
+  <button class="new" id="newChat">＋ New conversation</button>
+  <nav class="nav"><button class="active">⌂ Home</button><button id="memoryBtn">◈ Memory</button><button id="settingsBtn">⚙ Settings</button></nav>
+  <div class="history"><label>Recent</label><button class="history-item">Welcome home</button></div>
+  <div class="profile"><div class="avatar">S</div><div><span>STT</span><small>PARADISE runtime</small></div></div>
+</aside>
+<main class="main">
+  <header class="top"><div class="title"><b>Home</b> <span> / conversation</span></div><div class="status"><i class="dot" id="statusDot"></i><span id="statusText">Checking runtime…</span></div></header>
+  <section class="workspace">
+    <div class="hero">
+      <div class="eyebrow">STT Home · PARADISE</div>
+      <h1>Chào mừng về nhà.</h1>
+      <p>Không gian làm việc của STT trong PARADISE — nơi hội thoại, công việc và ký ức sẽ dần hội tụ thành một hệ thống thống nhất.</p>
+      <div class="cards">
+        <div class="card"><b>Conversation</b><span>Bắt đầu một phiên làm việc mới với STT.</span></div>
+        <div class="card"><b>Memory</b><span>Kiến trúc sẵn sàng mở rộng cho context và memory bền vững.</span></div>
+        <div class="card"><b>Runtime</b><span id="runtimeCard">Đang kiểm tra trạng thái PARADISE…</span></div>
+      </div>
+    </div>
+    <div class="chat">
+      <div class="messages" id="messages"></div>
+      <div class="composer"><textarea id="input" placeholder="Nói điều gì đó với STT…"></textarea><div class="compose-row"><span class="hint">Enter gửi · Shift+Enter xuống dòng</span><button class="send" id="send">Send</button></div></div>
+    </div>
+  </section>
+</main>
+</div>
+<div class="drawer" id="drawer"><div class="panel"><button id="close">Close</button><h2>PARADISE Settings</h2><div class="field"><label>API token · chỉ lưu trong phiên trình duyệt</label><input id="token" type="password" autocomplete="off" placeholder="Bearer token"></div><p class="notice">Token không được nhúng vào source/UI. Hãy nhập token của PARADISE runtime nếu endpoint yêu cầu xác thực.</p><button id="save">Save for this session</button></div></div>
+<div class="toast" id="toast"></div>
+<script>
+const $=s=>document.querySelector(s); const apiBase='';
+const tokenKey='paradise.session.token';
+const token=()=>sessionStorage.getItem(tokenKey)||'';
+function toast(t){const x=$('#toast');x.textContent=t;x.classList.add('show');setTimeout(()=>x.classList.remove('show'),2600)}
+function add(role,text){const row=document.createElement('div');row.className='msg '+role;const b=document.createElement('div');b.className='bubble';b.textContent=text;row.appendChild(b);$('#messages').appendChild(row);row.scrollIntoView({behavior:'smooth',block:'end'})}
+async function health(){try{const r=await fetch(apiBase+'/healthz',{cache:'no-store'});if(!r.ok)throw Error();const j=await r.json();$('#statusText').textContent='Runtime online · '+j.version;$('#runtimeCard').textContent='Online · version '+j.version;$('#statusDot').classList.remove('off')}catch(e){$('#statusText').textContent='Runtime unavailable';$('#runtimeCard').textContent='Không kết nối được runtime';$('#statusDot').classList.add('off')}}
+async function send(){const el=$('#input'), message=el.value.trim();if(!message)return; if(!token()){toast('Mở Settings và nhập API token trước.');return} add('user',message);el.value='';$('#send').disabled=true;try{const r=await fetch(apiBase+'/v1/tasks',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+token()},body:JSON.stringify({operation:'echo',payload:{message}})});const j=await r.json();if(!r.ok)throw Error(j.error||'Request failed');add('assistant',j.result?.echo||j.result?.message||JSON.stringify(j.result||j));}catch(e){add('assistant','PARADISE không thể hoàn tất yêu cầu: '+e.message)}finally{$('#send').disabled=false;el.focus()}}
+$('#send').onclick=send;$('#input').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send()}});
+$('#settingsBtn').onclick=()=>$('#drawer').classList.add('open');$('#close').onclick=()=>$('#drawer').classList.remove('open');$('#save').onclick=()=>{const v=$('#token').value.trim();if(v)sessionStorage.setItem(tokenKey,v);$('#drawer').classList.remove('open');toast(v?'Token saved for this session.':'Token unchanged.')};
+$('#newChat').onclick=()=>{$('#messages').innerHTML='';toast('New conversation')};$('#memoryBtn').onclick=()=>toast('Memory workspace is prepared for the next capability layer.');
+health();setInterval(health,30000);
+</script>
+</body></html>
