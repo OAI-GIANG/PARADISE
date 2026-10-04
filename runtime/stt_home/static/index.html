@@ -99,12 +99,17 @@ footer{text-align:center;margin-top:16px;font-size:11px;opacity:.38}
 </div>
 
 <script>
-let sessionId = null;
 const $ = s => document.querySelector(s);
+let sessionId = null;
+$("#token").value = sessionStorage.getItem("paradise_home_token") || "";
+$("#saveToken").onclick = () => { sessionStorage.setItem("paradise_home_token", $("#token").value); refresh().catch(e=>$("#healthBadge").textContent="ERROR ? "+e.message); };
 const esc = s => String(s ?? "").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
 async function api(path, options={}) {
-  const r = await fetch(path,{headers:{"Content-Type":"application/json"},...options});
+  const headers={"Content-Type":"application/json"};
+  const token=sessionStorage.getItem("paradise_home_token");
+  if(token) headers.Authorization=`Bearer ${token}`;
+  const r = await fetch(path,{headers,...options});
   const d = await r.json();
   if(!r.ok) throw new Error(d.error || "request failed");
   return d;

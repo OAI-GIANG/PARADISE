@@ -1,0 +1,26 @@
+[Unit]
+Description=PARADISE STT Home
+After=network.target
+
+[Service]
+Type=simple
+User=paradise
+Group=paradise
+WorkingDirectory=/opt/paradise/runtime/stt_home
+Environment=PYTHONUNBUFFERED=1
+Environment=PARADISE_HOME_HOST=127.0.0.1
+Environment=PARADISE_HOME_PORT=8787
+Environment=PARADISE_HOME_DATA=/var/lib/paradise-stt-home
+Environment=PARADISE_HOME_REQUIRE_AUTH=1
+EnvironmentFile=/etc/paradise-stt-home/runtime.env
+ExecStart=/usr/bin/python3 /opt/paradise/runtime/stt_home/server.py
+Restart=on-failure
+RestartSec=3
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/paradise-stt-home
+
+[Install]
+WantedBy=multi-user.target

@@ -15,6 +15,10 @@ BASE = Path(__file__).resolve().parent
 STATIC = BASE / "static"
 PORT = int(os.getenv("PARADISE_HOME_PORT", "8787"))
 HOST = os.getenv("PARADISE_HOME_HOST", "127.0.0.1")
+REQUIRE_AUTH = os.getenv("PARADISE_HOME_REQUIRE_AUTH", "0") == "1"
+API_TOKEN = os.getenv("PARADISE_HOME_API_TOKEN")
+if REQUIRE_AUTH and not API_TOKEN:
+    raise RuntimeError("PARADISE_HOME_API_TOKEN is required when PARADISE_HOME_REQUIRE_AUTH=1")
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -29,6 +33,18 @@ class Handler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(body)
 
+    def _authorized(self) -> bool:
+        if not REQUIRE_AUTH:
+            return True
+        value = self.headers.get("Authorization", "")
+        return value == f"Bearer {API_TOKEN}"
+
+    def _require_auth(self) -> bool:
+        if self._authorized():
+            return True
+        self._json(HTTPStatus.UNAUTHORIZED, {"error": "authentication required"})
+        return False
+
     def _body(self) -> dict:
         n = int(self.headers.get("Content-Length", "0"))
         raw = self.rfile.read(n) if n else b"{}"
@@ -39,13 +55,16 @@ class Handler(BaseHTTPRequestHandler):
         if path == "/api/health":
             return self._json(HTTPStatus.OK, self.home.health())
         if path == "/api/state":
+            if not self._require_auth(): return
             return self._json(HTTPStatus.OK, self.home.store.snapshot())
         if path == "/api/events":
+            if not self._require_auth(): return
             rows = self.home.store.conn.execute(
                 "SELECT * FROM events ORDER BY sequence DESC LIMIT 50"
             ).fetchall()
             return self._json(HTTPStatus.OK, {"events": [dict(r) for r in rows]})
         if path.startswith("/api/session/"):
+            if not self._require_auth(): return
             sid = path.rsplit("/", 1)[-1]
             return self._json(HTTPStatus.OK, {
                 "session_id": sid,
@@ -70,6 +89,8 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_POST(self) -> None:
         path = urlparse(self.path).path
+        if not self._require_auth():
+            return
         try:
             payload = self._body()
             if path == "/api/session":
