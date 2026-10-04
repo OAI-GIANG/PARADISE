@@ -1,0 +1,24 @@
+{
+  "evidence": "STT_HOME_INFERENCE_E2E",
+  "date": "2026-10-04",
+  "repository": "OAI-GIANG/PARADISE",
+  "branch": "feature/stt-home-inference-20261004",
+  "baseline_commit": "cedf83cc9a3649e3b8290367788ef8bff55c3dfd",
+  "source_of_stt_home": "restored existing runtime/stt_home from main@ed142c6 (reuse, no new engine/primitive)",
+  "backend_current": "runtime/paradise UNCHANGED (bounded runtime kept)",
+  "authority": "PARADISE own code only; LOVE legacy NOT used as authority; Sauthienthu89 NOT used",
+  "environment": "local workstation (F:\\Oai\\PARADISE), isolated temp data dir, loopback port 18788",
+  "provider": { "name": "openai-compatible", "model": "deepseek-flash", "key_length_only": 35, "key_source": "existing PARADISE credential in local secure env (never printed)" },
+  "gates": {
+    "G1_UI": { "status": "PASS_LOCAL", "http": 200, "content_type": "text/html", "bytes": 9515, "contains_STT": true, "contains_PARADISE": true },
+    "G2_INFERENCE": { "status": "PASS_LOCAL", "http": 200, "provider": "openai-compatible", "model": "deepseek-flash", "reply": "Inference confirmed: R12.3 G2 responding with one short sentence.", "evidence_id": "e1c3debe-b43a-44bc-8872-e322b0a18b67" },
+    "G3_IDENTITY": { "status": "PASS_LOCAL", "home": "PARADISE", "identity_name": "STT", "identity_id": "stt", "role": "Architect + Chief Engineer" },
+    "G4_CONTINUITY": { "status": "PASS_LOCAL", "session": "ca0b7996-d778-4996-92a9-6d458cd90e17", "codeword": "HOME-STT-7391", "turn2_recall": "HOME-STT-7391", "after_restart_messages_persisted": 4, "after_restart_recall": "HOME-STT-7391", "memory_persisted": true, "evidence_before": 8, "evidence_after": 9 }
+  },
+  "evidence_ids": { "G2": "e1c3debe-b43a-44bc-8872-e322b0a18b67", "G4_memory_id": "d44cb2c7-f5b5-491b-a8f4-c8b63d8b62f3" },
+  "limitations": [
+    "Local E2E only; no independent-host or VPS deployment performed in this step.",
+    "STT Home HTTP API has no authentication layer; do not expose publicly without an authenticated boundary.",
+    "Not claimed VERIFIED or PRODUCTION."
+  ]
+}

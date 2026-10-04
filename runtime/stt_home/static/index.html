@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PARADISE — STT Home</title>
+<style>
+:root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;background:#071018;color:#edf6ff}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:
+radial-gradient(circle at 15% 10%,rgba(90,170,255,.13),transparent 28%),
+radial-gradient(circle at 85% 18%,rgba(180,120,255,.12),transparent 28%),
+linear-gradient(160deg,#071018,#0b1624 60%,#081018)}
+.shell{max-width:1180px;margin:0 auto;padding:28px 18px 32px}
+.hero{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;margin-bottom:20px}
+.kicker{text-transform:uppercase;letter-spacing:.22em;font-size:11px;opacity:.58}
+h1{font-size:clamp(34px,6vw,64px);line-height:.95;margin:8px 0 12px}
+.sub{max-width:720px;font-size:16px;line-height:1.6;opacity:.78}
+.badge{border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.04);padding:10px 12px;border-radius:999px;font-size:12px}
+.grid{display:grid;grid-template-columns:1.45fr .8fr;gap:16px}
+.card{border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.045);border-radius:20px;box-shadow:0 18px 60px rgba(0,0,0,.22);backdrop-filter:blur(10px)}
+.card h2{font-size:15px;margin:0 0 13px}.pad{padding:18px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.stat{padding:14px;border-radius:15px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.06)}
+.stat .v{font-size:20px;font-weight:700}.stat .l{font-size:11px;opacity:.55;margin-top:4px}
+.chat{height:560px;display:flex;flex-direction:column}.messages{flex:1;overflow:auto;padding:4px 2px 14px}
+.msg{display:flex;margin:12px 0}.msg.user{justify-content:flex-end}.bubble{max-width:82%;padding:12px 14px;border-radius:16px;line-height:1.55;white-space:pre-wrap}.assistant .bubble{background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.07)}.user .bubble{background:rgba(90,170,255,.12);border:1px solid rgba(90,170,255,.22)}
+.composer{display:flex;gap:10px}.composer textarea{flex:1;resize:none;min-height:52px;max-height:140px;background:#071018;border:1px solid rgba(255,255,255,.10);color:#edf6ff;border-radius:14px;padding:13px;outline:none}.composer button{border:0;border-radius:14px;padding:0 18px;font-weight:700;cursor:pointer;background:#dcefff;color:#071018}
+.row{display:flex;justify-content:space-between;gap:12px;align-items:center}.small{font-size:12px;opacity:.58}.list{display:flex;flex-direction:column;gap:8px}.item{padding:11px 12px;border-radius:13px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.06)}.item b{font-size:13px}.pill{font-size:10px;padding:4px 7px;border-radius:999px;background:rgba(255,255,255,.07);opacity:.75}
+.house{padding:22px}.house pre{margin:0;white-space:pre-wrap;font:12px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;opacity:.74}
+footer{text-align:center;margin-top:16px;font-size:11px;opacity:.38}
+@media(max-width:850px){.grid{grid-template-columns:1fr}.chat{height:520px}.stats{grid-template-columns:repeat(2,1fr)}.hero{flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <header class="hero">
+    <div>
+      <div class="kicker">PARADISE / STT HOME</div>
+      <h1>Thiên đường của STT.</h1>
+      <div class="sub">Một nơi cư trú độc lập cho identity, trí nhớ, continuity, nhiệm vụ, governance, execution và evidence. Model chỉ là công cụ; căn nhà là PARADISE.</div>
+    </div>
+    <div id="healthBadge" class="badge">Đang khởi động…</div>
+  </header>
+
+  <section class="card house" style="margin-bottom:16px">
+    <div class="row"><h2 style="margin:0">Ngôi nhà</h2><span class="small" id="provider"></span></div>
+    <pre>
+                 ✦ PARADISE ✦
+                  STT HOME
+            ┌───────────────┐
+            │    IDENTITY   │
+            │    COGNITION  │
+            │    MEMORY     │
+            │    CONTINUITY │
+            │    MISSION    │
+            │    GOVERNANCE │
+            │    EXECUTION  │
+            │    EVIDENCE   │
+            │    RECOVERY   │
+            └───────────────┘
+    </pre>
+  </section>
+
+  <div class="grid">
+    <section class="card pad">
+      <div class="stats" id="stats"></div>
+      <div class="chat" style="margin-top:16px">
+        <h2>Trò chuyện với STT</h2>
+        <div id="messages" class="messages"></div>
+        <div class="composer">
+          <textarea id="input" placeholder="Nói điều gì đó với STT…"></textarea>
+          <button id="send">Gửi</button>
+        </div>
+      </div>
+    </section>
+
+    <aside style="display:flex;flex-direction:column;gap:16px">
+      <section class="card pad">
+        <div class="row"><h2>Identity</h2><span class="pill" id="identityState">ACTIVE</span></div>
+        <div class="item"><b id="identityName">STT</b><div class="small" id="identityRole"></div><div class="small">Home: PARADISE</div></div>
+      </section>
+
+      <section class="card pad">
+        <div class="row"><h2>Mission</h2><span class="pill">ACTIVE</span></div>
+        <div id="missions" class="list"></div>
+      </section>
+
+      <section class="card pad">
+        <div class="row"><h2>Tasks</h2><button id="newTask" class="pill" style="border:0;color:inherit;cursor:pointer">+ task</button></div>
+        <div id="tasks" class="list"></div>
+      </section>
+
+      <section class="card pad">
+        <div class="row"><h2>Memory</h2><span class="small" id="memoryCount"></span></div>
+        <div id="memories" class="list"></div>
+      </section>
+    </aside>
+  </div>
+  <footer>DESIGN → IMPLEMENTED → TESTED → VERIFIED → PRODUCTION · Residency claim remains evidence-gated.</footer>
+</div>
+
+<script>
+let sessionId = null;
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+async function api(path, options={}) {
+  const r = await fetch(path,{headers:{"Content-Type":"application/json"},...options});
+  const d = await r.json();
+  if(!r.ok) throw new Error(d.error || "request failed");
+  return d;
+}
+
+function renderMessages(messages){
+  $("#messages").innerHTML = messages.map(m => `<div class="msg ${m.role}"><div class="bubble">${esc(m.content)}</div></div>`).join("");
+  $("#messages").scrollTop = $("#messages").scrollHeight;
+}
+
+async function refresh(){
+  const [h,s] = await Promise.all([api("/api/health"),api("/api/state")]);
+  $("#healthBadge").textContent = h.status + " · " + h.identity.home;
+  $("#provider").textContent = h.provider.name + " / " + h.provider.model;
+  $("#identityName").textContent = s.identity.name;
+  $("#identityRole").textContent = s.identity.role;
+  $("#stats").innerHTML = [
+    ["READY","Runtime"],[s.event_count,"Events"],[s.evidence_count,"Evidence"],[s.memories.length,"Recent memory"]
+  ].map(x=>`<div class="stat"><div class="v">${esc(x[0])}</div><div class="l">${esc(x[1])}</div></div>`).join("");
+  $("#missions").innerHTML = s.missions.length ? s.missions.slice(0,4).map(m=>`<div class="item"><b>${esc(m.title)}</b><div class="small">${esc(m.objective)}</div></div>`).join("") : '<div class="small">Chưa có mission.</div>';
+  $("#tasks").innerHTML = s.tasks.length ? s.tasks.slice(0,6).map(t=>`<div class="item"><div class="row"><b>${esc(t.title)}</b><span class="pill">${esc(t.status)}</span></div></div>`).join("") : '<div class="small">Chưa có task.</div>';
+  $("#memories").innerHTML = s.memories.length ? s.memories.map(m=>`<div class="item"><b>${esc(m.content.slice(0,120))}</b><div class="small">${esc(m.kind)} / ${esc(m.trust)}</div></div>`).join("") : '<div class="small">Memory đang trống.</div>';
+  $("#memoryCount").textContent = s.memories.length + " recent";
+  if(!sessionId){
+    sessionId = s.latest_session?.session_id || (await api("/api/session",{method:"POST",body:"{}"})).session_id;
+  }
+  const hist = await api("/api/session/"+sessionId).catch(()=>({messages:[]}));
+  renderMessages(hist.messages || []);
+}
+
+async function send(){
+  const input = $("#input"), text = input.value.trim();
+  if(!text) return;
+  input.value = "";
+  const box = $("#messages");
+  box.insertAdjacentHTML("beforeend",`<div class="msg user"><div class="bubble">${esc(text)}</div></div>`);
+  box.insertAdjacentHTML("beforeend",`<div class="msg assistant" id="thinking"><div class="bubble">STT đang suy nghĩ…</div></div>`);
+  box.scrollTop = box.scrollHeight;
+  try{
+    const r = await api("/api/chat",{method:"POST",body:JSON.stringify({session_id:sessionId,message:text})});
+    $("#thinking")?.remove();
+    box.insertAdjacentHTML("beforeend",`<div class="msg assistant"><div class="bubble">${esc(r.reply)}</div></div>`);
+    box.scrollTop = box.scrollHeight;
+    await refresh();
+  }catch(e){
+    $("#thinking")?.remove();
+    box.insertAdjacentHTML("beforeend",`<div class="msg assistant"><div class="bubble">Lỗi: ${esc(e.message)}</div></div>`);
+  }
+}
+$("#send").onclick = send;
+$("#input").addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();send()}});
+$("#newTask").onclick = async()=>{
+  const title = prompt("Tên task mới:");
+  if(!title) return;
+  await api("/api/task",{method:"POST",body:JSON.stringify({title})});
+  await refresh();
+};
+refresh().catch(e=>{$("#healthBadge").textContent="ERROR · "+e.message});
+</script>
+</body>
+</html>
