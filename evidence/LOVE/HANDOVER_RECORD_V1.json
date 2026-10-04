@@ -8,18 +8,27 @@
     "source_tree":  "142a20875fc7fc0dc52d2f4a570940a385355f79",
     "status":  "HANDOVERED",
     "receipt":  "RECEIVED",
-    "acceptance":  "PENDING",
+    "acceptance":  "ACCEPTED",
     "conditional_acceptance":  "PENDING",
     "rejection":  "PENDING",
     "ownership_transfer":  "PENDING",
-    "trial":  "PENDING",
-    "reality_validation":  "PENDING",
-    "operationalization":  "PENDING",
-    "production":  "PENDING",
+    "trial":  "COMPLETED",
+    "reality_validation":  "BLOCKED_EXTERNAL",
+    "operationalization":  "NOT_STARTED",
+    "production":  "NOT_STARTED",
     "evidence_refs":  [
                           "evidence/LOVE/OAI_GIANG_LOVE_IMPLEMENTATION_EVIDENCE_V1.1.json"
                       ],
     "governance":  "No merge/default-branch/runtime/production action authorized by this record",
     "receipt_timestamp":  "2026-10-04T09:20:04.5617025Z",
-    "receipt_source":  "OAI-GIANG canonical receiving authority"
+    "receipt_source":  "OAI-GIANG canonical receiving authority",
+    "acceptance_basis":  [
+                             "22/22 clean-checkout tests PASS",
+                             "semantic freeze conformance PASS",
+                             "forbidden-transition audit PASS",
+                             "evidence reproducibility PASS"
+                         ],
+    "trial_scope":  "controlled local execution of LOVE Reality Transition contract",
+    "trial_result":  "PASS",
+    "reality_validation_reason":  "No independent production/runtime target is currently deployed for real-world observation"
 }
