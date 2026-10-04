@@ -37,7 +37,7 @@
                                         "returncode=0",
                                         "clean checkout"
                                     ],
-    "observation":  "COMPLETED",
-    "stabilization":  "PASS",
-    "external_boundary":  "Production deployment target / authorized persistent runtime endpoint"
+    "observation":  "SINGLE_RUN_OBSERVED",
+    "stabilization":  "NOT_ESTABLISHED",
+    "external_boundary":  "Persistent deployable runtime target with authorized production endpoint"
 }
