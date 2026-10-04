@@ -1,0 +1,68 @@
+{
+  "schema_version": "OAI-GIANG-LOVE-IMPLEMENTATION-EVIDENCE-1.1",
+  "status": "VERIFIED",
+  "branch": "feature/oai-giang-love-reality-transition-20261004",
+  "base_commit": "3a381ad4afa66b06dd105616b5ca6076b55020fd",
+  "implementation_commit": "4e56a05baa15be3b0127102f6e08e1959d8a60e6",
+  "implementation_tree": "bc0459921db5dbf3a31cbe67ce70f8fb7a0bfa90",
+  "tests": {
+    "positive": "6/6 PASS",
+    "negative": "7/7 PASS",
+    "regression": "4/4 PASS",
+    "capability_registry": "2/2 PASS",
+    "store": "3/3 PASS",
+    "total": "22/22 PASS"
+  },
+  "compile": "PASS",
+  "diff_check": "PASS",
+  "default_branch_mutation": "NONE",
+  "merge": "NOT_PERFORMED",
+  "runtime": "NOT_STARTED",
+  "production": "NOT_STARTED",
+  "artifacts": {
+    "projects/LOVE/stt_love/state_semantics.py": {
+      "sha256": "0700ffdccb29d8b59c3e66324fced5f3a03a5b70cd9d0985fe710f64593f2755",
+      "size_bytes": 3719,
+      "source_commit": "4e56a05baa15be3b0127102f6e08e1959d8a60e6"
+    },
+    "projects/LOVE/stt_love/reality_transition.py": {
+      "sha256": "2e0c11dbe9e15ef6a1288499dca955579d6254ef59e656a631c01aa6ceddf0af",
+      "size_bytes": 6679,
+      "source_commit": "4e56a05baa15be3b0127102f6e08e1959d8a60e6"
+    },
+    "projects/LOVE/stt_love/store.py": {
+      "sha256": "5e119e58da8a573823cf1d73c785e49d0e6f7bf4078e414c3e9702b7319df39a",
+      "size_bytes": 3966,
+      "source_commit": "4e56a05baa15be3b0127102f6e08e1959d8a60e6"
+    },
+    "projects/LOVE/stt_love/og/registry.json": {
+      "sha256": "c12fa8671ce08995714506f1c2100723204092403b4c5d5b51151fce25688932",
+      "size_bytes": 3009,
+      "source_commit": "4e56a05baa15be3b0127102f6e08e1959d8a60e6"
+    },
+    "projects/LOVE/tests/test_reality_transition.py": {
+      "sha256": "722504bf44b34fd9c08ea5de7722a395d7ce9c3ce8268f4bd80bfe8224e98788",
+      "size_bytes": 8206,
+      "source_commit": "4e56a05baa15be3b0127102f6e08e1959d8a60e6"
+    }
+  },
+  "notes": [
+    "16 lifecycle states implemented with execution/verification/governance/promotion/outcome/recovery separation.",
+    "HANDOVER, RECEIPT, ACCEPTANCE, CONDITIONAL_ACCEPTANCE, REJECTION, OWNERSHIP_TRANSFER are explicit contract boundaries.",
+    "OBSERVATION, STABILIZATION, BASELINE are phase events, not duplicate lifecycle states.",
+    "Capability Registry has one canonical owner and validates with zero errors.",
+    "Store is the single durable persistence owner used by DurableExecution.",
+    "Implementation is isolated to the feature branch; no default/canonical branch mutation.",
+    "V1 artifact digests are retained as historical evidence and are superseded by V1.1.",
+    "V1.1 uses SHA-256 over the exact Git commit content bytes returned by git show <implementation_commit>:<artifact_path>; this is OS-independent and reproducible."
+  ],
+  "supersedes": "evidence/LOVE/OAI_GIANG_LOVE_IMPLEMENTATION_EVIDENCE_V1.json",
+  "hash": {
+    "algorithm": "SHA-256",
+    "representation": "git_commit_content_bytes",
+    "encoding": "raw_bytes",
+    "source_commit": "4e56a05baa15be3b0127102f6e08e1959d8a60e6",
+    "source_tree": "bc0459921db5dbf3a31cbe67ce70f8fb7a0bfa90",
+    "normalization": "NONE"
+  }
+}
