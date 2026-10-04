@@ -1,0 +1,51 @@
+{
+  "evidence_id": "PARADISE_ZERO_API_MEDIA_001",
+  "type": "ZERO_API_COST_MEDIA_RUNTIME_TEST",
+  "branch": "feature/paradise-zero-api-media-20261004",
+  "commit": "3f1a833",
+  "tested_host": "LAPTOP-E9FGVI95",
+  "hardware": {
+    "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+    "vram_mib": 6144,
+    "ram_gb": 16
+  },
+  "policy": {
+    "default_route": "local_self_host",
+    "paid_provider_default": false,
+    "paid_provider_requires_explicit_authorization": true,
+    "fail_closed_when_local_worker_unavailable": true
+  },
+  "implementation": {
+    "worker_contract": "JSON over stdin/stdout",
+    "operations": ["image.generate", "video.generate"],
+    "artifact_hash": "SHA-256",
+    "artifact_preview_route": "/api/media/<artifact>",
+    "policy_route": "/api/media/policy"
+  },
+  "tests": {
+    "full_runtime_suite": "41/41_PASS",
+    "media_unit_tests": "3/3_PASS",
+    "zero_cost_negative": "PASS",
+    "paid_fallback_negative": "PASS",
+    "artifact_hash_provenance": "PASS"
+  },
+  "live_media_generation": {
+    "image": "NOT_EXECUTED",
+    "video": "NOT_EXECUTED",
+    "reason": "No local image/video model runtime is installed on the current 6GB VRAM worker; no paid provider authorization exists."
+  },
+  "deployment": {
+    "production_vps": "ONLINE",
+    "ubuntu": "24.04 LTS",
+    "docker": "UNAVAILABLE",
+    "native_python": "AVAILABLE",
+    "production_deployment": "NOT_ATTEMPTED_IN_THIS_CHANGE"
+  },
+  "governance": {
+    "g1_g4_reopened": false,
+    "semantic_kernel_modified": false,
+    "new_semantic_engine_created": false,
+    "paid_api_dependency_added": false
+  },
+  "verification": "LOCAL_RUNTIME_VERIFIED; LIVE_IMAGE_VIDEO_UNVERIFIED"
+}
