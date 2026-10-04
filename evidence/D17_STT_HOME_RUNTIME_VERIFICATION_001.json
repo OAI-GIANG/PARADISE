@@ -1,0 +1,25 @@
+{
+  "evidence_id": "D17_STT_HOME_RUNTIME_VERIFICATION_001",
+  "type": "RUNTIME_AND_HOME_VERIFICATION",
+  "tested_commit": "f7d3de0",
+  "tested_branch": "feature/stt-home-inference-20261004",
+  "tested_worktree": "F:\\OAI\\PARADISE",
+  "worktree_mode": "CLEAN_AT_TESTED_COMMIT",
+  "compile": "PASS",
+  "full_regression": "36/36_PASS",
+  "restart_e2e": "PASS",
+  "home_checks": [
+    "public health endpoint",
+    "authenticated state access",
+    "session persistence",
+    "chat continuity",
+    "memory persistence with trust/provenance",
+    "evidence emission",
+    "invalid task transition rejection"
+  ],
+  "ui_static_syntax_check": "PASS",
+  "docker_build": "BLOCKED_DOCKER_DAEMON_UNAVAILABLE",
+  "remote_deployment": "BLOCKED_NO_AUTHORIZED_VPS_DEVICE_CONNECTED",
+  "production_status": "NOT_PRODUCTION_VERIFIED",
+  "scope_note": "This evidence verifies the local STT Home runtime and regression boundary. It does not prove independent-host deployment, TLS termination, persistent VPS storage, external availability, or production operations."
+}
