@@ -88,6 +88,20 @@ class STTHomeRuntimeTests(unittest.TestCase):
         _, state = request_json(f"http://127.0.0.1:{PORT}/api/state", token=TOKEN)
         self.assertGreaterEqual(state["evidence_count"], 4)
 
+    def test_capability_catalog_and_workspace_guardrails(self):
+        status, data = request_json(f"http://127.0.0.1:{PORT}/api/capabilities", token=TOKEN)
+        self.assertEqual(status, 200)
+        ids = {c["id"] for c in data["capabilities"]}
+        self.assertIn("code.workspace", ids)
+        status, body = request_json(f"http://127.0.0.1:{PORT}/api/workspace/write", {"path": "x.py", "content": "print('ok')"}, TOKEN)
+        self.assertEqual(status, 409)
+        status, body = request_json(f"http://127.0.0.1:{PORT}/api/workspace/write", {"path": "x.py", "content": "print('ok')", "confirm": True}, TOKEN)
+        self.assertEqual(status, 201)
+        status, body = request_json(f"http://127.0.0.1:{PORT}/api/workspace/run", {"path": "x.py", "confirm": True}, TOKEN)
+        self.assertEqual(status, 200)
+        self.assertEqual(body["status"], "COMPLETED")
+        self.assertTrue(body["evidence_id"])
+
     def test_invalid_task_transition_is_rejected(self):
         _, task = request_json(f"http://127.0.0.1:{PORT}/api/task", {"title": "bounded"}, TOKEN)
         result = request_json(f"http://127.0.0.1:{PORT}/api/task/transition",

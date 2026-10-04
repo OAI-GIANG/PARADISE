@@ -10,9 +10,11 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 from core import STTHome
+from capabilities import WorkspaceCapability, capability_catalog
 
 BASE = Path(__file__).resolve().parent
 STATIC = BASE / "static"
+WORKSPACE = Path(os.getenv("PARADISE_HOME_WORKSPACE", BASE / "workspace")).resolve()
 PORT = int(os.getenv("PARADISE_HOME_PORT", "8787"))
 HOST = os.getenv("PARADISE_HOME_HOST", "127.0.0.1")
 REQUIRE_AUTH = os.getenv("PARADISE_HOME_REQUIRE_AUTH", "0") == "1"
@@ -23,6 +25,7 @@ if REQUIRE_AUTH and not API_TOKEN:
 
 class Handler(BaseHTTPRequestHandler):
     home = STTHome()
+    workspace = WorkspaceCapability(WORKSPACE)
 
     def _json(self, status: int, data: dict) -> None:
         body = json.dumps(data, ensure_ascii=False).encode("utf-8")
@@ -57,6 +60,19 @@ class Handler(BaseHTTPRequestHandler):
         if path == "/api/state":
             if not self._require_auth(): return
             return self._json(HTTPStatus.OK, self.home.store.snapshot())
+        if path == "/api/capabilities":
+            if not self._require_auth(): return
+            return self._json(HTTPStatus.OK, {"capabilities": capability_catalog()})
+        if path == "/api/workspace/list":
+            if not self._require_auth(): return
+            from urllib.parse import parse_qs
+            q = parse_qs(urlparse(self.path).query)
+            return self._json(HTTPStatus.OK, {"items": self.workspace.list(q.get("path", ["."])[0])})
+        if path == "/api/workspace/read":
+            if not self._require_auth(): return
+            from urllib.parse import parse_qs
+            q = parse_qs(urlparse(self.path).query)
+            return self._json(HTTPStatus.OK, self.workspace.read(q.get("path", [""])[0]))
         if path == "/api/events":
             if not self._require_auth(): return
             rows = self.home.store.conn.execute(
@@ -93,6 +109,18 @@ class Handler(BaseHTTPRequestHandler):
             return
         try:
             payload = self._body()
+            if path == "/api/workspace/write":
+                if not payload.get("confirm"):
+                    return self._json(HTTPStatus.CONFLICT, {"error": "explicit confirmation required"})
+                result = self.workspace.write(str(payload.get("path", "")), str(payload.get("content", "")))
+                result["evidence_id"] = self.home.store.record_event("WORKSPACE_WRITE", result["path"], {"bytes": result["bytes"]})
+                return self._json(HTTPStatus.CREATED, result)
+            if path == "/api/workspace/run":
+                if not payload.get("confirm"):
+                    return self._json(HTTPStatus.CONFLICT, {"error": "explicit confirmation required"})
+                result = self.workspace.run(str(payload.get("path", "")), payload.get("args") or [], int(payload.get("timeout_s", 20)))
+                result["evidence_id"] = self.home.store.record_event("WORKSPACE_RUN", str(payload.get("path", "")), {"status": result["status"], "execution_id": result["execution_id"]})
+                return self._json(HTTPStatus.OK, result)
             if path == "/api/session":
                 sid = self.home.store.create_session()
                 return self._json(HTTPStatus.CREATED, {"session_id": sid})
