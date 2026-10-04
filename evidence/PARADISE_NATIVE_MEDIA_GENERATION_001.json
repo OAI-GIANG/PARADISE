@@ -1,0 +1,39 @@
+{
+  "artifact": "PARADISE_NATIVE_MEDIA_GENERATION_001",
+  "status": "TESTED_UNVERIFIED_LIVE_PROVIDER",
+  "branch": "feature/stt-home-inference-20261004",
+  "capabilities": {
+    "media.image": "IMPLEMENTED",
+    "media.video": "IMPLEMENTED",
+    "ui": "IMPLEMENTED"
+  },
+  "implementation": {
+    "provider_adapter": "OpenAIMediaProvider",
+    "image_endpoint": "/v1/images/generations",
+    "video_endpoint": "/v1/videos",
+    "artifact_storage": "runtime/stt_home/media_artifacts",
+    "evidence_events": ["MEDIA_IMAGE_GENERATION", "MEDIA_VIDEO_GENERATION"],
+    "preview_routes": "/api/media/<artifact>"
+  },
+  "tests": {
+    "compileall": "PASS",
+    "ui_javascript_syntax": "PASS",
+    "media_mock_contract": "PASS",
+    "full_pytest": "37 passed",
+    "git_diff_check": "PASS"
+  },
+  "negative": {
+    "missing_provider_key": "BLOCKED_WITH_media_provider_not_configured"
+  },
+  "live_generation": {
+    "openai_api_key": "NOT_CONFIGURED",
+    "runway_api_key": "NOT_CONFIGURED",
+    "status": "NOT_EXECUTED"
+  },
+  "governance": {
+    "g1_g4_reopened": false,
+    "semantic_kernel_modified": false,
+    "new_engine_created": false
+  },
+  "verification": "LOCAL_IMPLEMENTATION_VERIFIED; LIVE_MEDIA_PROVIDER_UNVERIFIED"
+}

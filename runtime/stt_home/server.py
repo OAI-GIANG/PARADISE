@@ -11,6 +11,7 @@ from urllib.parse import urlparse
 
 from core import STTHome
 from capabilities import WorkspaceCapability, capability_catalog
+from media import MediaError, OpenAIMediaProvider
 
 BASE = Path(__file__).resolve().parent
 STATIC = BASE / "static"
@@ -26,6 +27,8 @@ if REQUIRE_AUTH and not API_TOKEN:
 class Handler(BaseHTTPRequestHandler):
     home = STTHome()
     workspace = WorkspaceCapability(WORKSPACE)
+    media_root = BASE / "media_artifacts"
+    media = OpenAIMediaProvider(media_root)
 
     def _json(self, status: int, data: dict) -> None:
         body = json.dumps(data, ensure_ascii=False).encode("utf-8")
@@ -86,6 +89,20 @@ class Handler(BaseHTTPRequestHandler):
                 "session_id": sid,
                 "messages": self.home.store.recent_messages(sid, 60),
             })
+        if path.startswith("/api/media/"):
+            if not self._require_auth(): return
+            name = path.rsplit("/", 1)[-1]
+            candidate = (Handler.media_root / name).resolve()
+            if Handler.media_root.resolve() not in candidate.parents or not candidate.is_file():
+                return self._json(HTTPStatus.NOT_FOUND, {"error": "media_not_found"})
+            data = candidate.read_bytes()
+            self.send_response(HTTPStatus.OK)
+            self.send_header("Content-Type", mimetypes.guess_type(candidate.name)[0] or "application/octet-stream")
+            self.send_header("Content-Length", str(len(data)))
+            self.send_header("Cache-Control", "private, max-age=3600")
+            self.end_headers()
+            self.wfile.write(data)
+            return
         return self._static(path)
 
     def _static(self, path: str) -> None:
@@ -128,6 +145,29 @@ class Handler(BaseHTTPRequestHandler):
                 sid = str(payload.get("session_id") or self.home.store.create_session())
                 result = self.home.chat(sid, str(payload.get("message", "")))
                 return self._json(HTTPStatus.OK, result)
+            if path == "/api/media/image":
+                result = self.media.generate_image(
+                    str(payload.get("prompt", "")),
+                    str(payload.get("size", "1024x1024")),
+                    str(payload.get("quality", "auto")),
+                )
+                result["url"] = "/api/media/" + Path(result["path"]).name
+                result["evidence_id"] = self.home.store.record_event("MEDIA_IMAGE_GENERATION", result["artifact_id"], {"provider": "openai", "model": result["model"], "prompt": result["prompt"]})
+                return self._json(HTTPStatus.CREATED, result)
+            if path == "/api/media/video":
+                result = self.media.generate_video(
+                    str(payload.get("prompt", "")),
+                    str(payload.get("seconds", "4")),
+                    str(payload.get("size", "1280x720")),
+                )
+                if payload.get("wait", False):
+                    final = self.media.poll_video(result["remote_id"], int(payload.get("timeout_s", 180)))
+                    downloaded = self.media.download_video(result["remote_id"], result["artifact_id"])
+                    result.update(final)
+                    result.update(downloaded)
+                    result["url"] = "/api/media/" + Path(downloaded["path"]).name
+                result["evidence_id"] = self.home.store.record_event("MEDIA_VIDEO_GENERATION", result["artifact_id"], {"provider": "openai", "model": result["model"], "prompt": result["prompt"], "status": result.get("status")})
+                return self._json(HTTPStatus.ACCEPTED if result.get("status") != "completed" else HTTPStatus.CREATED, result)
             if path == "/api/memory":
                 mid = self.home.remember(
                     str(payload.get("content", "")),

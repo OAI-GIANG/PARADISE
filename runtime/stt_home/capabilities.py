@@ -77,8 +77,8 @@ class WorkspaceCapability:
 def capability_catalog() -> list[dict[str, Any]]:
     return [
         {"id": "code.workspace", "status": "implemented", "operations": ["list", "read", "write", "run_python"]},
-        {"id": "media.image", "status": "planned", "operations": ["upload", "inspect", "analyze", "edit", "generate"]},
-        {"id": "media.video", "status": "planned", "operations": ["upload", "inspect", "analyze", "transform", "generate"]},
+        {"id": "media.image", "status": "implemented", "operations": ["generate", "artifact_preview"]},
+        {"id": "media.video", "status": "implemented", "operations": ["generate", "job_poll", "artifact_preview"]},
         {"id": "document.text", "status": "partial", "operations": ["compose", "edit", "export"]},
         {"id": "language.natural", "status": "partial", "operations": ["chat", "continuity", "style"]},
         {"id": "plugin.integration", "status": "planned", "operations": ["discover", "authorize", "invoke", "observe", "revoke"]},
