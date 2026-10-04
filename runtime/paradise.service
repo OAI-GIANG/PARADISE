@@ -1,0 +1,25 @@
+[Unit]
+Description=PARADISE Runtime
+After=network.target
+
+[Service]
+Type=simple
+User=paradise
+Group=paradise
+WorkingDirectory=/opt/paradise
+Environment=PYTHONPATH=/opt/paradise/runtime
+Environment=PARADISE_HOST=127.0.0.1
+Environment=PARADISE_PORT=8787
+Environment=PARADISE_DATA=/var/lib/paradise/paradise.sqlite3
+EnvironmentFile=/etc/paradise/runtime.env
+ExecStart=/usr/bin/python3 -m paradise.server
+Restart=on-failure
+RestartSec=3
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/paradise
+
+[Install]
+WantedBy=multi-user.target
