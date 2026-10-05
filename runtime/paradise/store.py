@@ -64,6 +64,11 @@ class RuntimeStore:
                     observation_id TEXT PRIMARY KEY, task_id TEXT NOT NULL,
                     record_json TEXT NOT NULL, observed_at TEXT NOT NULL
                 );
+                CREATE TABLE IF NOT EXISTS model_cost_ledger (
+                    request_id TEXT PRIMARY KEY, task_id TEXT NOT NULL, provider_id TEXT NOT NULL,
+                    model_id TEXT NOT NULL, estimated_cost REAL NOT NULL, actual_cost REAL,
+                    currency TEXT NOT NULL, record_json TEXT NOT NULL, occurred_at TEXT NOT NULL
+                );
             """)
 
     def set_meta(self, key: str, value: str) -> None:
@@ -154,6 +159,29 @@ class RuntimeStore:
     def list_learning_observations(self) -> list[dict[str, Any]]:
         with self._connection() as conn:
             rows = conn.execute("SELECT record_json FROM learning_observations ORDER BY observed_at").fetchall()
+        return [json.loads(row[0]) for row in rows]
+
+    def save_model_cost(self, record: dict[str, Any], now: str) -> None:
+        with self._lock, self._connection() as conn:
+            conn.execute(
+                "INSERT OR REPLACE INTO model_cost_ledger(request_id,task_id,provider_id,model_id,estimated_cost,actual_cost,currency,record_json,occurred_at) VALUES(?,?,?,?,?,?,?,?,?)",
+                (record["request_id"], record["task_id"], record["provider_id"], record["model_id"],
+                 float(record.get("estimated_cost", 0.0)), record.get("actual_cost"), record.get("currency", "USD"),
+                 json.dumps(record, sort_keys=True), now),
+            )
+            conn.commit()
+
+    def total_model_cost(self, currency: str = "USD") -> float:
+        with self._connection() as conn:
+            row = conn.execute(
+                "SELECT COALESCE(SUM(CASE WHEN actual_cost IS NOT NULL THEN actual_cost ELSE estimated_cost END),0) FROM model_cost_ledger WHERE currency=?",
+                (currency,),
+            ).fetchone()
+        return float(row[0] or 0.0)
+
+    def list_model_costs(self) -> list[dict[str, Any]]:
+        with self._connection() as conn:
+            rows = conn.execute("SELECT record_json FROM model_cost_ledger ORDER BY occurred_at").fetchall()
         return [json.loads(row[0]) for row in rows]
 
     @staticmethod

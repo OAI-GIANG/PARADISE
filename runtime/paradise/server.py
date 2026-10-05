@@ -73,10 +73,13 @@ class ParadiseApplication:
 
     def execute(self, task_id: str, operation: str, payload: dict[str, Any]) -> dict[str, Any]:
         request = CognitiveRequest(task_id, operation, payload, self.config.commit, self.config.tree, self.config.environment)
+        memory_item = payload.get("memory")
+        if isinstance(memory_item, dict) and "claim" not in memory_item:
+            raise ValueError("memory.claim is required")
         advice = self.cognitive.advise(request)
         self.cognitive.authorize(task_id, operation)
-        output = self.cognitive.invoke_model(task_id, operation, payload)
-        evidence = self.cognitive.emit_evidence(task_id, "MODEL_EXECUTION", "model execution completed")
+        output = self.cognitive.invoke_model(task_id, operation, payload, advice)
+        evidence = self.cognitive.emit_evidence(task_id, "MODEL_EXECUTION", "model execution completed", output.get("witness"))
         replay = self.cognitive.emit_replay(task_id, "MODEL_EXECUTION", {"operation": operation, "output": output, "evidence_id": evidence["evidence_id"]})
         memory = self.cognitive.observe_memory(task_id, payload, evidence["evidence_id"])
         result = {**output, "task_id": task_id, "cognitive": {"advice": advice.recommendation,
