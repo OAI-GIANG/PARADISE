@@ -1,0 +1,53 @@
+﻿{
+    "schema_version":  "PARADISE-MEMORY-CLOSURE-C8-1.0",
+    "phase":  "PHASE_2",
+    "status":  "VERIFIED_TEST_EVIDENCE",
+    "source_commit":  "c80ab7f314d1f7969ad54a6e1db659b23fe8bb0d",
+    "source_tree":  [
+                        "904b40a0586f61b243c307460274c6aa309f09df",
+                        "-encodedCommand",
+                        "dAByAGUAZQA="
+                    ],
+    "branch":  "feature/paradise-memory-closure-phase2-20261005",
+    "deployment":  "NOT_PERFORMED",
+    "runtime_restart_tested":  true,
+    "test_command":  "python -m unittest discover -s runtime -p test*.py -q",
+    "test_count":  47,
+    "tests_passed":  47,
+    "tests_failed":  0,
+    "negative_tests":  [
+                           "direct RuntimeStore execution-state mutation rejected",
+                           "unverified memory cannot consolidate",
+                           "stale DurableExecution fence rejected",
+                           "idempotency conflict rejected",
+                           "non-submission rejected",
+                           "model-facing memory remains authority none"
+                       ],
+    "owner_map":  {
+                      "ModelFacingMemory":  "RuntimeStore.model_memory",
+                      "Experience":  "CognitiveLifecycle + experience_records",
+                      "Authorization":  "PARADISE Kernel",
+                      "CognitiveState":  "RuntimeStore.cognitive_state",
+                      "Consolidation":  "CognitiveLifecycle + consolidation_records",
+                      "Persistence":  "RuntimeStore",
+                      "Memory":  "MemoryCore + RuntimeStore",
+                      "Evaluation":  "CognitiveLifecycle + evaluation_records",
+                      "ModelInvocation":  "ModelGateway",
+                      "Distillation":  "CognitiveLifecycle + distillation_records",
+                      "ExecutionState":  "DurableExecution",
+                      "Pattern":  "CognitiveLifecycle + pattern_records"
+                  },
+    "chain":  "Memory -\u003e Experience -\u003e Evaluation -\u003e Pattern -\u003e Distillation -\u003e Consolidation -\u003e Cognitive State -\u003e Model-facing Memory -\u003e ModelGateway",
+    "authority_rule":  "Evidence is not authority; model-facing memory is DERIVED_NOT_VERIFIED and authority none",
+    "artifact_sha256":  {
+                            "runtime/paradise/cognitive_lifecycle.py":  "dd2c3bef23cfeda7d83e1b20ea4e54e7c04ea98dcbe3f2f64943ae1a434939e7",
+                            "runtime/paradise/server.py":  "ceba40f2e8aa3220b93a87257a8a6ad720884fb260e217d4e76a9e8412749ff3",
+                            "projects/LOVE/stt_love/durable_execution.py":  "201092519b098dfebac711141389b55de718c3553f780e10ecd1a7df1dc2d212",
+                            "runtime/paradise/contracts.py":  "ea2236f7881f1699077a3b6c20a155528a739871d835938319bb267cd64e90bf",
+                            "control/PARADISE_MEMORY_CLOSURE_PHASE2_IMPLEMENTATION_V1.md":  "c8a497a32be5ed5c59f04b2b3eb3bf991bb90d14e5f608921153a9139beb0780",
+                            "runtime/test_phase1_negative.py":  "bfc0c1ebb057af2e6e5d4a490aef389cf93b926986908b02bba458f3e6943890",
+                            "runtime/paradise/store.py":  "8adf44ed022c8db1da66bb0463606b3df7d480575d5038a811ad2496dff19de3",
+                            "runtime/paradise/cognitive.py":  "afcad821c45d630f71e2efab7935f721f5fede0003e83848a60f134fec4ce570",
+                            "runtime/test_phase2_cognitive_lifecycle.py":  "85ba329adb8ccf22f725db090ce938fb735c91af80675715b0c8ea2c57bbb3a0"
+                        }
+}
