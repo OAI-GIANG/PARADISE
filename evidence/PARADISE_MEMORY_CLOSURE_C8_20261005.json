@@ -3,11 +3,7 @@
     "phase":  "PHASE_2",
     "status":  "VERIFIED_TEST_EVIDENCE",
     "source_commit":  "c80ab7f314d1f7969ad54a6e1db659b23fe8bb0d",
-    "source_tree":  [
-                        "904b40a0586f61b243c307460274c6aa309f09df",
-                        "-encodedCommand",
-                        "dAByAGUAZQA="
-                    ],
+    "source_tree":  "ae59d660b86c3ceab6efa6077a2c85b24282b9b4",
     "branch":  "feature/paradise-memory-closure-phase2-20261005",
     "deployment":  "NOT_PERFORMED",
     "runtime_restart_tested":  true,
