@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 import json
 import os
 import secrets
@@ -53,7 +53,7 @@ class ParadiseApplication:
 
     def execute(self, task_id:str, operation:str, payload:dict[str,Any])->dict[str,Any]:
         request=__import__("runtime.paradise.contracts",fromlist=["CognitiveRequest"]).CognitiveRequest(task_id,operation,payload,self.config.commit,self.config.tree,self.config.environment)
-        advice=self.cognitive.advise(request); self.cognitive.authorize(task_id,operation); output=self.cognitive.invoke_model(task_id,operation,payload)
+        advice=self.cognitive.advise(request); self.cognitive.authorize(task_id,operation); model_payload=dict(payload); model_payload["_model_memory_context"]=list(advice.model_memory_context); output=self.cognitive.invoke_model(task_id,operation,model_payload)
         evidence=self.cognitive.emit_evidence(task_id,"MODEL_EXECUTION","model execution completed")
         replay=self.cognitive.emit_replay(task_id,"MODEL_EXECUTION",{"operation":operation,"output":output,"evidence_id":evidence["evidence_id"]})
         memory=self.cognitive.observe_memory(task_id,payload,evidence["evidence_id"])

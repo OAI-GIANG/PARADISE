@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 import json
 import sqlite3
 from contextlib import contextmanager
@@ -86,6 +86,13 @@ class RuntimeStore:
                     observation_id TEXT PRIMARY KEY, task_id TEXT NOT NULL,
                     record_json TEXT NOT NULL, observed_at TEXT NOT NULL
                 );
+                CREATE TABLE IF NOT EXISTS experience_records (experience_id TEXT PRIMARY KEY, record_json TEXT NOT NULL, observed_at TEXT NOT NULL);
+                CREATE TABLE IF NOT EXISTS evaluation_records (evaluation_id TEXT PRIMARY KEY, record_json TEXT NOT NULL, evaluated_at TEXT NOT NULL);
+                CREATE TABLE IF NOT EXISTS pattern_records (pattern_id TEXT PRIMARY KEY, record_json TEXT NOT NULL, created_at TEXT NOT NULL);
+                CREATE TABLE IF NOT EXISTS distillation_records (distillation_id TEXT PRIMARY KEY, record_json TEXT NOT NULL, created_at TEXT NOT NULL);
+                CREATE TABLE IF NOT EXISTS consolidation_records (consolidation_id TEXT PRIMARY KEY, record_json TEXT NOT NULL, created_at TEXT NOT NULL);
+                CREATE TABLE IF NOT EXISTS cognitive_state (normalized_key TEXT PRIMARY KEY, record_json TEXT NOT NULL, updated_at TEXT NOT NULL);
+                CREATE TABLE IF NOT EXISTS model_memory (model_memory_id TEXT PRIMARY KEY, normalized_key TEXT NOT NULL, record_json TEXT NOT NULL, created_at TEXT NOT NULL);
             """)
             cols = {row[1] for row in conn.execute("PRAGMA table_info(tasks)")}
             additions = {
@@ -123,7 +130,7 @@ class RuntimeStore:
     def task_by_id(self, task_id: str) -> dict[str, Any] | None:
         return self.get_task(task_id)
 
-    def upsert_task(self, task: dict[str, Any]) -> None:
+    def _persist_execution_task(self, task: dict[str, Any]) -> None:
         now = task.get("updated_at")
         state = task.get("state", "QUEUED")
         operation = task.get("operation", "echo")
@@ -146,6 +153,9 @@ class RuntimeStore:
         with self._lock, self._connection() as conn:
             conn.execute(sql, values); conn.commit()
 
+    def upsert_task(self, task: dict[str, Any]) -> None:
+        raise RuntimeError("execution state is owned by DurableExecution; use its transition API")
+
     def create_task(self, task_id: str, operation: str, request: dict[str, Any], idempotency_key: str, now: str) -> dict[str, Any]:
         existing = self.get_by_idempotency(idempotency_key)
         if existing: return existing
@@ -153,7 +163,7 @@ class RuntimeStore:
                 "queue_eligibility": "DISPATCHABLE", "attempt_no": 0, "attempt": 0, "fence_token": 0, "revision": 1,
                 "idempotency_key": idempotency_key, "idempotency_scope": "TASK_SUBMISSION", "metadata": {"request": request},
                 "created_at": now, "updated_at": now}
-        self.upsert_task(task); return self.get_task(task_id) or {}
+        self._persist_execution_task(task); return self.get_task(task_id) or {}
 
     def get_by_idempotency(self, key: str) -> dict[str, Any] | None:
         with self._connection() as conn:
@@ -213,6 +223,43 @@ class RuntimeStore:
         with self._connection() as conn:
             rows=conn.execute("SELECT record_json FROM learning_observations ORDER BY observed_at").fetchall()
         return [json.loads(row[0]) for row in rows]
+
+    def _save_lifecycle(self, table, key, record, time_field, now):
+        with self._lock, self._connection() as conn:
+            conn.execute(f"INSERT OR REPLACE INTO {table}({key},record_json,{time_field}) VALUES(?,?,?)", (record[key], json.dumps(record,sort_keys=True), now)); conn.commit()
+    def save_experience(self,r,now): self._save_lifecycle("experience_records","experience_id",r,"observed_at",now)
+    def save_evaluation(self,r,now): self._save_lifecycle("evaluation_records","evaluation_id",r,"evaluated_at",now)
+    def save_pattern(self,r,now): self._save_lifecycle("pattern_records","pattern_id",r,"created_at",now)
+    def save_distillation(self,r,now): self._save_lifecycle("distillation_records","distillation_id",r,"created_at",now)
+    def save_consolidation(self,r,now): self._save_lifecycle("consolidation_records","consolidation_id",r,"created_at",now)
+    def save_model_memory(self,r,now):
+        with self._lock, self._connection() as conn: conn.execute("INSERT OR REPLACE INTO model_memory(model_memory_id,normalized_key,record_json,created_at) VALUES(?,?,?,?)",(r["model_memory_id"],r["normalized_key"],json.dumps(r,sort_keys=True),now)); conn.commit()
+    def set_cognitive_state(self,key,r):
+        with self._lock, self._connection() as conn: conn.execute("INSERT OR REPLACE INTO cognitive_state(normalized_key,record_json,updated_at) VALUES(?,?,?)",(key,json.dumps(r,sort_keys=True),r["updated_at"])); conn.commit()
+    def list_experiences(self,key=None):
+        with self._connection() as conn: rows=conn.execute("SELECT record_json FROM experience_records ORDER BY observed_at").fetchall()
+        xs=[json.loads(x[0]) for x in rows]; return [x for x in xs if key is None or x.get("normalized_key")==key]
+    def experience_by_id(self,eid):
+        with self._connection() as conn: row=conn.execute("SELECT record_json FROM experience_records WHERE experience_id=?",(eid,)).fetchone()
+        return json.loads(row[0]) if row else {}
+    def list_evaluations(self):
+        with self._connection() as conn: rows=conn.execute("SELECT record_json FROM evaluation_records ORDER BY evaluated_at").fetchall()
+        return [json.loads(x[0]) for x in rows]
+    def list_patterns(self):
+        with self._connection() as conn: rows=conn.execute("SELECT record_json FROM pattern_records ORDER BY created_at").fetchall()
+        return [json.loads(x[0]) for x in rows]
+    def list_distillations(self):
+        with self._connection() as conn: rows=conn.execute("SELECT record_json FROM distillation_records ORDER BY created_at").fetchall()
+        return [json.loads(x[0]) for x in rows]
+    def list_consolidations(self):
+        with self._connection() as conn: rows=conn.execute("SELECT record_json FROM consolidation_records ORDER BY created_at").fetchall()
+        return [json.loads(x[0]) for x in rows]
+    def load_model_memory(self,key):
+        with self._connection() as conn: rows=conn.execute("SELECT record_json FROM model_memory WHERE normalized_key=? ORDER BY created_at",(key,)).fetchall()
+        return [json.loads(x[0]) for x in rows]
+    def get_cognitive_state(self,key):
+        with self._connection() as conn: row=conn.execute("SELECT record_json FROM cognitive_state WHERE normalized_key=?",(key,)).fetchone()
+        return json.loads(row[0]) if row else None
 
     @staticmethod
     def _row(row: sqlite3.Row) -> dict[str, Any]:

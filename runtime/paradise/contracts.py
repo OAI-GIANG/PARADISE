@@ -18,6 +18,8 @@ class CognitiveAdvice:
     recommendation: str
     memory_ids: tuple[str, ...] = ()
     evidence_ids: tuple[str, ...] = ()
+    model_memory_ids: tuple[str, ...] = ()
+    model_memory_context: tuple[Mapping[str, Any], ...] = ()
     authority: str = "none"
 
 @dataclass(frozen=True)

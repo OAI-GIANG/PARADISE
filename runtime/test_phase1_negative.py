@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 import tempfile
 import unittest
 from pathlib import Path
@@ -30,5 +30,11 @@ class Phase1NegativeTests(unittest.TestCase):
             durable.enqueue_submission(sub)
             claimed=durable.claim("T1")
             with self.assertRaises(DurableExecutionError): durable.finalize("T1", claimed["fence_token"]+1, "COMPLETED", report={})
+
+    def test_runtime_store_cannot_mutate_execution_state_directly(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            store=RuntimeStore(Path(tmp)/"state.sqlite3")
+            with self.assertRaises(RuntimeError):
+                store.upsert_task({"id":"T1","state":"COMPLETED"})
 
 if __name__ == "__main__": unittest.main()

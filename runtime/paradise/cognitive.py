@@ -16,6 +16,7 @@ from runtime.paradise_kernel import Authority, Evidence, GateResult, Kernel
 from .contracts import CognitiveAdvice, CognitiveRequest, ModelRequest
 from .model_gateway import ModelGateway
 from .store import RuntimeStore
+from .cognitive_lifecycle import CognitiveLifecycle
 
 class CognitiveService:
     """Cognitive facade; it never owns runtime state or persistence."""
@@ -27,6 +28,7 @@ class CognitiveService:
         self.memory = MemoryCore()
         self.kernel = Kernel(trusted_evidence_sources=frozenset({"paradise.runtime"}))
         self.models = ModelGateway()
+        self.lifecycle = CognitiveLifecycle(store, commit, tree, environment)
 
     def _now(self) -> str:
         return datetime.now(timezone.utc).isoformat()
@@ -35,6 +37,8 @@ class CognitiveService:
         payload = dict(request.payload)
         memory_ids: list[str] = []
         evidence_ids: list[str] = []
+        model_memory_ids: list[str] = []
+        model_memory_context: list[dict[str, Any]] = []
         memory_key = payload.get("memory_key")
         scope = str(payload.get("memory_scope", "conversation"))
         if memory_key:
@@ -54,7 +58,12 @@ class CognitiveService:
             if resolved and resolved.trust_status in {MemoryTrustStatus.VERIFIED, MemoryTrustStatus.QUALIFIED}:
                 memory_ids.append(resolved.memory_id)
                 evidence_ids.extend(resolved.evidence_refs)
-        return CognitiveAdvice(request.task_id, "use_verified_context_only", tuple(memory_ids), tuple(evidence_ids))
+            for derived in self.store.load_model_memory(str(memory_key)):
+                if derived.get("trust_status") == "DERIVED_NOT_VERIFIED":
+                    model_memory_ids.append(str(derived["model_memory_id"]))
+                    model_memory_context.append({"model_memory_id": derived["model_memory_id"], "content": derived["content"], "evidence_refs": list(derived.get("evidence_refs", [])), "authority": "none"})
+                    evidence_ids.extend(derived.get("evidence_refs", []))
+        return CognitiveAdvice(request.task_id, "use_verified_context_only", tuple(memory_ids), tuple(evidence_ids), tuple(model_memory_ids), tuple(model_memory_context))
 
     def authorize(self, task_id: str, operation: str) -> None:
         now = datetime.now(timezone.utc)
@@ -155,6 +164,8 @@ class CognitiveService:
             record = self.memory.verified(record, certificate=certificate)
         raw = record.to_dict()
         self.store.save_memory(raw, record.created_at)
+        lifecycle = self.lifecycle.ingest_memory(task_id=task_id, memory=raw, evidence_refs=[evidence_id])
+        raw["lifecycle"] = lifecycle.__dict__
         return raw
 
     def learning_hint(self) -> dict[str, Any]:
