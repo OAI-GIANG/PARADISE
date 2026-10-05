@@ -1,0 +1,39 @@
+﻿{
+  "schema_version": "PARADISE-MEMORY-CLOSURE-PHASE1-EVIDENCE-1.0",
+  "phase": "PHASE_1",
+  "scope": "TaskContract -> Submission -> DurableExecution -> PARADISE Runtime",
+  "status": "TESTED",
+  "baseline": {
+    "branch": "feature/love-oai-giang-distillation-20261004",
+    "base_commit": "fe84e260f803916a208c700f96c6bc15e261d257"
+  },
+  "implementation": {
+    "task_intent_owner": "projects/LOVE/stt_love/task_contract.py::TaskContract",
+    "submission_owner": "projects/LOVE/stt_love/task_contract.py::Submission",
+    "execution_state_owner": "projects/LOVE/stt_love/durable_execution.py::DurableExecution",
+    "persistence_owner": "runtime/paradise/store.py::RuntimeStore",
+    "runtime_entry": "runtime/paradise/server.py::ParadiseApplication.submit",
+    "model_gateway_path": "ParadiseApplication.execute -> CognitiveService.invoke_model -> ModelGateway"
+  },
+  "regression": {
+    "command": "python -m unittest discover -s runtime -p 'test_*.py' -v",
+    "tests": 41,
+    "result": "PASS"
+  },
+  "negative_tests": {
+    "non_submission_rejected": "PASS",
+    "idempotency_conflict_rejected": "PASS",
+    "stale_fence_rejected": "PASS",
+    "unsupported_operation_does_not_reach_model_gateway": "PASS"
+  },
+  "runtime_checks": {
+    "http_health": "PASS",
+    "authentication": "PASS",
+    "persistent_idempotency": "PASS",
+    "restart_persistence": "PASS",
+    "evidence_replay_learning": "PASS",
+    "verified_memory_restart": "PASS"
+  },
+  "deployment": "NOT_PERFORMED",
+  "phase_2": "BLOCKED_UNTIL_EXPLICIT_GATE"
+}

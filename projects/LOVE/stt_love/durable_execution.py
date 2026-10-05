@@ -97,11 +97,12 @@ class DurableExecution:
             idempotency_key=submission.idempotency_key,
             idempotency_scope=submission.idempotency_scope,
             execution_mode=submission.execution_mode,
+            metadata=dict(submission.metadata),
         )
 
     def enqueue(self, *, task_id: str, goal: str, delay_s: int = 0,
                 idempotency_key: str, idempotency_scope: str = "TASK_SUBMISSION",
-                execution_mode: str = "ASYNC") -> tuple[dict, bool]:
+                execution_mode: str = "ASYNC", metadata: dict | None = None) -> tuple[dict, bool]:
         if execution_mode not in {"SYNC", "ASYNC"}:
             raise DurableExecutionError("invalid_execution_mode")
         if idempotency_scope not in IDEMPOTENCY_SCOPES:
@@ -146,6 +147,7 @@ class DurableExecution:
                 "recovery_reason": None,
                 "evidence_refs": [],
                 "provenance": {},
+                "metadata": dict(metadata or {}),
             }
             self.store.upsert_task(task)
             return task, False
@@ -236,7 +238,7 @@ class DurableExecution:
             if error is not None:
                 task["error"] = error
             self.store.upsert_task(task)
-            return task
+            return self.store.task_by_id(task_id) or dict(task)
 
     def request_recovery(self, task_id: str, *, reason: str = "manual_recovery") -> dict:
         """Move one failed/orphaned task into the canonical recovery path."""
