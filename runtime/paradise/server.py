@@ -1,6 +1,4 @@
 from __future__ import annotations
-
-import hashlib
 import json
 import os
 import secrets
@@ -13,24 +11,23 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import Any
 
+from runtime.paradise_kernel import Execution, GateResult
+from .cognitive import CognitiveService
+from .contracts import CognitiveRequest
 from .store import RuntimeStore
-
 
 VERSION = "0.1.0"
 ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_DATA = ROOT / "runtime" / "data" / "paradise.sqlite3"
 
-
 def utc_now() -> str:
     return datetime.now(timezone.utc).isoformat()
-
 
 def env_bool(name: str, default: bool = False) -> bool:
     value = os.getenv(name)
     if value is None:
         return default
     return value.lower() in {"1", "true", "yes", "on"}
-
 
 class RuntimeConfig:
     def __init__(self) -> None:
@@ -49,14 +46,13 @@ class RuntimeConfig:
         if not self.allow_anonymous and not self.api_token:
             raise ValueError("PARADISE_API_TOKEN is required unless anonymous mode is explicitly enabled")
 
-
 class ParadiseApplication:
-    """Bounded runtime application around the existing PARADISE kernel contracts."""
-
+    """Canonical PARADISE runtime; LOVE is a cognitive capability layer."""
     def __init__(self, config: RuntimeConfig):
         config.validate()
         self.config = config
         self.store = RuntimeStore(config.data_path)
+        self.cognitive = CognitiveService(self.store, config.commit, config.tree, config.environment)
         self.store.set_meta("version", VERSION)
         self.store.set_meta("commit", config.commit)
         self.store.set_meta("tree", config.tree)
@@ -70,28 +66,27 @@ class ParadiseApplication:
         return secrets.compare_digest(token, self.config.api_token)
 
     def status(self) -> dict[str, Any]:
-        return {
-            "name": "PARADISE",
-            "version": VERSION,
-            "status": "RUNNING",
-            "host": socket.gethostname(),
-            "commit": self.config.commit,
-            "tree": self.config.tree,
-            "environment": self.config.environment,
-            "data_path": str(self.config.data_path),
-            "started_at": self.store.get_meta("started_at"),
-            "operations": ["echo"],
-        }
+        return {"name": "PARADISE", "version": VERSION, "status": "RUNNING", "host": socket.gethostname(),
+                "commit": self.config.commit, "tree": self.config.tree, "environment": self.config.environment,
+                "data_path": str(self.config.data_path), "started_at": self.store.get_meta("started_at"),
+                "operations": ["echo"], "integration": "LOVE_COGNITIVE_SUBSTRATE"}
 
     def execute(self, task_id: str, operation: str, payload: dict[str, Any]) -> dict[str, Any]:
-        if operation != "echo":
-            raise ValueError("unsupported operation; allowed operations: echo")
-        message = payload.get("message")
-        if not isinstance(message, str):
-            raise ValueError("echo requires string payload.message")
-        if len(message) > 10000:
-            raise ValueError("payload.message exceeds 10000 characters")
-        return {"echo": message, "task_id": task_id}
+        request = CognitiveRequest(task_id, operation, payload, self.config.commit, self.config.tree, self.config.environment)
+        advice = self.cognitive.advise(request)
+        self.cognitive.authorize(task_id, operation)
+        output = self.cognitive.invoke_model(task_id, operation, payload)
+        evidence = self.cognitive.emit_evidence(task_id, "MODEL_EXECUTION", "model execution completed")
+        replay = self.cognitive.emit_replay(task_id, "MODEL_EXECUTION", {"operation": operation, "output": output, "evidence_id": evidence["evidence_id"]})
+        memory = self.cognitive.observe_memory(task_id, payload, evidence["evidence_id"])
+        result = {**output, "task_id": task_id, "cognitive": {"advice": advice.recommendation,
+                   "memory_ids": list(advice.memory_ids), "evidence_ids": list(advice.evidence_ids)},
+                  "evidence_id": evidence["evidence_id"], "replay_id": replay["replay_id"]}
+        if memory:
+            result["memory_id"] = memory["memory_id"]
+            result["memory_key"] = memory["normalized_key"]
+            result["memory_scope"] = memory["scope"]
+        return result
 
     def submit(self, body: dict[str, Any]) -> dict[str, Any]:
         task_id = str(body.get("task_id") or f"TASK-{uuid.uuid4().hex}")
@@ -111,6 +106,8 @@ class ParadiseApplication:
         self.store.add_event(task_id, "TASK_RECEIVED", {"operation": operation}, now)
         self.store.update_task(task_id, "RUNNING", utc_now())
         try:
+            if operation != "echo":
+                raise ValueError("unsupported operation; allowed operations: echo")
             result = self.execute(task_id, operation, payload)
         except Exception as exc:
             self.store.update_task(task_id, "FAILED", utc_now(), error=str(exc))
@@ -120,14 +117,11 @@ class ParadiseApplication:
         self.store.add_event(task_id, "TASK_SUCCEEDED", result, utc_now())
         return self.store.get_task(task_id) or {}
 
-
 class Handler(BaseHTTPRequestHandler):
     server_version = "PARADISE/0.1"
-
     @property
     def app(self) -> ParadiseApplication:
         return self.server.app  # type: ignore[attr-defined]
-
     def _json(self, status: int, payload: dict[str, Any]) -> None:
         encoded = json.dumps(payload, ensure_ascii=False, sort_keys=True).encode("utf-8")
         self.send_response(status)
@@ -136,22 +130,18 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("Cache-Control", "no-store")
         self.end_headers()
         self.wfile.write(encoded)
-
     def _authorized(self) -> bool:
         auth = self.headers.get("Authorization", "")
         token = auth[7:] if auth.startswith("Bearer ") else None
         return self.app.authenticate(token)
-
     def _body(self) -> dict[str, Any]:
         length = int(self.headers.get("Content-Length", "0"))
         if length <= 0 or length > 256 * 1024:
             raise ValueError("request body must be 1..262144 bytes")
-        raw = self.rfile.read(length)
-        value = json.loads(raw.decode("utf-8"))
+        value = json.loads(self.rfile.read(length).decode("utf-8"))
         if not isinstance(value, dict):
             raise ValueError("JSON body must be an object")
         return value
-
     def do_GET(self) -> None:
         if self.path == "/healthz":
             self._json(HTTPStatus.OK, {"status": "ok", "version": VERSION})
@@ -163,15 +153,10 @@ class Handler(BaseHTTPRequestHandler):
             self._json(HTTPStatus.OK, self.app.status())
             return
         if self.path.startswith("/v1/tasks/"):
-            task_id = self.path.rsplit("/", 1)[-1]
-            task = self.app.store.get_task(task_id)
-            if task is None:
-                self._json(HTTPStatus.NOT_FOUND, {"error": "task not found"})
-            else:
-                self._json(HTTPStatus.OK, task)
+            task = self.app.store.get_task(self.path.rsplit("/", 1)[-1])
+            self._json(HTTPStatus.NOT_FOUND if task is None else HTTPStatus.OK, {"error": "task not found"} if task is None else task)
             return
         self._json(HTTPStatus.NOT_FOUND, {"error": "not found"})
-
     def do_POST(self) -> None:
         if not self._authorized():
             self._json(HTTPStatus.UNAUTHORIZED, {"error": "unauthorized"})
@@ -186,10 +171,8 @@ class Handler(BaseHTTPRequestHandler):
             return
         status = HTTPStatus.OK if task.get("status") == "SUCCEEDED" else HTTPStatus.UNPROCESSABLE_ENTITY
         self._json(status, task)
-
     def log_message(self, format: str, *args: Any) -> None:
-        sys.stderr.write("PARADISE " + (format % args) + "\n")
-
+        sys.stderr.write("PARADISE " + (format % args))
 
 def create_server(config: RuntimeConfig | None = None) -> ThreadingHTTPServer:
     config = config or RuntimeConfig()
@@ -197,7 +180,6 @@ def create_server(config: RuntimeConfig | None = None) -> ThreadingHTTPServer:
     server = ThreadingHTTPServer((config.host, config.port), Handler)
     server.app = app  # type: ignore[attr-defined]
     return server
-
 
 def main() -> int:
     config = RuntimeConfig()
@@ -210,7 +192,6 @@ def main() -> int:
     finally:
         server.server_close()
     return 0
-
 
 if __name__ == "__main__":
     raise SystemExit(main())
