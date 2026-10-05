@@ -1,0 +1,41 @@
+{
+  "artifact": "LOVE_CANONICAL_INTEGRATION_C7_20261005",
+  "baseline_commit": "cedf83cc9a3649e3b8290367788ef8bff55c3dfd",
+  "status": "IMPLEMENTED_TESTED",
+  "verification_scope": "isolated local clone on authorized Windows workstation",
+  "tests": {
+    "command": "python -m pytest -q",
+    "result": "38 passed",
+    "negative_replay_tamper": "PASS",
+    "advisory_to_authorization_denial": "PASS",
+    "compileall": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "architecture": {
+    "runtime_owner": "PARADISE runtime/paradise/server.py",
+    "state_persistence_owner": "RuntimeStore / SQLite",
+    "cognitive_owner": "runtime/paradise/cognitive.py using LOVE MemoryCore/Learning",
+    "model_owner": "runtime/paradise/model_gateway.py",
+    "evidence_owner": "RuntimeStore evidence_records + PARADISE Kernel verification",
+    "replay_owner": "RuntimeStore replay_records + CognitiveService hash chain"
+  },
+  "changed_files": [
+    "runtime/paradise/server.py",
+    "runtime/paradise/store.py",
+    "runtime/paradise/contracts.py",
+    "runtime/paradise/cognitive.py",
+    "runtime/paradise/model_gateway.py",
+    "projects/LOVE/stt_love/qualification.py",
+    "runtime/test_love_integration.py"
+  ],
+  "production_status": "NOT_PRODUCTION_VERIFIED",
+  "sha256": {
+    "runtime/paradise/server.py": "97a9751d1446dc4a624731b1048d1163942d275826436ef1176676361814fd3c",
+    "runtime/paradise/store.py": "29576fc2d53a186437c656d4c3b28e8b64543c58756bf99c6b32f879b9e49b50",
+    "runtime/paradise/contracts.py": "0323fe0e2fc04a556d2db7f58d7c9813c620d3dacfdce476e1aeb6b6710febbe",
+    "runtime/paradise/cognitive.py": "807c193397182879484521705818fde356be1564331e94c7eca6d41f238fd809",
+    "runtime/paradise/model_gateway.py": "6dc096ba779ce42b954127a9122aa7f41a99c7c5b9f86f11b40d26dfee645ea3",
+    "projects/LOVE/stt_love/qualification.py": "e5b370551cc5f4348b813e5f0647a0fd9b7d071a0e5e69951e5c2854ac3cb902",
+    "runtime/test_love_integration.py": "82e61314381a424a82bdcd7587ced669ec32e12c1bfb54ab137d38f6b9d92047"
+  }
+}

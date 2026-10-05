@@ -1,0 +1,51 @@
+{
+  "baseline": "fe84e260f803916a208c700f96c6bc15e261d257",
+  "checkpoint": "C8",
+  "git_status": [
+    " M runtime/paradise/cognitive.py",
+    " M runtime/paradise/contracts.py",
+    " M runtime/paradise/model_gateway.py",
+    " M runtime/paradise/server.py",
+    " M runtime/paradise/store.py",
+    "?? evidence/PARADISE_LOVE_PRODUCTION_INTELLIGENCE_C8_20261005.json",
+    "?? runtime/test_production_intelligence.py"
+  ],
+  "implementation": "PASS",
+  "negative_tests": {
+    "auth_failure": "PASS",
+    "budget_exceeded": "PASS",
+    "context_overflow": "PASS",
+    "credential_resolution": "PASS",
+    "fallback_denial": "PASS",
+    "malformed_response": "PASS",
+    "provider_timeout": "PASS",
+    "replay_tamper": "PASS",
+    "secret_leakage": "PASS"
+  },
+  "production_blockers": [
+    "real external provider execution",
+    "independent real-provider E2E"
+  ],
+  "production_status": "NOT_PRODUCTION_VERIFIED",
+  "scope": "production intelligence implementation checkpoint closure",
+  "secret_scan": "PASS",
+  "sha256": "e98df47b04c718db440c79c2a67351610c0563247d346dff4ca1743cdfaf3091",
+  "source_hashes": {
+    "runtime/paradise/cognitive.py": "d5a7de2566936de76d7efadc7f01f6775e721e92eda9c50ace859557c1289980",
+    "runtime/paradise/contracts.py": "267d6026e849bbd24413870b891a95cdf55f5f02a26ce28c5fc7467fc7fb664f",
+    "runtime/paradise/model_gateway.py": "cde39c068ebb27abfee4764eef42b191ce8e86d6fb7ec0d5f8fc0221e7f160a8",
+    "runtime/paradise/server.py": "9057f65138227ddf5f9cc8d61cfda498c60aece2d230c7371fb3f7e943ebe719",
+    "runtime/paradise/store.py": "d79fd77c63bc169446f68a708ef0c094532dbc4969f08f3a3fce5de8affd1091",
+    "runtime/test_production_intelligence.py": "4c4884ddbc9e1c9cd516c91248a492599eaa8399aca2d95357d605293cfdcbbd"
+  },
+  "tests": {
+    "compile": "PASS",
+    "full_regression": "PASS",
+    "git_diff_check": "PASS",
+    "import": "PASS",
+    "production_intelligence": "12/12 PASS",
+    "test_count": 50
+  },
+  "timestamp_utc": "2026-10-05T16:11:22.092252+00:00",
+  "verification_status": "LOCAL_VERIFICATION_ONLY"
+}

@@ -1,0 +1,34 @@
+{
+  "evidence_id": "D16_RUNTIME_IMPLEMENTATION_001",
+  "type": "RUNTIME_IMPLEMENTATION_TEST",
+  "tested_commit": "2843c37",
+  "tested_branch": "feature/love-oai-giang-distillation-20261004",
+  "tested_worktree": "F:\\OAI\\PARADISE-VERIFY",
+  "worktree_mode": "CLEAN_DETACHED_AT_TESTED_COMMIT",
+  "test_command": "python -m unittest discover -s runtime -p 'test*.py' -v",
+  "test_result": "33/33_PASS",
+  "coverage": [
+    "P1-P7 semantic kernel regression",
+    "I01-I19 enforcement tests",
+    "K1-K8 regression intent",
+    "runtime authentication",
+    "HTTP health endpoint",
+    "authenticated task submission",
+    "bounded-operation rejection",
+    "idempotency",
+    "persistent state",
+    "restart recovery"
+  ],
+  "compile_result": "PASS",
+  "docker_build_result": "BLOCKED_DOCKER_DAEMON_UNAVAILABLE",
+  "remote_deployment_result": "BLOCKED_SSH_KEY_NOT_AVAILABLE_TO_AUTHORIZED_REMOTE_TOOL",
+  "production_status": "NOT_PRODUCTION_VERIFIED",
+  "artifact_sha256": {
+    "runtime/paradise/server.py": "67B7BCAAED2C6368845604AC727D79BE84C0BF574F09FC2D8D6ED77CA7A0249D",
+    "runtime/paradise/store.py": "60AF16FC9AAAB3E4A02699C5B14C3F4549569FE1CC44F4F9CDC87451FA91ABC2",
+    "runtime/test_paradise_runtime.py": "B6E7820693D1E17348E302E18D1EE0D65DB2BF06165D92EC0F4B506ED6DC8BFB",
+    "runtime/Dockerfile": "71AC2EACD2AE6D43F439AD42F1F5F0F12BF26E290B11ED372947C88CE24C93BA",
+    "runtime/paradise.service": "CF07F8DEDBE3FFCDA7D867DC345009FA5D70E611C781D8F1ECF44BC328C3F6BF"
+  },
+  "scope_note": "This evidence proves the bounded PARADISE runtime implementation and local clean-worktree test execution. It does not prove independent-host production deployment."
+}

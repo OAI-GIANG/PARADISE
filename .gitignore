@@ -1,0 +1,6 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+runtime/data/*.sqlite3
+runtime/data/*.sqlite3-shm
+runtime/data/*.sqlite3-wal
