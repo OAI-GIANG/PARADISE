@@ -1,4 +1,4 @@
-"""Minimal PARADISE kernel implementation for semantic kernel V1."""
+﻿"""Minimal PARADISE kernel implementation for semantic kernel V1."""
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
@@ -238,3 +238,37 @@ class Kernel:
 
     def change_allowed(self, change: ChangeRequest) -> GateResult:
         return GateResult.ALLOW if change.bounded() else GateResult.DENY
+
+# Directive compliance is a policy composition over existing P1-P5 primitives.
+# It intentionally uses a mapping rather than introducing a new semantic primitive.
+def _directive_compliance(self, directive: dict, execution: Execution, evidence_items: list[Evidence], at: Optional[datetime] = None) -> tuple[GateResult, str]:
+    at = at or now_utc()
+    required = ("directive_id", "issuer", "responsible_actor", "action", "scope", "context", "authority_id", "issued_at", "due_at", "acceptance_criteria", "status", "provenance")
+    if any(not directive.get(k) for k in required):
+        return GateResult.UNKNOWN, "MISSING_DIRECTIVE_FIELD"
+    if directive["status"] != "ACTIVE":
+        return GateResult.DENY, "DIRECTIVE_INACTIVE"
+    if execution.subject != directive["responsible_actor"]:
+        return GateResult.DENY, "ACTOR_MISMATCH"
+    if execution.action != directive["action"] or execution.scope != directive["scope"]:
+        return GateResult.DENY, "SCOPE_OR_ACTION_DEVIATION"
+    if execution.authorization.authority_id != directive["authority_id"]:
+        return GateResult.DENY, "AUTHORITY_MISMATCH"
+    if execution.authorization.context != directive["context"]:
+        return GateResult.DENY, "CONTEXT_MISMATCH"
+    if at > directive["due_at"]:
+        return GateResult.DENY, "LATE_OR_EXPIRED"
+    if not directive["acceptance_criteria"]:
+        return GateResult.BLOCKED, "MISSING_ACCEPTANCE_CRITERIA"
+    if not execution.result_witness:
+        return GateResult.BLOCKED, "NON_EXECUTION_OR_MISSING_WITNESS"
+    verified = self.evaluate_evidence(evidence_items, execution.subject, execution.scope)
+    if verified is GateResult.CONFLICT:
+        return GateResult.CONFLICT, "CONTRADICTORY_EVIDENCE"
+    if verified is not GateResult.ALLOW:
+        return GateResult.BLOCKED, "EVIDENCE_NOT_VERIFIED"
+    return GateResult.ALLOW, "COMPLIANT"
+
+
+Kernel.evaluate_directive_compliance = _directive_compliance
+
