@@ -295,3 +295,40 @@ def compute_provider_performance_memory(
             "evidence_refs": evidence_refs,
         },
     }
+
+
+LEARNING_ARTIFACT_V3_FIELDS = (
+    "artifact_id", "artifact_type", "artifact_revision", "source", "provenance",
+    "observation", "lesson", "generalization", "evidence_refs", "validation_refs",
+    "validation_assessment_summary", "capability_impacts", "confidence", "known_failures",
+    "learning_state", "model_eligibility_ref", "model_eligibility_summary", "lineage",
+)
+LEARNING_ARTIFACT_V3_STATES = {"OBSERVED", "CANDIDATE", "TESTED", "SUPPORTED", "MATURE", "REJECTED", "REVOKED", "DEPRECATED"}
+
+def build_learning_artifact_v3(*, artifact_id: str, source: str, provenance: dict[str, Any], observation: str,
+                              lesson: str, generalization: str, evidence_refs: Iterable[str],
+                              validation_refs: Iterable[str] = (), validation_assessment_summary: Any = None,
+                              capability_impacts: Iterable[Any] = (), confidence: float = 0.0,
+                              known_failures: Iterable[Any] = (), learning_state: str = "OBSERVED",
+                              model_eligibility_ref: Any = None, model_eligibility_summary: Any = None,
+                              lineage: Any = None, artifact_type: str = "observed_learning", artifact_revision: int = 1) -> dict[str, Any]:
+    if learning_state not in LEARNING_ARTIFACT_V3_STATES:
+        raise ValueError("invalid LearningArtifact V3 learning_state")
+    if not str(artifact_id).strip() or not str(source).strip():
+        raise ValueError("LearningArtifact V3 requires artifact_id and source")
+    if artifact_revision <= 0 or not 0.0 <= float(confidence) <= 1.0:
+        raise ValueError("invalid LearningArtifact V3 revision or confidence")
+    artifact = {
+        "artifact_id": artifact_id, "artifact_type": artifact_type, "artifact_revision": int(artifact_revision),
+        "source": source, "provenance": dict(provenance), "observation": observation, "lesson": lesson,
+        "generalization": generalization, "evidence_refs": sorted(set(str(x) for x in evidence_refs if str(x).strip())),
+        "validation_refs": sorted(set(str(x) for x in validation_refs if str(x).strip())),
+        "validation_assessment_summary": validation_assessment_summary,
+        "capability_impacts": list(capability_impacts), "confidence": float(confidence),
+        "known_failures": list(known_failures), "learning_state": learning_state,
+        "model_eligibility_ref": model_eligibility_ref, "model_eligibility_summary": model_eligibility_summary,
+        "lineage": lineage if lineage is not None else {},
+    }
+    if tuple(artifact.keys()) != LEARNING_ARTIFACT_V3_FIELDS:
+        raise AssertionError("LearningArtifact V3 canonical field order mismatch")
+    return artifact

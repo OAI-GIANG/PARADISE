@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 import tempfile
 import unittest
 from pathlib import Path
@@ -18,7 +18,7 @@ class LoveIntegrationTests(unittest.TestCase):
             self.assertTrue(result["evidence_id"].startswith("EVD-"))
             self.assertTrue(result["replay_id"].startswith("RPL-"))
             self.assertEqual(len(app.store.list_evidence(task["task_id"])), 1)
-            self.assertEqual(len(app.store.list_replay(task["task_id"])), 1)
+            self.assertEqual(len(app.store.list_replay(task["task_id"])), 2)
             self.assertTrue(app.cognitive.verify_replay(task["task_id"]))
             self.assertEqual(len(app.store.list_learning_observations()), 1)
 
@@ -66,7 +66,7 @@ class LoveIntegrationTests(unittest.TestCase):
             task = app.submit({"operation":"echo","payload":{"message":"restart"},"idempotency_key":"r1"})
             app2 = ParadiseApplication(self.cfg(path))
             self.assertEqual(len(app2.store.list_evidence(task["task_id"])), 1)
-            self.assertEqual(len(app2.store.list_replay(task["task_id"])), 1)
+            self.assertEqual(len(app2.store.list_replay(task["task_id"])), 2)
             self.assertTrue(app2.cognitive.verify_replay(task["task_id"]))
             del app2
             del app

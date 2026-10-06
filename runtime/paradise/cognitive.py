@@ -10,7 +10,7 @@ from projects.LOVE.stt_love.memory_trust import (
     MemoryCore, MemoryRecord, MemoryTrustStatus, TrustCertificate, memory_artifact_digest,
 )
 from projects.LOVE.stt_love.learning import (
-    build_knowledge_hint, compute_learning, compute_metrics, select_provider_from_performance,
+    build_knowledge_hint, build_learning_artifact_v3, compute_learning, compute_metrics, select_provider_from_performance,
 )
 from runtime.paradise_kernel import Authority, Evidence, GateResult, Kernel
 from .contracts import CognitiveAdvice, CognitiveRequest, ModelRequest
@@ -205,6 +205,32 @@ class CognitiveService:
         raw=record.to_dict(); self.store.save_memory(raw, record.created_at)
         self.emit_replay(task_id, "MEMORY_REFUTED", {"memory_id": memory_id, "evidence_id": evidence_id})
         return raw
+
+    def build_learning_artifact(self, task_id: str, result: dict[str, Any] | None = None) -> dict[str, Any]:
+        tasks=[t for t in self.store.list_tasks() if t.get("id") == task_id]
+        if not tasks:
+            raise KeyError(task_id)
+        task=tasks[0]
+        report=result or task.get("result") or {}
+        observed_state="COMPLETED" if result is not None else str(task.get("state"))
+        observation=f"task {task_id} completed with state {observed_state}"
+        lesson=str((report.get("routing") or {}).get("basis") or "observed task execution")
+        generalization="Observed execution outcomes may inform later bounded learning; no authority is granted by this artifact."
+        evidence_refs=list(task.get("evidence_refs") or [])
+        if report.get("evidence_id") and report["evidence_id"] not in evidence_refs:
+            evidence_refs.append(report["evidence_id"])
+        artifact=build_learning_artifact_v3(
+            artifact_id=f"LA3-{uuid.uuid4().hex}", artifact_type="observed_learning", artifact_revision=1,
+            source="paradise.runtime", provenance={"commit":self.commit,"tree":self.tree,"environment":self.environment,"task_id":task_id},
+            observation=observation, lesson=lesson, generalization=generalization, evidence_refs=evidence_refs,
+            validation_refs=(), validation_assessment_summary=None, capability_impacts=(),
+            confidence=1.0 if observed_state=="COMPLETED" else 0.0, known_failures=(),
+            learning_state="OBSERVED", model_eligibility_ref=None, model_eligibility_summary=None,
+            lineage={"task_id":task_id, "evidence_id":report.get("evidence_id"), "replay_id":report.get("replay_id")},
+        )
+        self.store.save_learning_artifact(artifact,task_id,self._now())
+        self.emit_replay(task_id,"LEARNING_ARTIFACT_RECORDED",{"artifact_id":artifact["artifact_id"],"learning_state":artifact["learning_state"]})
+        return artifact
 
     def learning_hint(self) -> dict[str, Any]:
         tasks = self.store.list_tasks()

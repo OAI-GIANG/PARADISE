@@ -53,7 +53,7 @@ class ParadiseMemoryCompletionTests(unittest.TestCase):
             advice=app.cognitive.advise(__import__("runtime.paradise.contracts", fromlist=["CognitiveRequest"]).CognitiveRequest("t3","echo",{"memory_key":result["memory_key"]},app.config.commit,app.config.tree,app.config.environment))
             self.assertEqual(advice.memory_ids,())
             self.assertTrue(app.cognitive.verify_replay(task["task_id"]))
-            self.assertEqual([r["event_type"] for r in app.store.list_replay(task["task_id"])], ["MODEL_EXECUTION","MEMORY_OBSERVED","MEMORY_PROMOTED","MEMORY_REFUTED"])
+            self.assertEqual([r["event_type"] for r in app.store.list_replay(task["task_id"])], ["MODEL_EXECUTION","MEMORY_OBSERVED","LEARNING_ARTIFACT_RECORDED","MEMORY_PROMOTED","MEMORY_REFUTED"])
 
     def test_supersession_removes_prior_memory_from_resolution(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -73,5 +73,20 @@ class ParadiseMemoryCompletionTests(unittest.TestCase):
             app.submit({"operation":"echo","payload":{"message":"learn"},"idempotency_key":"learn-1"})
             hint=app.cognitive.learning_hint()
             self.assertTrue(hint["observed_only"]); self.assertEqual(hint["authority"],"none")
+
+    def test_learning_artifact_v3_is_canonical_record_and_persists(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path=Path(tmp)/"state.sqlite3"; app=ParadiseApplication(self.cfg(path))
+            task=app.submit({"operation":"echo","payload":{"message":"artifact"},"idempotency_key":"la3-1"})
+            aid=task["result"]["learning_artifact_id"]
+            rows=app.store.list_learning_artifacts(task["task_id"])
+            self.assertEqual(len(rows),1)
+            self.assertEqual(rows[0]["artifact_id"],aid)
+            self.assertEqual(rows[0]["learning_state"],"OBSERVED")
+            self.assertEqual(len(rows[0]),18)
+            self.assertIsNone(rows[0]["model_eligibility_ref"])
+            app2=ParadiseApplication(self.cfg(path))
+            self.assertEqual(app2.store.list_learning_artifacts(task["task_id"])[0]["artifact_id"],aid)
+            self.assertTrue(app2.cognitive.verify_replay(task["task_id"]))
 
 if __name__ == "__main__": unittest.main(verbosity=2)

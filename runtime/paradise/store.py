@@ -86,6 +86,10 @@ class RuntimeStore:
                     observation_id TEXT PRIMARY KEY, task_id TEXT NOT NULL,
                     record_json TEXT NOT NULL, observed_at TEXT NOT NULL
                 );
+                CREATE TABLE IF NOT EXISTS learning_artifacts (
+                    artifact_id TEXT PRIMARY KEY, task_id TEXT NOT NULL,
+                    artifact_revision INTEGER NOT NULL, record_json TEXT NOT NULL, created_at TEXT NOT NULL
+                );
             """)
             cols = {row[1] for row in conn.execute("PRAGMA table_info(tasks)")}
             additions = {
@@ -239,6 +243,15 @@ class RuntimeStore:
     def list_replay(self, task_id: str) -> list[dict[str, Any]]:
         with self._connection() as conn:
             rows=conn.execute("SELECT record_json FROM replay_records WHERE task_id=? ORDER BY sequence",(task_id,)).fetchall()
+        return [json.loads(row[0]) for row in rows]
+
+    def save_learning_artifact(self, record: dict[str, Any], task_id: str, now: str) -> None:
+        with self._lock, self._connection() as conn:
+            conn.execute("INSERT OR REPLACE INTO learning_artifacts(artifact_id,task_id,artifact_revision,record_json,created_at) VALUES(?,?,?,?,?)", (record["artifact_id"],task_id,int(record["artifact_revision"]),json.dumps(record,sort_keys=True),now)); conn.commit()
+
+    def list_learning_artifacts(self, task_id: str | None = None) -> list[dict[str, Any]]:
+        with self._connection() as conn:
+            rows=conn.execute("SELECT record_json FROM learning_artifacts WHERE task_id=? ORDER BY created_at",(task_id,)).fetchall() if task_id else conn.execute("SELECT record_json FROM learning_artifacts ORDER BY created_at").fetchall()
         return [json.loads(row[0]) for row in rows]
 
     def save_learning_observation(self, record: dict[str, Any], now: str) -> None:

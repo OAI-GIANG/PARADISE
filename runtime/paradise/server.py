@@ -105,6 +105,8 @@ class ParadiseApplication:
         memory=self.cognitive.observe_memory(task_id,payload,evidence["evidence_id"])
         result={**output,"task_id":task_id,"cognitive":{"advice":advice.recommendation,"memory_ids":list(advice.memory_ids),"evidence_ids":list(advice.evidence_ids)},"evidence_id":evidence["evidence_id"],"replay_id":replay["replay_id"]}
         if memory: result.update({"memory_id":memory["memory_id"],"memory_key":memory["normalized_key"],"memory_scope":memory["scope"]})
+        learning_artifact=self.cognitive.build_learning_artifact(task_id,result)
+        result["learning_artifact_id"]=learning_artifact["artifact_id"]
         return result
 
     def submit(self, body:dict[str,Any])->dict[str,Any]:
