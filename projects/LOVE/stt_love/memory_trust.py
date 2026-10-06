@@ -266,6 +266,18 @@ class MemoryCore:
             "refutes": tuple(sorted(set(target.refutes + (refuter.memory_id,)))),
         })
 
+    def refute_with_evidence(self, record: MemoryRecord, evidence_refs: tuple[str, ...]) -> MemoryRecord:
+        refs = tuple(sorted(set(str(x).strip() for x in evidence_refs if str(x).strip())))
+        if not refs:
+            raise MemoryTrustError("refutation requires evidence refs")
+        self.validate(record)
+        return MemoryRecord(**{
+            **record.__dict__,
+            "trust_status": MemoryTrustStatus.REFUTED,
+            "evidence_refs": tuple(sorted(set(record.evidence_refs + refs))),
+            "refutes": tuple(record.refutes),
+        })
+
     def evaluate_freshness(self, record: MemoryRecord, now=None) -> MemoryTrustStatus:
         current = now or datetime.now(timezone.utc)
         observed = datetime.fromisoformat(record.observed_at.replace("Z", "+00:00"))
@@ -288,7 +300,8 @@ class MemoryCore:
         if not candidates:
             return None
         refs = {target for record in candidates for target in record.refutes}
-        active = [record for record in candidates if record.memory_id not in refs]
+        superseded = {target for record in candidates for target in record.supersedes}
+        active = [record for record in candidates if record.memory_id not in refs and record.memory_id not in superseded]
         if not active:
             return None
         qualified = [record for record in active if record.trust_status in {

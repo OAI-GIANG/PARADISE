@@ -137,25 +137,73 @@ class CognitiveService:
         item = payload.get("memory")
         if not isinstance(item, dict):
             return None
+        requested_idem = str(item.get("idempotency_key") or "").strip()
+        if requested_idem:
+            existing = self.store.find_memory_by_idempotency(requested_idem)
+            if existing:
+                return existing[0]
+        claim = str(item.get("claim") or "").strip()
+        if not claim:
+            raise ValueError("memory.claim is required")
         record = self.memory.observe(
             memory_id=str(item.get("memory_id") or f"MEM-{uuid.uuid4().hex}"),
-            memory_class=str(item.get("memory_class", "experience")), claim=str(item["claim"]),
+            memory_class=str(item.get("memory_class", "experience")), claim=claim,
             scope=str(item.get("scope", "conversation")), source_actor=str(item.get("source_actor", "user")),
             authority=str(item.get("authority", "user")), provenance_commit=self.commit,
             provenance_tree_sha=self.tree, environment_id=self.environment, evidence_refs=(evidence_id,),
             task_id=task_id, confidence=float(item.get("confidence", 0.5)),
             freshness_days=int(item.get("freshness_days", 7)), normalized_key=item.get("normalized_key"), observed_at=self._now(),
+            idempotency_key=requested_idem or None,
         )
-        if str(item.get("trust", "")).upper() == "VERIFIED":
-            certificate = TrustCertificate(
-                certificate_id=f"CERT-{uuid.uuid4().hex}", evaluator_id="paradise-runtime",
-                evaluator_kind="runtime", method="canonical-execution-evidence",
-                artifact_digest=memory_artifact_digest(record), source_commit=self.commit,
-                source_tree_sha=self.tree, result="VERIFIED", evidence_refs=(evidence_id,), issued_at=self._now(),
-            )
-            record = self.memory.verified(record, certificate=certificate)
         raw = record.to_dict()
         self.store.save_memory(raw, record.created_at)
+        self.emit_replay(task_id, "MEMORY_OBSERVED", {"memory_id": record.memory_id, "memory_key": record.normalized_key, "evidence_id": evidence_id})
+        return raw
+
+    def _load_memory_record(self, memory_id: str) -> MemoryRecord:
+        for row in self.store.all_memory_records():
+            if row.get("memory_id") == memory_id:
+                return MemoryRecord(**{**row, "trust_status": MemoryTrustStatus(row["trust_status"]),
+                    "evidence_refs": tuple(row.get("evidence_refs", [])), "supersedes": tuple(row.get("supersedes", [])),
+                    "refutes": tuple(row.get("refutes", [])), "support_group_ids": tuple(row.get("support_group_ids", []))})
+        raise KeyError(memory_id)
+
+    def promote_memory(self, task_id: str, memory_id: str, evidence_id: str, *, target: MemoryTrustStatus = MemoryTrustStatus.QUALIFIED) -> dict[str, Any]:
+        if target not in {MemoryTrustStatus.QUALIFIED, MemoryTrustStatus.VERIFIED}:
+            raise ValueError("memory promotion target must be QUALIFIED or VERIFIED")
+        if not self.store.list_evidence(task_id) or evidence_id not in {e["evidence_id"] for e in self.store.list_evidence(task_id)}:
+            raise ValueError("promotion requires canonical evidence for the task")
+        record = self._load_memory_record(memory_id)
+        certificate = TrustCertificate(
+            certificate_id=f"CERT-{uuid.uuid4().hex}", evaluator_id="paradise-runtime",
+            evaluator_kind="runtime", method="canonical-memory-promotion",
+            artifact_digest=memory_artifact_digest(record), source_commit=self.commit, source_tree_sha=self.tree,
+            result=target.value, evidence_refs=(evidence_id,), issued_at=self._now(),
+        )
+        record = self.memory.verified(record, certificate=certificate) if target is MemoryTrustStatus.VERIFIED else self.memory.qualified(record, certificate=certificate)
+        raw=record.to_dict(); self.store.save_memory(raw, record.created_at)
+        self.emit_replay(task_id, "MEMORY_PROMOTED", {"memory_id": memory_id, "target": target.value, "evidence_id": evidence_id})
+        return raw
+
+    def supersede_memory(self, task_id: str, current_memory_id: str, prior_memory_id: str, evidence_id: str) -> dict[str, Any]:
+        evidence_ids={e["evidence_id"] for e in self.store.list_evidence(task_id)}
+        if evidence_id not in evidence_ids:
+            raise ValueError("supersession requires canonical evidence for the task")
+        current=self._load_memory_record(current_memory_id)
+        prior=self._load_memory_record(prior_memory_id)
+        current=self.memory.supersede(current, prior)
+        raw=current.to_dict(); self.store.save_memory(raw, current.created_at)
+        self.emit_replay(task_id, "MEMORY_SUPERSEDED", {"memory_id": current_memory_id, "supersedes": prior_memory_id, "evidence_id": evidence_id})
+        return raw
+
+    def refute_memory(self, task_id: str, memory_id: str, evidence_id: str) -> dict[str, Any]:
+        evidence_ids={e["evidence_id"] for e in self.store.list_evidence(task_id)}
+        if evidence_id not in evidence_ids:
+            raise ValueError("refutation requires canonical evidence for the task")
+        record=self._load_memory_record(memory_id)
+        record=self.memory.refute_with_evidence(record,(evidence_id,))
+        raw=record.to_dict(); self.store.save_memory(raw, record.created_at)
+        self.emit_replay(task_id, "MEMORY_REFUTED", {"memory_id": memory_id, "evidence_id": evidence_id})
         return raw
 
     def learning_hint(self) -> dict[str, Any]:

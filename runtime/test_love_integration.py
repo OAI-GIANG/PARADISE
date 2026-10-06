@@ -31,6 +31,9 @@ class LoveIntegrationTests(unittest.TestCase):
             },"idempotency_key":"m1"})
             self.assertEqual(task["status"], "SUCCEEDED")
             memory_key = task["result"]["memory_key"]
+            rows0 = app.store.load_memory(memory_key, "conversation")
+            self.assertEqual(rows0[0]["trust_status"], "OBSERVED")
+            app.cognitive.promote_memory(task["task_id"], rows0[0]["memory_id"], task["result"]["evidence_id"], target=__import__("projects.LOVE.stt_love.memory_trust", fromlist=["MemoryTrustStatus"]).MemoryTrustStatus.VERIFIED)
             app2 = ParadiseApplication(self.cfg(path))
             rows = app2.store.load_memory(memory_key, "conversation")
             self.assertEqual(len(rows), 1)

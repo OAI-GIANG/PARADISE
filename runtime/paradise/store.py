@@ -206,6 +206,23 @@ class RuntimeStore:
             rows=conn.execute("SELECT record_json FROM memory_records WHERE normalized_key=? AND scope=? ORDER BY created_at",(normalized_key,scope)).fetchall()
         return [json.loads(row[0]) for row in rows]
 
+    def all_memory_records(self) -> list[dict[str, Any]]:
+        with self._connection() as conn:
+            rows=conn.execute("SELECT record_json FROM memory_records ORDER BY created_at").fetchall()
+        return [json.loads(row[0]) for row in rows]
+
+    def find_memory_by_idempotency(self, idempotency_key: str) -> list[dict[str, Any]]:
+        if not str(idempotency_key).strip():
+            return []
+        with self._connection() as conn:
+            rows=conn.execute("SELECT record_json FROM memory_records ORDER BY created_at").fetchall()
+        result=[]
+        for row in rows:
+            record=json.loads(row[0])
+            if record.get("idempotency_key") == idempotency_key:
+                result.append(record)
+        return result
+
     def save_evidence(self, record: dict[str, Any], now: str) -> None:
         with self._lock, self._connection() as conn:
             conn.execute("INSERT OR REPLACE INTO evidence_records(evidence_id,task_id,event_type,record_json,occurred_at) VALUES(?,?,?,?,?)", (record["evidence_id"],record["task_id"],record["event_type"],json.dumps(record,sort_keys=True),now)); conn.commit()
