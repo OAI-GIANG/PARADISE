@@ -161,7 +161,38 @@ class Kernel:
     def verify_evidence(self, evidence: Evidence, subject: str, scope: str) -> GateResult:
         if evidence.source not in self.trusted_evidence_sources:
             return GateResult.BLOCKED
+        if evidence.verification_status != "VERIFIED":
+            return GateResult.BLOCKED
         return GateResult.ALLOW if evidence.is_verified(subject, scope) else GateResult.BLOCKED
+
+    def evidence_admission_status(self, evidence: Evidence, subject: str, scope: str) -> GateResult:
+        """Check evidence integrity/binding without treating admission as verification."""
+        if evidence.source not in self.trusted_evidence_sources:
+            return GateResult.BLOCKED
+        if evidence.verification_status != "UNVERIFIED":
+            return GateResult.BLOCKED
+        if evidence.subject != subject or evidence.scope != scope:
+            return GateResult.BLOCKED
+        if not evidence.source or not evidence.provenance:
+            return GateResult.BLOCKED
+        if evidence.integrity != evidence.expected_integrity():
+            return GateResult.BLOCKED
+        return GateResult.ALLOW
+
+    def verify_and_promote_evidence(self, evidence: Evidence, subject: str, scope: str) -> tuple[GateResult, Optional[Evidence]]:
+        """Verify canonical evidence and return a new VERIFIED record only on success."""
+        if self.verify_evidence(
+            Evidence(evidence.evidence_id, evidence.subject, evidence.scope, evidence.source,
+                     evidence.captured_at, evidence.provenance, evidence.integrity, "VERIFIED", evidence.claim),
+            subject,
+            scope,
+        ) is not GateResult.ALLOW:
+            return GateResult.BLOCKED, None
+        promoted = Evidence(
+            evidence.evidence_id, evidence.subject, evidence.scope, evidence.source,
+            evidence.captured_at, evidence.provenance, evidence.integrity, "VERIFIED", evidence.claim,
+        )
+        return GateResult.ALLOW, promoted
 
     def evaluate_evidence(self, evidence_items: list[Evidence], subject: str, scope: str) -> GateResult:
         verified = [e for e in evidence_items if self.verify_evidence(e, subject, scope) == GateResult.ALLOW]

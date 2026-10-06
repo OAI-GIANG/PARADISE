@@ -15,6 +15,7 @@ from typing import Any
 from projects.LOVE.stt_love.task_contract import TaskContract, TaskContractError
 from projects.LOVE.stt_love.durable_execution import DurableExecution, DurableExecutionError
 from .cognitive import CognitiveService
+from runtime.paradise_kernel import GateResult
 from phone_bridge.bridge import (
     AuthenticatedPrincipal, BridgeResponse, ExecutionIdentity, GateOutcome,
     ReplayGuard, RuntimeStoreReplayAdapter, handle as handle_phone_bridge,
@@ -101,6 +102,16 @@ class ParadiseApplication:
         request=__import__("runtime.paradise.contracts",fromlist=["CognitiveRequest"]).CognitiveRequest(task_id,operation,payload,self.config.commit,self.config.tree,self.config.environment)
         advice=self.cognitive.advise(request); self.cognitive.authorize(task_id,operation); output=self.cognitive.invoke_model(task_id,operation,payload)
         evidence=self.cognitive.emit_evidence(task_id,"MODEL_EXECUTION","model execution completed")
+        candidate = __import__("runtime.paradise_kernel", fromlist=["Evidence"]).Evidence(
+            evidence["evidence_id"], task_id, "runtime", evidence["source"],
+            datetime.fromisoformat(evidence["captured_at"]), evidence["provenance"],
+            evidence["integrity"], evidence["verification_status"], evidence["claim"]
+        )
+        verification, promoted = self.cognitive.kernel.verify_and_promote_evidence(candidate, task_id, "runtime")
+        if verification is not GateResult.ALLOW or promoted is None:
+            raise RuntimeError("execution evidence did not satisfy verification gate")
+        evidence["verification_status"] = promoted.verification_status
+        self.store.save_evidence(evidence, evidence["captured_at"])
         replay=self.cognitive.emit_replay(task_id,"MODEL_EXECUTION",{"operation":operation,"output":output,"evidence_id":evidence["evidence_id"]})
         memory=self.cognitive.observe_memory(task_id,payload,evidence["evidence_id"])
         result={**output,"task_id":task_id,"cognitive":{"advice":advice.recommendation,"memory_ids":list(advice.memory_ids),"evidence_ids":list(advice.evidence_ids)},"evidence_id":evidence["evidence_id"],"replay_id":replay["replay_id"]}

@@ -96,12 +96,12 @@ class CognitiveService:
         provenance = f"{self.commit}:{self.tree}:{self.environment}"
         canonical = "|".join((evidence_id, task_id, "runtime", source, captured.isoformat(), provenance))
         integrity = sha256(canonical.encode()).hexdigest()
-        evidence = Evidence(evidence_id, task_id, "runtime", source, captured, provenance, integrity, "VERIFIED", claim)
-        if self.kernel.verify_evidence(evidence, task_id, "runtime") is not GateResult.ALLOW:
-            raise RuntimeError("canonical evidence failed kernel verification")
+        evidence = Evidence(evidence_id, task_id, "runtime", source, captured, provenance, integrity, "UNVERIFIED", claim)
+        if self.kernel.evidence_admission_status(evidence, task_id, "runtime") is not GateResult.ALLOW:
+            raise RuntimeError("canonical evidence failed admission checks")
         record = {"evidence_id": evidence_id, "task_id": task_id, "event_type": event_type,
                   "claim": claim, "source": source, "provenance": provenance, "integrity": integrity,
-                  "verification_status": "VERIFIED", "captured_at": captured.isoformat()}
+                  "verification_status": "UNVERIFIED", "captured_at": captured.isoformat()}
         self.store.save_evidence(record, captured.isoformat())
         return record
 
