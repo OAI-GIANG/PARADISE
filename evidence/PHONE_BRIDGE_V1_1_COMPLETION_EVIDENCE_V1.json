@@ -1,0 +1,40 @@
+{
+  "acceptance": {
+    "H01_raw_ingress": "PASS",
+    "H02_persistent_atomic_replay": "PASS",
+    "authentication": "PASS",
+    "authorization": "PASS",
+    "concurrency": "PASS",
+    "duplicate": "PASS",
+    "durable_execution_owner": "PASS",
+    "evidence_authority_owner": "PASS",
+    "execution_handoff": "PASS",
+    "fail_closed": "PASS",
+    "http_e2e": "PASS",
+    "kernel_regression": "20/20 PASS",
+    "love_integration_regression": "5/5 PASS",
+    "replay_hash_chain": "PASS",
+    "restart": "PASS",
+    "runtime_regression": "5/5 PASS",
+    "semantic_contract_regression": "8/8 PASS"
+  },
+  "branch": "feature/phone-bridge-v1.1-blocker-implementation-20261006",
+  "commit": "7ded43c609d608162c6a3d334b4d639be1d9b6a7",
+  "forbidden": "No second Replay owner; no second DurableExecution; no second Evidence Authority; no GO migration; no merge.",
+  "generated_at": "2026-10-06T06:39:13.214251+00:00",
+  "ownership": {
+    "evidence": "CognitiveService + canonical Kernel verification + RuntimeStore",
+    "execution": "DurableExecution",
+    "phone_bridge": "adapter/orchestration only",
+    "replay": "RuntimeStore.replay_records + CognitiveService hash chain"
+  },
+  "remote_commit": "7ded43c609d608162c6a3d334b4d639be1d9b6a7",
+  "schema": "PHONE-BRIDGE-V1.1-COMPLETION-EVIDENCE-V1",
+  "sha256": {
+    "phone_bridge/bridge.py": "a13ca933604befc5d545567a48e7921006fdc0c805616ce5b2ce7b078a826cf8",
+    "runtime/paradise/cognitive.py": "55d557780ee52775125a91ffbc43d70cc92c449a3ee059e30b27c231757baa01",
+    "runtime/paradise/server.py": "561c1b3f2d65df057d49b058e4dc7484bf7988743a20c9b4457dbdb5fca8d166",
+    "tests/test_phone_bridge_e2e.py": "ba9236c58118fe50ad64ec16cdb341ac2368c85011aacbcd7f174790390ee12f",
+    "tests/test_phone_bridge_v11.py": "c0f6bdac6bf46940e4b77a3d54c7fb97ae43171ed3396c9cdf90ed97f928d16f"
+  }
+}
