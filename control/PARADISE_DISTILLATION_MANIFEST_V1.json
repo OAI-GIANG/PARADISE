@@ -130,7 +130,7 @@
     "next": "Global semantic closure then explicit GO distillation gate"
   },
   "provenance": {
-    "current_commit": "11f29329401ef2c046b49687ed267d61ec44cd6c",
+    "current_commit": "6d4c68c76c46c4ff26d1fa813f2e2df27453acbd",
     "source_branch": "feature/paradise-distillation-20261006",
     "source_tree": [
       "dae92d5252e3fce0711eb071cff1420313ba03b8"
@@ -142,8 +142,8 @@
     "closure_base_commit": "24a04ea33d6b0f969b833fa98c20a133256f8576",
     "closure_base_tree": "973a4dd81ba1bb027ba20dd42a81f46e4f2ede26",
     "closure_status": "VERIFIED_DISTILLATION_CLOSURE",
-    "closure_head": "24a04ea33d6b0f969b833fa98c20a133256f8576",
-    "closure_tree": "973a4dd81ba1bb027ba20dd42a81f46e4f2ede26",
+    "closure_head": "6d4c68c76c46c4ff26d1fa813f2e2df27453acbd",
+    "closure_tree": "4fcaf7c2e9bf3e889830aa93704f1fdd8f944159",
     "canonical_file_count": 40,
     "canonical_missing_files": [],
     "canonical_sha256": {
@@ -158,14 +158,24 @@
       "control/PARADISE_IMPLEMENTATION_CONTRACT_V1.md": "63c7b93d50d8d392d29e406294e69af05307c52f9c77a82031a53c1efda2544a",
       "control/PARADISE_MINIMAL_SEMANTIC_KERNEL_V1.md": "cbed29a2f976319ff57a951c297446fa2af165511b89d301b7fe8e6a988e3ada",
       "control/PARADISE_TOPOLOGY_V1.md": "e10a0c9c913cf25212e6390376378491875f5590e71eb5b161d2438f5bc6b6d5",
+      "runtime/paradise/__init__.py": "87031d761d41b952ef4f169f1c6bd62f0e231f3bb9c090227a6e9aa0aeedf1a5",
+      "runtime/paradise/cognitive.py": "8ec25566a2bec753af03a573f90cfa37b964dc4d7a84cb033e2b5947d26b2fa1",
+      "runtime/paradise/contracts.py": "e1495ebd51349bb5af0f427c4b92f23ce7584d72d1a17d34216dd17b63a8f9a4",
+      "runtime/paradise/model_gateway.py": "ba115991767c367c5cf6267265ba3439c73a06de2f2de8cbf3c0d7f265837ba6",
+      "runtime/paradise/server.py": "a264a93b92caf5c8e9a94e4ce0da44c1f4a7d481601e5dcf38da9a14aee63dc9",
+      "runtime/paradise/store.py": "ebca0d3e7592de7c415ec3521e904792dc3bde779821057213bf7f2cac33bb78",
+      "runtime/paradise_kernel.py": "357a8d164b65535956a52b3e75528ad00284173ae3c757dcdf0d64c9614c88a4",
+      "projects/LOVE/stt_love/task_contract.py": "d83fbc8716195dc717851c2a1a319a95ba288fe58e49588b0c1d83f68e36cb2c",
+      "projects/LOVE/stt_love/learning.py": "6f6f1f5845b25d4fc60de3db543a2f9a847192f9e29818bb1f84a986df353ef4",
+      "projects/LOVE/stt_love/memory_trust.py": "4625e462958b840c032abdaa1e24d200c7ab71694cf3c2df62b8b5f2df010545",
+      "projects/LOVE/stt_love/qualification.py": "b04a5aac93ef5dad61c073f7e17a1cf6994a6d5471243558e4b3b3838b279f76",
+      "projects/LOVE/stt_love/semantics.py": "85ca8d856dcaa0f06017acc49c22e1252807b47bc608d52a0f192383acd45676",
+      "projects/LOVE/stt_love/state_semantics.py": "70824e12220cfe06af92bd2234b9677e504fdd6cde560b2c5c1cb9bbcddd162f",
       "projects/LOVE/stt_love/durable_execution.py": "7e568aa428bff29fa1ed3533d8e66caa73881431a74779469f8d549d76d3bfc1",
       "projects/LOVE/stt_love/evidence/ledger.py": "cb5516b6ab278ac1faf572b26bf2b362ebbf607bd3383e6c88ce643ef9dfffb9",
       "projects/LOVE/stt_love/evidence/replay.py": "ebc9ee82638a319b3d69b39e3282019f0d33f67323468926cf058b9e765afee7",
       "projects/LOVE/stt_love/evidence/trust.py": "26dfc342c24ccfbf5bc37bb138e01d174a3a48883c631f10365894ecc37048fd",
-      "projects/LOVE/stt_love/inference/model_identity.py": "f9d6e473ed777008b698bd16dc79d092d2b38520e4075da17ff349c4f7511f2f",
-      "projects/LOVE/stt_love/learning.py": "6f6f1f5845b25d4fc60de3db543a2f9a847192f9e29818bb1f84a986df353ef4",
       "projects/LOVE/stt_love/love/kernel.py": "6ca93b1e96e5c65f1a2c834f7fa80b6079d5568a27ed839850ca012dfcfd1a13",
-      "projects/LOVE/stt_love/memory_trust.py": "4625e462958b840c032abdaa1e24d200c7ab71694cf3c2df62b8b5f2df010545",
       "projects/LOVE/stt_love/og/aegr.py": "5ebb0ffff160b8bc016d44dc045e4b0f4547a98310d58e7ec9fa460622aa86a7",
       "projects/LOVE/stt_love/og/capability_registry.py": "cb84eb581db21c7f31b759e0605dfd0d8be2c4e353f85ef2d8ecad2ce4603bb0",
       "projects/LOVE/stt_love/og/context_adaptation.py": "8ba2b1ffac95b62decb5e394899c662c5dd924405e3676b65e196cd3eb5e8b0f",
@@ -174,19 +184,9 @@
       "projects/LOVE/stt_love/og/repo_intelligence.py": "0d5f8c54523e48b8c6932ba4ec57d22b8dc3c61cfee069737c06ae7e14b54ded",
       "projects/LOVE/stt_love/og/source_convergence.py": "3392a9b78f45313d4eb7c56392f1ce7a90a9da2eb6a7e36f996d4d3111fcff19",
       "projects/LOVE/stt_love/og/verification_contract.py": "a7890e778b5ff227ae53fff8a995b786a71e094fca992e133371979c13b00316",
-      "projects/LOVE/stt_love/qualification.py": "b04a5aac93ef5dad61c073f7e17a1cf6994a6d5471243558e4b3b3838b279f76",
-      "projects/LOVE/stt_love/semantics.py": "85ca8d856dcaa0f06017acc49c22e1252807b47bc608d52a0f192383acd45676",
-      "projects/LOVE/stt_love/state_semantics.py": "70824e12220cfe06af92bd2234b9677e504fdd6cde560b2c5c1cb9bbcddd162f",
       "projects/LOVE/stt_love/stt/capability_selector.py": "ffe268771fbdeae158f0b55d995c2359fb73b1648342cc9685fbbbc20dadd416",
       "projects/LOVE/stt_love/stt/core.py": "d71bdb55a066eddb2bc1fc2b02e83c01a5a2b9c93d38e3c6cc5b75e76573a771",
-      "projects/LOVE/stt_love/task_contract.py": "d83fbc8716195dc717851c2a1a319a95ba288fe58e49588b0c1d83f68e36cb2c",
-      "runtime/paradise/__init__.py": "87031d761d41b952ef4f169f1c6bd62f0e231f3bb9c090227a6e9aa0aeedf1a5",
-      "runtime/paradise/cognitive.py": "8ec25566a2bec753af03a573f90cfa37b964dc4d7a84cb033e2b5947d26b2fa1",
-      "runtime/paradise/contracts.py": "e1495ebd51349bb5af0f427c4b92f23ce7584d72d1a17d34216dd17b63a8f9a4",
-      "runtime/paradise/model_gateway.py": "ba115991767c367c5cf6267265ba3439c73a06de2f2de8cbf3c0d7f265837ba6",
-      "runtime/paradise/server.py": "ac535449f6840d446afdd9a209898ba7bb6ecabdfdbb18262a714513ab7c02f7",
-      "runtime/paradise/store.py": "723b72c9327ff7d2f75c715f3013e87031cd501925bb9369cd6a81e03337651c",
-      "runtime/paradise_kernel.py": "357a8d164b65535956a52b3e75528ad00284173ae3c757dcdf0d64c9614c88a4"
+      "projects/LOVE/stt_love/inference/model_identity.py": "f9d6e473ed777008b698bd16dc79d092d2b38520e4075da17ff349c4f7511f2f"
     }
   },
   "canonical_file_count": 40
