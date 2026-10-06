@@ -82,6 +82,10 @@ class RuntimeStore:
                     sequence INTEGER NOT NULL, record_json TEXT NOT NULL, occurred_at TEXT NOT NULL
                 );
                 CREATE UNIQUE INDEX IF NOT EXISTS idx_replay_task_sequence ON replay_records(task_id, sequence);
+                CREATE TABLE IF NOT EXISTS phone_bridge_replay (
+                    replay_key TEXT PRIMARY KEY, seen_at REAL NOT NULL
+                );
+                CREATE INDEX IF NOT EXISTS idx_phone_bridge_replay_seen_at ON phone_bridge_replay(seen_at);
                 CREATE TABLE IF NOT EXISTS learning_observations (
                     observation_id TEXT PRIMARY KEY, task_id TEXT NOT NULL,
                     record_json TEXT NOT NULL, observed_at TEXT NOT NULL
@@ -104,6 +108,17 @@ class RuntimeStore:
             if "status" in cols:
                 conn.execute("UPDATE tasks SET state=CASE status WHEN 'SUCCEEDED' THEN 'COMPLETED' WHEN 'FAILED' THEN 'FAILED' WHEN 'RUNNING' THEN 'RUNNING' ELSE 'QUEUED' END WHERE state IS NULL")
             conn.execute("UPDATE tasks SET state=COALESCE(state,'QUEUED'), execution_mode=COALESCE(execution_mode, CASE WHEN async=1 THEN 'ASYNC' ELSE 'SYNC' END), queue_eligibility=COALESCE(queue_eligibility,'DISPATCHABLE'), evidence_refs_json=COALESCE(evidence_refs_json,'[]'), provenance_json=COALESCE(provenance_json,'{}'), metadata_json=COALESCE(metadata_json,'{}')")
+            conn.commit()
+
+    def claim_phone_bridge_replay(self, key: str, seen_at: float) -> bool:
+        with self._lock, self._connection() as conn:
+            cur = conn.execute("INSERT OR IGNORE INTO phone_bridge_replay(replay_key,seen_at) VALUES(?,?)", (key, float(seen_at)))
+            conn.commit()
+            return cur.rowcount == 1
+
+    def prune_phone_bridge_replay(self, cutoff: float) -> None:
+        with self._lock, self._connection() as conn:
+            conn.execute("DELETE FROM phone_bridge_replay WHERE seen_at < ?", (float(cutoff),))
             conn.commit()
 
     def set_meta(self, key: str, value: str) -> None:
