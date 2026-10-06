@@ -1,0 +1,34 @@
+﻿{
+    "schema_version":  "PARADISE-DISTILLATION-CLEANUP-EVIDENCE-V1",
+    "status":  "CLEANUP_VERIFIED_WITH_DEFERRED_LOCAL_RUNTIME_DATA",
+    "branch":  "feature/paradise-distillation-20261006",
+    "commit":  "7788addd649c91db7aac88f76107d8b5410f6edc",
+    "remote_commit":  "7788addd649c91db7aac88f76107d8b5410f6edc",
+    "scope":  "PARADISE only; GO untouched",
+    "actions":  {
+                    "keep":  "Canonical control/runtime/cognition-memory-learning/evidence-replay/execution-capability/inference/Phone Bridge contract retained",
+                    "drop":  "Generated UI/APK/log/debug/temporary patch artifacts and forensic backup/work artifacts not required by canonical manifest removed where safely removable",
+                    "preserve":  "evidence/checkpoints preserved; tracked evidence preserved",
+                    "merge":  "No semantic duplicate engine created or merged",
+                    "simplify":  "No canonical runtime source altered in cleanup",
+                    "defer":  "Nested repositories under .work and active runtime/stt_home data remain outside canonical core pending explicit safe retirement",
+                    "go_mutation":  "NONE",
+                    "phone_bridge_mutation":  "NONE"
+                },
+    "verification":  {
+                         "runtime_tests":  "53/53 PASS",
+                         "memory_tests":  "7/7 PASS",
+                         "phone_bridge":  "15/15 PASS",
+                         "compileall":  "PASS",
+                         "diff_check":  "PASS",
+                         "local_remote_sha_match":  "PASS",
+                         "go_diff":  "NONE"
+                     },
+    "worktree":  {
+                     "untracked":  ".work; evidence/checkpoints; runtime/stt_home",
+                     "note":  ".work contains nested repositories and was not destructively removed; runtime/stt_home contains active/locked runtime data and was not destructively removed",
+                     "reason":  "preserve evidence and avoid unsafe deletion"
+                 },
+    "next_gate":  "GLOBAL SEMANTIC CLOSURE then explicit GO DISTILLATION GATE",
+    "generated_at":  "2026-10-06T07:34:17.6197212Z"
+}
