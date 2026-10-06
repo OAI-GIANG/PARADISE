@@ -119,6 +119,10 @@ bridge_text = Path(__file__).parents[1].joinpath("phone_bridge", "bridge.py").re
 assert "class DurableExecution" not in bridge_text
 assert "class Evidence" not in bridge_text or "EvidenceCorrelation" in bridge_text
 
+store_text = Path(__file__).parents[1].joinpath("runtime", "paradise", "store.py").read_text(encoding="utf-8-sig")
+assert "CREATE TABLE IF NOT EXISTS phone_bridge_replay" not in store_text
+assert "INSERT OR IGNORE INTO replay_records" in store_text
+
 print("H01_RAW_INGRESS=PASS")
 print("N_SCHEMA_FAIL_CLOSED=PASS")
 print("N_AUTH=PASS")
@@ -134,5 +138,3 @@ print("N_IDENTITY_SEPARATION=PASS")
 print("N_NO_DURABLE_EXECUTION_DUPLICATE=PASS")
 print("N_NO_EVIDENCE_AUTHORITY_DUPLICATE=PASS")
 print("V11_BLOCKER_IMPLEMENTATION_TEST=PASS")
-
-\n

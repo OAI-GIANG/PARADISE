@@ -82,10 +82,6 @@ class RuntimeStore:
                     sequence INTEGER NOT NULL, record_json TEXT NOT NULL, occurred_at TEXT NOT NULL
                 );
                 CREATE UNIQUE INDEX IF NOT EXISTS idx_replay_task_sequence ON replay_records(task_id, sequence);
-                CREATE TABLE IF NOT EXISTS phone_bridge_replay (
-                    replay_key TEXT PRIMARY KEY, seen_at REAL NOT NULL
-                );
-                CREATE INDEX IF NOT EXISTS idx_phone_bridge_replay_seen_at ON phone_bridge_replay(seen_at);
                 CREATE TABLE IF NOT EXISTS learning_observations (
                     observation_id TEXT PRIMARY KEY, task_id TEXT NOT NULL,
                     record_json TEXT NOT NULL, observed_at TEXT NOT NULL
@@ -111,14 +107,22 @@ class RuntimeStore:
             conn.commit()
 
     def claim_phone_bridge_replay(self, key: str, seen_at: float) -> bool:
+        """Atomically claim ingress replay in the canonical replay_records owner."""
+        from datetime import datetime, timezone
+        replay_id = f"PHONE-BRIDGE:{key}"
+        task_id = replay_id
+        occurred_at = datetime.fromtimestamp(float(seen_at), timezone.utc).isoformat()
+        record = json.dumps({"source": "PHONE_BRIDGE_V1.1", "replay_key": key, "seen_at": float(seen_at)}, sort_keys=True)
         with self._lock, self._connection() as conn:
-            cur = conn.execute("INSERT OR IGNORE INTO phone_bridge_replay(replay_key,seen_at) VALUES(?,?)", (key, float(seen_at)))
+            cur = conn.execute("INSERT OR IGNORE INTO replay_records(replay_id,task_id,sequence,record_json,occurred_at) VALUES(?,?,?,?,?)", (replay_id, task_id, 1, record, occurred_at))
             conn.commit()
             return cur.rowcount == 1
 
     def prune_phone_bridge_replay(self, cutoff: float) -> None:
+        from datetime import datetime, timezone
+        cutoff_iso = datetime.fromtimestamp(float(cutoff), timezone.utc).isoformat()
         with self._lock, self._connection() as conn:
-            conn.execute("DELETE FROM phone_bridge_replay WHERE seen_at < ?", (float(cutoff),))
+            conn.execute("DELETE FROM replay_records WHERE task_id LIKE 'PHONE-BRIDGE:%' AND occurred_at < ?", (cutoff_iso,))
             conn.commit()
 
     def set_meta(self, key: str, value: str) -> None:
