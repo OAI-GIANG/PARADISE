@@ -1,4 +1,5 @@
 ﻿from dataclasses import dataclass
+from dataclasses import dataclass
 from enum import Enum
 from time import time
 from typing import Any, Callable, Mapping, Protocol
@@ -17,7 +18,9 @@ class AuthenticatedPrincipal: principal_id:str; credential_reference:str
 @dataclass(frozen=True)
 class AuthorizationDecision: authorization_id:str; outcome:GateOutcome
 @dataclass(frozen=True)
-class ExecutionIdentity: execution_id:str
+class ExecutionIdentity:
+    execution_id:str
+    evidence_id:str|None=None
 @dataclass(frozen=True)
 class EvidenceCorrelation: evidence_id:str
 @dataclass(frozen=True)
@@ -60,6 +63,7 @@ class ReplayGuard:
         except BridgeError: raise
         except Exception as exc: raise BridgeError('REPLAY_STORE_UNAVAILABLE','Replay protection unavailable',True) from exc
 def parse_request(raw:Mapping[str,Any])->BridgeRequest:
+    if not isinstance(raw, Mapping): raise BridgeError('REQUEST_SCHEMA_INVALID','Request schema invalid')
     required=('protocol_version','request_id','operation','timestamp','nonce','payload')
     if any(k not in raw for k in required) or raw['protocol_version']!=PROTOCOL_VERSION: raise BridgeError('REQUEST_SCHEMA_INVALID','Request schema invalid')
     try: UUID(str(raw['request_id'])); timestamp=int(raw['timestamp'])
@@ -76,7 +80,7 @@ def handle(raw_request,*,credential,verify_auth,authorize,replay_guard,submit_ex
         if decision.outcome is not GateOutcome.ALLOW: raise BridgeError(f'AUTHORIZATION_{decision.outcome.value}',f'Request authorization {decision.outcome.value.lower()}',decision.outcome is GateOutcome.UNKNOWN)
         if submit_execution is None: raise BridgeError('EXECUTION_SUBMISSION_REJECTED','Execution submission unavailable',True)
         execution=submit_execution(GovernedExecutionSubmission(request.request_id,decision.authorization_id,ExecutionIdentity('pending')))
-        return BridgeResponse(request.request_id,'SUBMITTED',{'authorization_id':decision.authorization_id,'execution_id':execution.execution_id,'principal_id':principal.principal_id})
+        return BridgeResponse(request.request_id,'SUBMITTED',{'authorization_id':decision.authorization_id,'execution_id':execution.execution_id,'principal_id':principal.principal_id, **({'evidence_id': execution.evidence_id} if execution.evidence_id else {})})
     except BridgeError as exc:
         return BridgeResponse(request_id,'REJECTED',error=exc.as_dict(request_id)['error'])
     except Exception:

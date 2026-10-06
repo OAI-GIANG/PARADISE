@@ -56,7 +56,7 @@ class CognitiveService:
                 evidence_ids.extend(resolved.evidence_refs)
         return CognitiveAdvice(request.task_id, "use_verified_context_only", tuple(memory_ids), tuple(evidence_ids))
 
-    def authorize(self, task_id: str, operation: str) -> None:
+    def authorize(self, task_id: str, operation: str) -> str:
         now = datetime.now(timezone.utc)
         authority = Authority(
             authority_id="paradise-runtime", subject=task_id,
@@ -67,6 +67,7 @@ class CognitiveService:
         result, authorization = self.kernel.authorize(authority, task_id, "execute", "runtime", "runtime", now)
         if result is not GateResult.ALLOW or authorization is None:
             raise PermissionError("PARADISE kernel denied execution")
+        return str(getattr(authorization, "authorization_id", None) or getattr(authorization, "id", None) or f"AUTH-{task_id}")
 
     def _route(self, task_id: str) -> tuple[str, str, dict[str, Any]]:
         observations = self.store.list_learning_observations()
