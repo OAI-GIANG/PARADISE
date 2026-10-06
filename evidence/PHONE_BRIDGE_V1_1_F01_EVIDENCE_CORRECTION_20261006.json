@@ -1,0 +1,14 @@
+{
+  "file_sha256": {
+    "phone_bridge/bridge.py": "21d1bd824c423968c3c638c480fe8cd381b91374330d9364ca7e02626fdc430b",
+    "runtime/paradise/store.py": "20124f3a13a7b23b666d0ad8e2a378260895208b8573bb51eb7b614aa07684eb",
+    "tests/test_phone_bridge_v11.py": "7927f74e05b78acac26b8f0204ad6a0815b62ea40625e73472e006fb5c929a58"
+  },
+  "go_migration": "NONE",
+  "merge": "NONE",
+  "note": "Corrected artifact hashes for F-01 only. Does not assert canonical ownership acceptance of afb3cd1; F-02 was remediated in 2d45900.",
+  "schema": "PHONE-BRIDGE-V1.1-F01-EVIDENCE-CORRECTION",
+  "superseded_by_remediation_commit": "2d45900774aeff8900560bb649c37706fd4a8a75",
+  "verification_commit": "afb3cd13537d2f57cb51cf89fa2cc16f72339979",
+  "verification_parent": "758aedeeb3aa5aefa6f1261b227768f91aeadbe5"
+}
