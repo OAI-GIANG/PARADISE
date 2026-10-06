@@ -21,7 +21,6 @@
   "regression": {
     "tests_discover_tests": "PASS",
     "runtime_tests": "53/53 PASS",
-    "phone_bridge_v11": "15/15 PASS",
     "compileall": "PASS",
     "git_diff_check": "PASS",
     "negative_tests": "PASS"
@@ -37,7 +36,7 @@
     "merge": "NONE",
     "status": "LOCKED"
   },
-  "canonical_file_count": 43,
+  "canonical_file_count": 40,
   "canonical_sha256": {
     "control/AUTHORITY_MODEL_V1.md": "9a816a72b892b552dd93407dc89e4c1d0b3f5b0d096ad26e823adc5a48cbb234",
     "control/LOVE_OAI_GIANG_DISTILLATION_BOUNDARY_V1.md": "cbbca960d2d6d41eecf0c8a8376318fd0dce71e4f4db98b97b2d6acf9dbefab8",
@@ -50,9 +49,6 @@
     "control/PARADISE_IMPLEMENTATION_CONTRACT_V1.md": "63c7b93d50d8d392d29e406294e69af05307c52f9c77a82031a53c1efda2544a",
     "control/PARADISE_MINIMAL_SEMANTIC_KERNEL_V1.md": "cbed29a2f976319ff57a951c297446fa2af165511b89d301b7fe8e6a988e3ada",
     "control/PARADISE_TOPOLOGY_V1.md": "e10a0c9c913cf25212e6390376378491875f5590e71eb5b161d2438f5bc6b6d5",
-    "phone_bridge/README.md": "780d476619e3d158b96ed3e0d83b033292935433615692bf3d5ffce24fc95c80",
-    "phone_bridge/bridge.py": "a13ca933604befc5d545567a48e7921006fdc0c805616ce5b2ce7b078a826cf8",
-    "phone_bridge/protocol.md": "2cea411945f476f453b6b416ca1cb19c9ae44c5b3de26a8186b9114e16d5cf8b",
     "projects/LOVE/stt_love/durable_execution.py": "7e568aa428bff29fa1ed3533d8e66caa73881431a74779469f8d549d76d3bfc1",
     "projects/LOVE/stt_love/evidence/ledger.py": "cb5516b6ab278ac1faf572b26bf2b362ebbf607bd3383e6c88ce643ef9dfffb9",
     "projects/LOVE/stt_love/evidence/replay.py": "ebc9ee82638a319b3d69b39e3282019f0d33f67323468926cf058b9e765afee7",

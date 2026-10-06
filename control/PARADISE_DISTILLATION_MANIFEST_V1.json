@@ -64,11 +64,6 @@
       "projects/LOVE/stt_love/stt/core.py"
     ],
     "inference": "projects/LOVE/stt_love/inference/model_identity.py",
-    "phone_bridge": [
-      "phone_bridge/README.md",
-      "phone_bridge/bridge.py",
-      "phone_bridge/protocol.md"
-    ],
     "authority_mapping": {
       "semantic_authority_model": "projects/LOVE/stt_love/semantics.py::Authority",
       "runtime_gate_authority": "runtime/paradise_kernel.py::Authority",
@@ -90,9 +85,7 @@
       "runtime/test_paradise_runtime.py",
       "runtime/test_phase1_negative.py",
       "runtime/test_semantic_kernel_contract.py",
-      "tests/test_paradise_memory_completion.py",
-      "tests/test_phone_bridge_e2e.py",
-      "tests/test_phone_bridge_v11.py"
+      "tests/test_paradise_memory_completion.py"
     ],
     "love_docs": [
       "projects/LOVE/docs/ARCHITECTURE.md",
@@ -117,11 +110,6 @@
       "evidence/PARADISE_MEMORY_CLOSURE_PHASE1_20261005.json",
       "evidence/PARADISE_MEMORY_COMPLETION_EVIDENCE_V1.json",
       "evidence/PARADISE_MEMORY_COMPLETION_EVIDENCE_V2.json",
-      "evidence/PHONE_BRIDGE_V1_1_BLOCKER_20261006-132531.json",
-      "evidence/PHONE_BRIDGE_V1_1_COMPLETE_FREEZE_20261006-134137.json",
-      "evidence/PHONE_BRIDGE_V1_1_COMPLETION_EVIDENCE_V1.json",
-      "evidence/PHONE_BRIDGE_V1_1_F01_EVIDENCE_CORRECTION_20261006.json",
-      "evidence/PHONE_BRIDGE_V1_1_PAG_REMEDIATION_20261006.json",
       "projects/LOVE/evidence/DISTILLATION_MANIFEST_V1.json",
       "projects/LOVE/evidence/MIGRATION_PROVENANCE.json",
       "projects/LOVE/evidence/MIGRATION_VERIFICATION_V1.json",
@@ -134,7 +122,7 @@
     ]
   },
   "decision": {
-    "keep": "Canonical control, runtime, bounded execution, cognition/memory/learning, evidence/replay, capability, inference, and frozen Phone Bridge contract",
+    "keep": "Canonical control, runtime, bounded execution, cognition/memory/learning, evidence/replay, capability, and inference contracts",
     "merge": "No new duplicate engine; callers must converge on existing authorities",
     "simplify": "LOVE/OG-derived modules remain only where they provide unique canonical behavior",
     "drop": "No destructive deletion in this pass; candidates are recorded for later explicit cleanup",
@@ -156,7 +144,7 @@
     "closure_status": "VERIFIED_DISTILLATION_CLOSURE",
     "closure_head": "24a04ea33d6b0f969b833fa98c20a133256f8576",
     "closure_tree": "973a4dd81ba1bb027ba20dd42a81f46e4f2ede26",
-    "canonical_file_count": 43,
+    "canonical_file_count": 40,
     "canonical_missing_files": [],
     "canonical_sha256": {
       "control/AUTHORITY_MODEL_V1.md": "9a816a72b892b552dd93407dc89e4c1d0b3f5b0d096ad26e823adc5a48cbb234",
@@ -170,9 +158,6 @@
       "control/PARADISE_IMPLEMENTATION_CONTRACT_V1.md": "63c7b93d50d8d392d29e406294e69af05307c52f9c77a82031a53c1efda2544a",
       "control/PARADISE_MINIMAL_SEMANTIC_KERNEL_V1.md": "cbed29a2f976319ff57a951c297446fa2af165511b89d301b7fe8e6a988e3ada",
       "control/PARADISE_TOPOLOGY_V1.md": "e10a0c9c913cf25212e6390376378491875f5590e71eb5b161d2438f5bc6b6d5",
-      "phone_bridge/README.md": "780d476619e3d158b96ed3e0d83b033292935433615692bf3d5ffce24fc95c80",
-      "phone_bridge/bridge.py": "a13ca933604befc5d545567a48e7921006fdc0c805616ce5b2ce7b078a826cf8",
-      "phone_bridge/protocol.md": "2cea411945f476f453b6b416ca1cb19c9ae44c5b3de26a8186b9114e16d5cf8b",
       "projects/LOVE/stt_love/durable_execution.py": "7e568aa428bff29fa1ed3533d8e66caa73881431a74779469f8d549d76d3bfc1",
       "projects/LOVE/stt_love/evidence/ledger.py": "cb5516b6ab278ac1faf572b26bf2b362ebbf607bd3383e6c88ce643ef9dfffb9",
       "projects/LOVE/stt_love/evidence/replay.py": "ebc9ee82638a319b3d69b39e3282019f0d33f67323468926cf058b9e765afee7",
@@ -203,5 +188,6 @@
       "runtime/paradise/store.py": "723b72c9327ff7d2f75c715f3013e87031cd501925bb9369cd6a81e03337651c",
       "runtime/paradise_kernel.py": "357a8d164b65535956a52b3e75528ad00284173ae3c757dcdf0d64c9614c88a4"
     }
-  }
+  },
+  "canonical_file_count": 40
 }

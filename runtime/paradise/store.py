@@ -110,25 +110,6 @@ class RuntimeStore:
             conn.execute("UPDATE tasks SET state=COALESCE(state,'QUEUED'), execution_mode=COALESCE(execution_mode, CASE WHEN async=1 THEN 'ASYNC' ELSE 'SYNC' END), queue_eligibility=COALESCE(queue_eligibility,'DISPATCHABLE'), evidence_refs_json=COALESCE(evidence_refs_json,'[]'), provenance_json=COALESCE(provenance_json,'{}'), metadata_json=COALESCE(metadata_json,'{}')")
             conn.commit()
 
-    def claim_phone_bridge_replay(self, key: str, seen_at: float) -> bool:
-        """Atomically claim ingress replay in the canonical replay_records owner."""
-        from datetime import datetime, timezone
-        replay_id = f"PHONE-BRIDGE:{key}"
-        task_id = replay_id
-        occurred_at = datetime.fromtimestamp(float(seen_at), timezone.utc).isoformat()
-        record = json.dumps({"source": "PHONE_BRIDGE_V1.1", "replay_key": key, "seen_at": float(seen_at)}, sort_keys=True)
-        with self._lock, self._connection() as conn:
-            cur = conn.execute("INSERT OR IGNORE INTO replay_records(replay_id,task_id,sequence,record_json,occurred_at) VALUES(?,?,?,?,?)", (replay_id, task_id, 1, record, occurred_at))
-            conn.commit()
-            return cur.rowcount == 1
-
-    def prune_phone_bridge_replay(self, cutoff: float) -> None:
-        from datetime import datetime, timezone
-        cutoff_iso = datetime.fromtimestamp(float(cutoff), timezone.utc).isoformat()
-        with self._lock, self._connection() as conn:
-            conn.execute("DELETE FROM replay_records WHERE task_id LIKE 'PHONE-BRIDGE:%' AND occurred_at < ?", (cutoff_iso,))
-            conn.commit()
-
     def set_meta(self, key: str, value: str) -> None:
         with self._lock, self._connection() as conn:
             conn.execute("INSERT INTO runtime_meta(key,value) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value", (key, value)); conn.commit()
