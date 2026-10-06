@@ -133,10 +133,11 @@
                        "current_commit":  "11f29329401ef2c046b49687ed267d61ec44cd6c",
                        "source_branch":  "feature/paradise-distillation-20261006",
                        "source_tree":  [
-                                           "497b41a3b58439ee19a57deb5c15b06d5916a4b1",
-                                           "-encodedCommand",
-                                           "dAByAGUAZQA="
+                                           "dae92d5252e3fce0711eb071cff1420313ba03b8"
                                        ],
-                       "verification_note":  "Manifest is itself versioned; source_base_commit identifies the pre-distillation PARADISE state."
+                       "verification_note":  "Manifest is itself versioned; source_base_commit identifies the pre-distillation PARADISE state.",
+                       "source_base_commit":  "11f29329401ef2c046b49687ed267d61ec44cd6c",
+                       "manifest_commit":  "9c86b5964b5139573dce78c9349fe85df2fd157f",
+                       "manifest_tree":  "ee4c29077fd0447bb2fec502eea1c37fde7dd029"
                    }
 }
