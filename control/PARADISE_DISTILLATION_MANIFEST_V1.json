@@ -1,143 +1,207 @@
-﻿{
-    "schema_version":  "PARADISE-DISTILLATION-MANIFEST-V1",
-    "status":  "DISTILLED_IN_PARADISE_PENDING_GO_GATE",
-    "created_at":  "2026-10-06T07:31:10.0409749Z",
-    "source":  "PARADISE",
-    "target":  "PARADISE_CANONICAL_CORE",
-    "go_migration":  "FORBIDDEN_UNTIL_EXPLICIT_GO_GATE",
-    "rules":  {
-                  "keep":  "canonical authority/runtime semantics and bounded execution primitives",
-                  "merge":  "semantic duplicates must converge on one owner before GO",
-                  "simplify":  "retain contract/behavior, remove accidental implementation complexity",
-                  "drop":  "obsolete, duplicate, generated, lab-only, deployment-only artifacts",
-                  "defer":  "useful but not proven/canonical",
-                  "no_copy":  "do not duplicate subsystems merely to create a distilled tree"
-              },
-    "canonical_core":  {
-                           "governance":  [
-                                              "control/AUTHORITY_MODEL_V1.md",
-                                              "control/LOVE_OAI_GIANG_DISTILLATION_BOUNDARY_V1.md",
-                                              "control/PARADISE_CANONICAL_REGISTRY_V1.md",
-                                              "control/PARADISE_CONTROL_MODEL_V1.md",
-                                              "control/PARADISE_D8_SEMANTIC_FREEZE_RECORD_V1.md",
-                                              "control/PARADISE_D8_SEMANTIC_PROVENANCE_DECISION_V1.md",
-                                              "control/PARADISE_DIRECTIVE_ACCOUNTABILITY_FRAMEWORK_V1.md",
-                                              "control/PARADISE_GOVERNANCE_LOCK_V1.md",
-                                              "control/PARADISE_IMPLEMENTATION_CONTRACT_V1.md",
-                                              "control/PARADISE_MINIMAL_SEMANTIC_KERNEL_V1.md",
-                                              "control/PARADISE_TOPOLOGY_V1.md"
-                                          ],
-                           "runtime":  [
-                                           "runtime/paradise/__init__.py",
-                                           "runtime/paradise/cognitive.py",
-                                           "runtime/paradise/contracts.py",
-                                           "runtime/paradise/model_gateway.py",
-                                           "runtime/paradise/server.py",
-                                           "runtime/paradise/store.py",
-                                           "runtime/paradise_kernel.py"
-                                       ],
-                           "cognitive_memory_learning":  [
-                                                             "projects/LOVE/stt_love/learning.py",
-                                                             "projects/LOVE/stt_love/memory_trust.py",
-                                                             "projects/LOVE/stt_love/qualification.py",
-                                                             "projects/LOVE/stt_love/semantics.py",
-                                                             "projects/LOVE/stt_love/state_semantics.py"
-                                                         ],
-                           "evidence_replay":  [
-                                                   "projects/LOVE/stt_love/durable_execution.py",
-                                                   "projects/LOVE/stt_love/evidence/ledger.py",
-                                                   "projects/LOVE/stt_love/evidence/replay.py",
-                                                   "projects/LOVE/stt_love/evidence/trust.py",
-                                                   "projects/LOVE/stt_love/love/kernel.py"
-                                               ],
-                           "execution_capability":  [
-                                                        "projects/LOVE/stt_love/og/aegr.py",
-                                                        "projects/LOVE/stt_love/og/capability_registry.py",
-                                                        "projects/LOVE/stt_love/og/context_adaptation.py",
-                                                        "projects/LOVE/stt_love/og/execution_graph.py",
-                                                        "projects/LOVE/stt_love/og/execution_plan.py",
-                                                        "projects/LOVE/stt_love/og/repo_intelligence.py",
-                                                        "projects/LOVE/stt_love/og/source_convergence.py",
-                                                        "projects/LOVE/stt_love/og/verification_contract.py",
-                                                        "projects/LOVE/stt_love/stt/capability_selector.py",
-                                                        "projects/LOVE/stt_love/stt/core.py"
-                                                    ],
-                           "inference":  "projects/LOVE/stt_love/inference/model_identity.py",
-                           "phone_bridge":  [
-                                                "phone_bridge/README.md",
-                                                "phone_bridge/bridge.py",
-                                                "phone_bridge/protocol.md"
-                                            ]
-                       },
-    "non_core":  {
-                     "tests":  [
-                                   "runtime/test_anti_fabrication_completion.py",
-                                   "runtime/test_directive_accountability.py",
-                                   "runtime/test_love_integration.py",
-                                   "runtime/test_paradise_kernel.py",
-                                   "runtime/test_paradise_runtime.py",
-                                   "runtime/test_phase1_negative.py",
-                                   "runtime/test_semantic_kernel_contract.py",
-                                   "tests/test_paradise_memory_completion.py",
-                                   "tests/test_phone_bridge_e2e.py",
-                                   "tests/test_phone_bridge_v11.py"
-                               ],
-                     "love_docs":  [
-                                       "projects/LOVE/docs/ARCHITECTURE.md",
-                                       "projects/LOVE/docs/BOUNDARIES.md",
-                                       "projects/LOVE/docs/LOVE_AUTONOMOUS_WORK_LOOP_V1.md",
-                                       "projects/LOVE/docs/LOVE_AUTONOMOUS_WORK_QUEUE_V1.md",
-                                       "projects/LOVE/docs/LOVE_CAPABILITY_INVENTORY.md",
-                                       "projects/LOVE/docs/LOVE_EVOLUTION_FIRST_REBASELINE_RULE.md",
-                                       "projects/LOVE/docs/LOVE_PROVENANCE_CONTRACT.md",
-                                       "projects/LOVE/docs/LOVE_REBASELINE_GAP_REGISTER.md"
-                                   ],
-                     "evidence":  [
-                                      "evidence/ANTI_FABRICATION_IGC_CLOSURE_20261006.json",
-                                      "evidence/D12_IMPLEMENTATION_TEST_001.json",
-                                      "evidence/D12_IMPLEMENTATION_TEST_002.json",
-                                      "evidence/D14_REMOTE_ATTESTATION_V2.json",
-                                      "evidence/D15_PRODUCTION_READINESS_AUDIT.json",
-                                      "evidence/D16_RUNTIME_IMPLEMENTATION_001.json",
-                                      "evidence/D8/D8_4_SEMANTIC_FREEZE_RESULT.json",
-                                      "evidence/DIRECTIVE_ACCOUNTABILITY_CLOSURE_20261006.json",
-                                      "evidence/LOVE_CANONICAL_INTEGRATION_C7_20261005.json",
-                                      "evidence/PARADISE_MEMORY_CLOSURE_PHASE1_20261005.json",
-                                      "evidence/PARADISE_MEMORY_COMPLETION_EVIDENCE_V1.json",
-                                      "evidence/PARADISE_MEMORY_COMPLETION_EVIDENCE_V2.json",
-                                      "evidence/PHONE_BRIDGE_V1_1_BLOCKER_20261006-132531.json",
-                                      "evidence/PHONE_BRIDGE_V1_1_COMPLETE_FREEZE_20261006-134137.json",
-                                      "evidence/PHONE_BRIDGE_V1_1_COMPLETION_EVIDENCE_V1.json",
-                                      "evidence/PHONE_BRIDGE_V1_1_F01_EVIDENCE_CORRECTION_20261006.json",
-                                      "evidence/PHONE_BRIDGE_V1_1_PAG_REMEDIATION_20261006.json",
-                                      "projects/LOVE/evidence/DISTILLATION_MANIFEST_V1.json",
-                                      "projects/LOVE/evidence/MIGRATION_PROVENANCE.json",
-                                      "projects/LOVE/evidence/MIGRATION_VERIFICATION_V1.json",
-                                      "projects/LOVE/evidence/post-restructure-caller-matrix-20261004.json",
-                                      "projects/LOVE/evidence/post-restructure-canonicalization-20261004.json"
-                                  ],
-                     "reference_or_legacy":  [
-                                                 "control-plane/PARADISE_FOUNDATION_V1.md",
-                                                 "control-plane/REGISTRY_SCHEMA_V1.md"
-                                             ]
-                 },
-    "decision":  {
-                     "keep":  "Canonical control, runtime, bounded execution, cognition/memory/learning, evidence/replay, capability, inference, and frozen Phone Bridge contract",
-                     "merge":  "No new duplicate engine; callers must converge on existing authorities",
-                     "simplify":  "LOVE/OG-derived modules remain only where they provide unique canonical behavior",
-                     "drop":  "No destructive deletion in this pass; candidates are recorded for later explicit cleanup",
-                     "defer":  "Unverified or UI/deployment/marketplace artifacts stay outside canonical core",
-                     "next":  "Global semantic closure then explicit GO distillation gate"
-                 },
-    "provenance":  {
-                       "current_commit":  "11f29329401ef2c046b49687ed267d61ec44cd6c",
-                       "source_branch":  "feature/paradise-distillation-20261006",
-                       "source_tree":  [
-                                           "dae92d5252e3fce0711eb071cff1420313ba03b8"
-                                       ],
-                       "verification_note":  "Manifest is itself versioned; source_base_commit identifies the pre-distillation PARADISE state.",
-                       "source_base_commit":  "11f29329401ef2c046b49687ed267d61ec44cd6c",
-                       "manifest_commit":  "9c86b5964b5139573dce78c9349fe85df2fd157f",
-                       "manifest_tree":  "ee4c29077fd0447bb2fec502eea1c37fde7dd029"
-                   }
+{
+  "schema_version": "PARADISE-DISTILLATION-MANIFEST-V1",
+  "status": "DISTILLATION_COMPLETE_IN_PARADISE_PENDING_GO_GATE",
+  "created_at": "2026-10-06T07:31:10.0409749Z",
+  "source": "PARADISE",
+  "target": "PARADISE_CANONICAL_CORE",
+  "go_migration": "FORBIDDEN_UNTIL_EXPLICIT_GO_GATE",
+  "rules": {
+    "keep": "canonical authority/runtime semantics and bounded execution primitives",
+    "merge": "semantic duplicates must converge on one owner before GO",
+    "simplify": "retain contract/behavior, remove accidental implementation complexity",
+    "drop": "obsolete, duplicate, generated, lab-only, deployment-only artifacts",
+    "defer": "useful but not proven/canonical",
+    "no_copy": "do not duplicate subsystems merely to create a distilled tree"
+  },
+  "canonical_core": {
+    "governance": [
+      "control/AUTHORITY_MODEL_V1.md",
+      "control/LOVE_OAI_GIANG_DISTILLATION_BOUNDARY_V1.md",
+      "control/PARADISE_CANONICAL_REGISTRY_V1.md",
+      "control/PARADISE_CONTROL_MODEL_V1.md",
+      "control/PARADISE_D8_SEMANTIC_FREEZE_RECORD_V1.md",
+      "control/PARADISE_D8_SEMANTIC_PROVENANCE_DECISION_V1.md",
+      "control/PARADISE_DIRECTIVE_ACCOUNTABILITY_FRAMEWORK_V1.md",
+      "control/PARADISE_GOVERNANCE_LOCK_V1.md",
+      "control/PARADISE_IMPLEMENTATION_CONTRACT_V1.md",
+      "control/PARADISE_MINIMAL_SEMANTIC_KERNEL_V1.md",
+      "control/PARADISE_TOPOLOGY_V1.md"
+    ],
+    "runtime": [
+      "runtime/paradise/__init__.py",
+      "runtime/paradise/cognitive.py",
+      "runtime/paradise/contracts.py",
+      "runtime/paradise/model_gateway.py",
+      "runtime/paradise/server.py",
+      "runtime/paradise/store.py",
+      "runtime/paradise_kernel.py",
+      "projects/LOVE/stt_love/task_contract.py"
+    ],
+    "cognitive_memory_learning": [
+      "projects/LOVE/stt_love/learning.py",
+      "projects/LOVE/stt_love/memory_trust.py",
+      "projects/LOVE/stt_love/qualification.py",
+      "projects/LOVE/stt_love/semantics.py",
+      "projects/LOVE/stt_love/state_semantics.py"
+    ],
+    "evidence_replay": [
+      "projects/LOVE/stt_love/durable_execution.py",
+      "projects/LOVE/stt_love/evidence/ledger.py",
+      "projects/LOVE/stt_love/evidence/replay.py",
+      "projects/LOVE/stt_love/evidence/trust.py",
+      "projects/LOVE/stt_love/love/kernel.py"
+    ],
+    "execution_capability": [
+      "projects/LOVE/stt_love/og/aegr.py",
+      "projects/LOVE/stt_love/og/capability_registry.py",
+      "projects/LOVE/stt_love/og/context_adaptation.py",
+      "projects/LOVE/stt_love/og/execution_graph.py",
+      "projects/LOVE/stt_love/og/execution_plan.py",
+      "projects/LOVE/stt_love/og/repo_intelligence.py",
+      "projects/LOVE/stt_love/og/source_convergence.py",
+      "projects/LOVE/stt_love/og/verification_contract.py",
+      "projects/LOVE/stt_love/stt/capability_selector.py",
+      "projects/LOVE/stt_love/stt/core.py"
+    ],
+    "inference": "projects/LOVE/stt_love/inference/model_identity.py",
+    "phone_bridge": [
+      "phone_bridge/README.md",
+      "phone_bridge/bridge.py",
+      "phone_bridge/protocol.md"
+    ],
+    "authority_mapping": {
+      "semantic_authority_model": "projects/LOVE/stt_love/semantics.py::Authority",
+      "runtime_gate_authority": "runtime/paradise_kernel.py::Authority",
+      "evidence_runtime_witness": "runtime/paradise_kernel.py::Evidence",
+      "evidence_trust_and_resolution": "projects/LOVE/stt_love/evidence/trust.py::EvidenceCore",
+      "evidence_ledger": "projects/LOVE/stt_love/evidence/ledger.py::EvidenceLedger",
+      "replay": "projects/LOVE/stt_love/evidence/replay.py",
+      "durable_execution": "projects/LOVE/stt_love/durable_execution.py",
+      "task_contract": "projects/LOVE/stt_love/task_contract.py",
+      "rule": "These are distinct representations/adapters of one governed authority graph; no second authority or Evidence Authority is created."
+    }
+  },
+  "non_core": {
+    "tests": [
+      "runtime/test_anti_fabrication_completion.py",
+      "runtime/test_directive_accountability.py",
+      "runtime/test_love_integration.py",
+      "runtime/test_paradise_kernel.py",
+      "runtime/test_paradise_runtime.py",
+      "runtime/test_phase1_negative.py",
+      "runtime/test_semantic_kernel_contract.py",
+      "tests/test_paradise_memory_completion.py",
+      "tests/test_phone_bridge_e2e.py",
+      "tests/test_phone_bridge_v11.py"
+    ],
+    "love_docs": [
+      "projects/LOVE/docs/ARCHITECTURE.md",
+      "projects/LOVE/docs/BOUNDARIES.md",
+      "projects/LOVE/docs/LOVE_AUTONOMOUS_WORK_LOOP_V1.md",
+      "projects/LOVE/docs/LOVE_AUTONOMOUS_WORK_QUEUE_V1.md",
+      "projects/LOVE/docs/LOVE_CAPABILITY_INVENTORY.md",
+      "projects/LOVE/docs/LOVE_EVOLUTION_FIRST_REBASELINE_RULE.md",
+      "projects/LOVE/docs/LOVE_PROVENANCE_CONTRACT.md",
+      "projects/LOVE/docs/LOVE_REBASELINE_GAP_REGISTER.md"
+    ],
+    "evidence": [
+      "evidence/ANTI_FABRICATION_IGC_CLOSURE_20261006.json",
+      "evidence/D12_IMPLEMENTATION_TEST_001.json",
+      "evidence/D12_IMPLEMENTATION_TEST_002.json",
+      "evidence/D14_REMOTE_ATTESTATION_V2.json",
+      "evidence/D15_PRODUCTION_READINESS_AUDIT.json",
+      "evidence/D16_RUNTIME_IMPLEMENTATION_001.json",
+      "evidence/D8/D8_4_SEMANTIC_FREEZE_RESULT.json",
+      "evidence/DIRECTIVE_ACCOUNTABILITY_CLOSURE_20261006.json",
+      "evidence/LOVE_CANONICAL_INTEGRATION_C7_20261005.json",
+      "evidence/PARADISE_MEMORY_CLOSURE_PHASE1_20261005.json",
+      "evidence/PARADISE_MEMORY_COMPLETION_EVIDENCE_V1.json",
+      "evidence/PARADISE_MEMORY_COMPLETION_EVIDENCE_V2.json",
+      "evidence/PHONE_BRIDGE_V1_1_BLOCKER_20261006-132531.json",
+      "evidence/PHONE_BRIDGE_V1_1_COMPLETE_FREEZE_20261006-134137.json",
+      "evidence/PHONE_BRIDGE_V1_1_COMPLETION_EVIDENCE_V1.json",
+      "evidence/PHONE_BRIDGE_V1_1_F01_EVIDENCE_CORRECTION_20261006.json",
+      "evidence/PHONE_BRIDGE_V1_1_PAG_REMEDIATION_20261006.json",
+      "projects/LOVE/evidence/DISTILLATION_MANIFEST_V1.json",
+      "projects/LOVE/evidence/MIGRATION_PROVENANCE.json",
+      "projects/LOVE/evidence/MIGRATION_VERIFICATION_V1.json",
+      "projects/LOVE/evidence/post-restructure-caller-matrix-20261004.json",
+      "projects/LOVE/evidence/post-restructure-canonicalization-20261004.json"
+    ],
+    "reference_or_legacy": [
+      "control-plane/PARADISE_FOUNDATION_V1.md",
+      "control-plane/REGISTRY_SCHEMA_V1.md"
+    ]
+  },
+  "decision": {
+    "keep": "Canonical control, runtime, bounded execution, cognition/memory/learning, evidence/replay, capability, inference, and frozen Phone Bridge contract",
+    "merge": "No new duplicate engine; callers must converge on existing authorities",
+    "simplify": "LOVE/OG-derived modules remain only where they provide unique canonical behavior",
+    "drop": "No destructive deletion in this pass; candidates are recorded for later explicit cleanup",
+    "defer": "Unverified or UI/deployment/marketplace artifacts stay outside canonical core",
+    "next": "Global semantic closure then explicit GO distillation gate"
+  },
+  "provenance": {
+    "current_commit": "11f29329401ef2c046b49687ed267d61ec44cd6c",
+    "source_branch": "feature/paradise-distillation-20261006",
+    "source_tree": [
+      "dae92d5252e3fce0711eb071cff1420313ba03b8"
+    ],
+    "verification_note": "source_base_commit is historical pre-distillation provenance; closure provenance records the exact remediation HEAD/tree separately.",
+    "source_base_commit": "11f29329401ef2c046b49687ed267d61ec44cd6c",
+    "manifest_commit": "9c86b5964b5139573dce78c9349fe85df2fd157f",
+    "manifest_tree": "ee4c29077fd0447bb2fec502eea1c37fde7dd029",
+    "closure_base_commit": "24a04ea33d6b0f969b833fa98c20a133256f8576",
+    "closure_base_tree": "973a4dd81ba1bb027ba20dd42a81f46e4f2ede26",
+    "closure_status": "VERIFIED_DISTILLATION_CLOSURE",
+    "closure_head": "24a04ea33d6b0f969b833fa98c20a133256f8576",
+    "closure_tree": "973a4dd81ba1bb027ba20dd42a81f46e4f2ede26",
+    "canonical_file_count": 43,
+    "canonical_missing_files": [],
+    "canonical_sha256": {
+      "control/AUTHORITY_MODEL_V1.md": "9a816a72b892b552dd93407dc89e4c1d0b3f5b0d096ad26e823adc5a48cbb234",
+      "control/LOVE_OAI_GIANG_DISTILLATION_BOUNDARY_V1.md": "cbbca960d2d6d41eecf0c8a8376318fd0dce71e4f4db98b97b2d6acf9dbefab8",
+      "control/PARADISE_CANONICAL_REGISTRY_V1.md": "d99c827c818a81c1279e8215c3a26644d864a24b23e543630780bbd742f24d86",
+      "control/PARADISE_CONTROL_MODEL_V1.md": "ca4ac3b69d50e298a4c1516824105c5fc7ff40feda1d88e680a10db8b0a606a5",
+      "control/PARADISE_D8_SEMANTIC_FREEZE_RECORD_V1.md": "66496a84929a0234a2c9cc074d9599becfcd1ebe598bcc67e53dcd42096b57b2",
+      "control/PARADISE_D8_SEMANTIC_PROVENANCE_DECISION_V1.md": "3fb6c3dc5fa75853abc8aa18e618e3d3fa2d5121047a5e3641cb25649faadccc",
+      "control/PARADISE_DIRECTIVE_ACCOUNTABILITY_FRAMEWORK_V1.md": "0b1ab8bda9a56a59003fa084d2d1525f5055ac3ffcfa8d326e6d4db23910ea17",
+      "control/PARADISE_GOVERNANCE_LOCK_V1.md": "645cee62c210f2d0912a49e16f83e522be2d039b21cea987e97587aa30872767",
+      "control/PARADISE_IMPLEMENTATION_CONTRACT_V1.md": "63c7b93d50d8d392d29e406294e69af05307c52f9c77a82031a53c1efda2544a",
+      "control/PARADISE_MINIMAL_SEMANTIC_KERNEL_V1.md": "cbed29a2f976319ff57a951c297446fa2af165511b89d301b7fe8e6a988e3ada",
+      "control/PARADISE_TOPOLOGY_V1.md": "e10a0c9c913cf25212e6390376378491875f5590e71eb5b161d2438f5bc6b6d5",
+      "phone_bridge/README.md": "780d476619e3d158b96ed3e0d83b033292935433615692bf3d5ffce24fc95c80",
+      "phone_bridge/bridge.py": "a13ca933604befc5d545567a48e7921006fdc0c805616ce5b2ce7b078a826cf8",
+      "phone_bridge/protocol.md": "2cea411945f476f453b6b416ca1cb19c9ae44c5b3de26a8186b9114e16d5cf8b",
+      "projects/LOVE/stt_love/durable_execution.py": "7e568aa428bff29fa1ed3533d8e66caa73881431a74779469f8d549d76d3bfc1",
+      "projects/LOVE/stt_love/evidence/ledger.py": "cb5516b6ab278ac1faf572b26bf2b362ebbf607bd3383e6c88ce643ef9dfffb9",
+      "projects/LOVE/stt_love/evidence/replay.py": "ebc9ee82638a319b3d69b39e3282019f0d33f67323468926cf058b9e765afee7",
+      "projects/LOVE/stt_love/evidence/trust.py": "26dfc342c24ccfbf5bc37bb138e01d174a3a48883c631f10365894ecc37048fd",
+      "projects/LOVE/stt_love/inference/model_identity.py": "f9d6e473ed777008b698bd16dc79d092d2b38520e4075da17ff349c4f7511f2f",
+      "projects/LOVE/stt_love/learning.py": "6f6f1f5845b25d4fc60de3db543a2f9a847192f9e29818bb1f84a986df353ef4",
+      "projects/LOVE/stt_love/love/kernel.py": "6ca93b1e96e5c65f1a2c834f7fa80b6079d5568a27ed839850ca012dfcfd1a13",
+      "projects/LOVE/stt_love/memory_trust.py": "4625e462958b840c032abdaa1e24d200c7ab71694cf3c2df62b8b5f2df010545",
+      "projects/LOVE/stt_love/og/aegr.py": "5ebb0ffff160b8bc016d44dc045e4b0f4547a98310d58e7ec9fa460622aa86a7",
+      "projects/LOVE/stt_love/og/capability_registry.py": "cb84eb581db21c7f31b759e0605dfd0d8be2c4e353f85ef2d8ecad2ce4603bb0",
+      "projects/LOVE/stt_love/og/context_adaptation.py": "8ba2b1ffac95b62decb5e394899c662c5dd924405e3676b65e196cd3eb5e8b0f",
+      "projects/LOVE/stt_love/og/execution_graph.py": "6e795aec065edba256cda18640ee2029619ca724826bb6399d661a02366ea3f3",
+      "projects/LOVE/stt_love/og/execution_plan.py": "b18dfeabe4182f907e2dffd45c79a429b60160d6c5e199561ba52521c2cc4dba",
+      "projects/LOVE/stt_love/og/repo_intelligence.py": "0d5f8c54523e48b8c6932ba4ec57d22b8dc3c61cfee069737c06ae7e14b54ded",
+      "projects/LOVE/stt_love/og/source_convergence.py": "3392a9b78f45313d4eb7c56392f1ce7a90a9da2eb6a7e36f996d4d3111fcff19",
+      "projects/LOVE/stt_love/og/verification_contract.py": "a7890e778b5ff227ae53fff8a995b786a71e094fca992e133371979c13b00316",
+      "projects/LOVE/stt_love/qualification.py": "b04a5aac93ef5dad61c073f7e17a1cf6994a6d5471243558e4b3b3838b279f76",
+      "projects/LOVE/stt_love/semantics.py": "85ca8d856dcaa0f06017acc49c22e1252807b47bc608d52a0f192383acd45676",
+      "projects/LOVE/stt_love/state_semantics.py": "70824e12220cfe06af92bd2234b9677e504fdd6cde560b2c5c1cb9bbcddd162f",
+      "projects/LOVE/stt_love/stt/capability_selector.py": "ffe268771fbdeae158f0b55d995c2359fb73b1648342cc9685fbbbc20dadd416",
+      "projects/LOVE/stt_love/stt/core.py": "d71bdb55a066eddb2bc1fc2b02e83c01a5a2b9c93d38e3c6cc5b75e76573a771",
+      "projects/LOVE/stt_love/task_contract.py": "d83fbc8716195dc717851c2a1a319a95ba288fe58e49588b0c1d83f68e36cb2c",
+      "runtime/paradise/__init__.py": "87031d761d41b952ef4f169f1c6bd62f0e231f3bb9c090227a6e9aa0aeedf1a5",
+      "runtime/paradise/cognitive.py": "8ec25566a2bec753af03a573f90cfa37b964dc4d7a84cb033e2b5947d26b2fa1",
+      "runtime/paradise/contracts.py": "e1495ebd51349bb5af0f427c4b92f23ce7584d72d1a17d34216dd17b63a8f9a4",
+      "runtime/paradise/model_gateway.py": "ba115991767c367c5cf6267265ba3439c73a06de2f2de8cbf3c0d7f265837ba6",
+      "runtime/paradise/server.py": "ac535449f6840d446afdd9a209898ba7bb6ecabdfdbb18262a714513ab7c02f7",
+      "runtime/paradise/store.py": "723b72c9327ff7d2f75c715f3013e87031cd501925bb9369cd6a81e03337651c",
+      "runtime/paradise_kernel.py": "357a8d164b65535956a52b3e75528ad00284173ae3c757dcdf0d64c9614c88a4"
+    }
+  }
 }
