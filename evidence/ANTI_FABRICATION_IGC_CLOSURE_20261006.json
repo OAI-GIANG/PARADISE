@@ -1,0 +1,123 @@
+﻿{
+    "evidence_id":  "AF-IGC-CLOSURE-20261006",
+    "status":  "VERIFIED",
+    "scope":  "Anti-Fabrication evidence admission/verification boundary",
+    "finding":  {
+                    "id":  "AF-F01",
+                    "root_cause":  "runtime/paradise/cognitive.py emitted evidence as VERIFIED before an independent verification gate.",
+                    "risk":  "false VERIFIED / evidence self-promotion"
+                },
+    "resolution":  {
+                       "kernel":  "runtime/paradise_kernel.py",
+                       "cognitive":  "runtime/paradise/cognitive.py",
+                       "runtime":  "runtime/paradise/server.py",
+                       "rules":  [
+                                     "evidence admission requires UNVERIFIED status plus source/scope/provenance/integrity binding",
+                                     "verification requires a separate gate",
+                                     "only kernel verification/promotion produces VERIFIED state",
+                                     "forged integrity and UNVERIFIED evidence are blocked"
+                                 ]
+                   },
+    "tests":  {
+                  "negative_and_regression_suite":  "41 passed in 4.68s after patch commit",
+                  "py_compile":  "PASS",
+                  "test_file":  "runtime/test_anti_fabrication_completion.py",
+                  "tracked_test_suite":  "54 passed in 5.81s after patch commit",
+                  "full_pytest_collection":  "BLOCKED_BY_PREEXISTING_UNTRACKED_EVIDENCE_ARTIFACTS: evidence/capability_test.py exits SystemExit after 11 passed, 2 failed self-test cases; no repository tests were collected"
+              },
+    "checks":  [
+                   {
+                       "id":  "AF-N01",
+                       "expected":  "UNVERIFIED evidence -\u003e BLOCKED",
+                       "result":  "PASS"
+                   },
+                   {
+                       "id":  "AF-N02",
+                       "expected":  "forged integrity -\u003e BLOCKED",
+                       "result":  "PASS"
+                   },
+                   {
+                       "id":  "AF-N03",
+                       "expected":  "admission != verification",
+                       "result":  "PASS"
+                   },
+                   {
+                       "id":  "AF-R01",
+                       "expected":  "canonical semantic kernel regression",
+                       "result":  "PASS"
+                   },
+                   {
+                       "id":  "AF-R02",
+                       "expected":  "runtime regression",
+                       "result":  "PASS"
+                   },
+                   {
+                       "id":  "AF-R03",
+                       "expected":  "phone bridge regression",
+                       "result":  "PASS"
+                   },
+                   {
+                       "id":  "AF-R04",
+                       "expected":  "memory completion regression",
+                       "result":  "PASS"
+                   }
+               ],
+    "source":  {
+                   "repository":  "OAI-GIANG/PARADISE",
+                   "workspace":  "F:\\OAI\\PARADISE",
+                   "branch":  "feature/paradise-memory-completion-20261006",
+                   "head_commit":  "069db5e72cfa476abda7acd274985492e2753275",
+                   "head_tree":  "1c400e427fbfca2b535651543cff82dc8cf1d5c7"
+               },
+    "sha256":  {
+                   "runtime/paradise_kernel.py":  "A49357650FD98A3F5F1062A8D7775D00B63B8FBBCA4D49254A9CD7CA810130FD",
+                   "runtime/paradise/cognitive.py":  "8EC25566A2BEC753AF03A573F90CFA37B964DC4D7A84CB033E2B5947D26B2FA1",
+                   "runtime/paradise/server.py":  "AC535449F6840D446AFDD9A209898BA7BB6ECABDFDBB18262A714513AB7C02F7",
+                   "runtime/test_anti_fabrication_completion.py":  "62FC384B3AC374A544F65A9762192A8B82DBFC57985ECB515D40C99F4C30A085"
+               },
+    "git_state":  {
+                      "pre_existing_untracked_changes_present":  true,
+                      "patch_files_modified_tracked":  [
+                                                           "runtime/paradise_kernel.py",
+                                                           "runtime/paradise/cognitive.py",
+                                                           "runtime/paradise/server.py"
+                                                       ],
+                      "new_test_file":  "runtime/test_anti_fabrication_completion.py",
+                      "commit_created":  true,
+                      "push_performed":  false
+                  },
+    "verification_gate":  "FINAL_VERIFICATION_GATE_PASS",
+    "verification_checks":  [
+                                {
+                                    "expected":  "exact patch commit isolated",
+                                    "result":  "PASS",
+                                    "id":  "VF-01",
+                                    "value":  "069db5e72cfa476abda7acd274985492e2753275"
+                                },
+                                {
+                                    "expected":  "git diff --check",
+                                    "result":  "PASS",
+                                    "id":  "VF-02"
+                                },
+                                {
+                                    "expected":  "canonical anti-fabrication regression",
+                                    "result":  "PASS",
+                                    "id":  "VF-03"
+                                },
+                                {
+                                    "expected":  "all tracked tests excluding untracked evidence artifacts",
+                                    "result":  "PASS",
+                                    "id":  "VF-04"
+                                },
+                                {
+                                    "expected":  "no push",
+                                    "result":  "PASS",
+                                    "id":  "VF-05"
+                                },
+                                {
+                                    "expected":  "production deployment",
+                                    "result":  "NOT CLAIMED",
+                                    "id":  "VF-06"
+                                }
+                            ]
+}
