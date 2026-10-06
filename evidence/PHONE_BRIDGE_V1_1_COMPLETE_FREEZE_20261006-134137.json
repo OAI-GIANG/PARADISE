@@ -1,0 +1,13 @@
+﻿{
+    "schema":  "PHONE-BRIDGE-V1.1-COMPLETE-FREEZE-V1",
+    "branch":  "feature/phone-bridge-v1.1-blocker-implementation-20261006",
+    "frozen_commit":  "5c51f96a5e22f9d1f5fcdcd57587206d1e7b8de3",
+    "remote_commit":  "5c51f96a5e22f9d1f5fcdcd57587206d1e7b8de3",
+    "status":  "COMPLETE_FROZEN",
+    "code_changes_after_freeze":  "FORBIDDEN",
+    "merge":  "FORBIDDEN",
+    "go_migration":  "FORBIDDEN",
+    "release":  "PENDING_EXPLICIT_AUTHORIZATION",
+    "evidence":  "PHONE_BRIDGE_V1_1_COMPLETION_EVIDENCE_V1.json",
+    "checkpoint_at":  "2026-10-06T06:41:37.7390239Z"
+}
