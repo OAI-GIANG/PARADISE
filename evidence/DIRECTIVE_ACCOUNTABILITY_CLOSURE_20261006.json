@@ -1,0 +1,15 @@
+{
+  "evidence_id": "DIRECTIVE-ACCOUNTABILITY-CLOSURE-20261006",
+  "status": "VERIFIED",
+  "scope": "Directive compliance, responsibility binding, evidence-backed accountability",
+  "architecture_decision": "No new semantic primitive or subsystem; composition over P1 Authority, P2 Policy/Gate, P3 State/Lifecycle, P4 Evidence/Provenance, P5 Execution/Replay.",
+  "canonical_chain": "DIRECTIVE -> AUTHORITY -> RESPONSIBLE ACTOR -> EXECUTION -> EVIDENCE -> VERIFICATION -> ACCOUNTABILITY",
+  "non_compliance_taxonomy": ["N0 NO_VIOLATION","N1 NOT_AUTHORIZED","N2 SCOPE_DEVIATION","N3 ACTOR_MISMATCH","N4 LATE_OR_EXPIRED","N5 NON_EXECUTION","N6 INCOMPLETE_EXECUTION","N7 EVIDENCE_MISSING","N8 EVIDENCE_INSUFFICIENT","N9 VERIFICATION_FAILED","N10 CONTRADICTORY_EVIDENCE","N11 FALSE_COMPLETION","N12 UNAUTHORIZED_SIDE_EFFECT"],
+  "implementation": {"runtime":"runtime/paradise_kernel.py","tests":"runtime/test_directive_accountability.py","contract":"control/PARADISE_DIRECTIVE_ACCOUNTABILITY_FRAMEWORK_V1.md","enforcement":"Kernel.evaluate_directive_compliance","existing_owners_reused":true,"duplicate_subsystem_created":false},
+  "tests": {"directive_cases":"9 passed","combined_targeted_regression":"32 passed in 0.10s","full_tracked_regression_after_commit":"58 passed in 4.79s","py_compile":"PASS","git_diff_check":"PASS_WITH_EOF_BLANK_LINE_WARNINGS_ONLY","workspace_full_pytest":"NOT_USED_AS_FINAL_GATE because pre-existing untracked evidence/capability_test.py self-exits with its own failing self-test cases before repository collection; tracked suite was used instead."},
+  "verified_cases":["compliant directive -> ALLOW","actor mismatch -> DENY","scope/action deviation -> DENY","context mismatch -> DENY","late/expired directive -> DENY","missing execution witness -> BLOCKED","unverified evidence -> BLOCKED","contradictory evidence -> CONFLICT","missing directive field -> UNKNOWN","existing authorization gate remains owner for sanction/remediation permission"],
+  "source":{"repository":"OAI-GIANG/PARADISE","workspace":"F:\\OAI\\PARADISE","branch":"feature/paradise-memory-completion-20261006","commit":"497b41a3b58439ee19a57deb5c15b06d5916a4b1","tree":"65985259d66183895b07057ac4db88c72243e622","python":"Python 3.14.7"},
+  "sha256":{"runtime/paradise_kernel.py":"357A8D164B65535956A52B3E75528AD00284173AE3C757DCDF0D64C9614C88A4","runtime/test_directive_accountability.py":"5BF17596F9E8565497A29393E259100A9B9407AB9D5403705F2E1FB2B0DC8254","control/PARADISE_DIRECTIVE_ACCOUNTABILITY_FRAMEWORK_V1.md":"0B1AB8BDA9A56A59003FA084D2D1525F5055AC3FFCFA8D326E6D4DB23910EA17"},
+  "git_state":{"implementation_commit":"497b41a3b58439ee19a57deb5c15b06d5916a4b1","push_performed":false,"merge_performed":false,"production_claimed":false,"pre_existing_untracked_artifacts_preserved":true},
+  "verification_gate":"FINAL_VERIFICATION_GATE_PASS"
+}
