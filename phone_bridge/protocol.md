@@ -1,50 +1,29 @@
-﻿# Phone Bridge V1.1 Protocol
-
-Status: IMPLEMENTATION CHECKPOINT — NOT PRODUCTION
+﻿# Phone Bridge V1.1 — Reconciled Protocol
 
 ## Boundary
-Phone client -> authenticated transport -> Phone Bridge -> governance/AEGR -> governed runtime.
+Phone Bridge is a device/transport adapter. It does not own Governance, AEGR, Evidence Authority, Durable Execution, or Runtime State.
 
-The bridge is a transport/capability adapter. It does **not** own policy, execution,
-durable execution state, evidence truth, or provider credentials.
+## Identity
+`request_id` = Bridge request identity.
+`authorization_id` = Governance/AEGR decision identity.
+`execution_id` = Durable Execution identity.
+`evidence_id` = Evidence authority identity.
+These identities MUST NOT be aliased.
 
-## Request
-Required fields:
-- `protocol_version`
-- `request_id` (UUID)
-- `operation`
-- `timestamp`
-- `nonce`
-- `payload` (object)
-
-Authentication is supplied out-of-band to the bridge handler. The bridge validates
-schema, authentication, replay window, and then hands authorization to the canonical
-governance owner.
+## GateOutcome
+Canonical authorization outcomes are `ALLOW`, `DENY`, `BLOCKED`, `CONFLICT`, `UNKNOWN`. Only `ALLOW` may create a governed execution submission. All other outcomes fail closed.
 
 ## Replay
-A `(request_id, nonce)` pair may be accepted only once inside the configured clock
-window. Expired and replayed requests fail closed.
+Bridge enforces transport replay safety through `ReplayStore`. The Bridge owns enforcement; the store owns persistence. The in-memory store is test/dev only. Production requires durable persistence. Store failure is `REPLAY_STORE_UNAVAILABLE` and MUST fail closed.
 
-## Authorization
-The bridge calls an injected authorization handoff. A denial is terminal for the
-submission. The bridge never converts DENY to ALLOW and never executes an operation.
+## Execution boundary
+A `GovernedExecutionSubmission` is created only after `ALLOW`. Bridge never calls execution directly and never owns execution state.
 
-## Response
-Success at this layer means `SUBMITTED` after authorization handoff. It does **not**
-mean execution completed or evidence was verified.
+## Evidence
+Bridge carries correlation references only. It MUST NOT accept client-supplied evidence truth such as `VERIFIED`. Canonical chain: `request_id -> authorization_id -> execution_id -> evidence_id`.
 
-Rejection uses stable error codes without stack traces, secrets, internal paths, or
-provider credentials.
+## Errors
+Stable safe error codes are returned. Internal stack traces, credentials, filesystem paths, governance internals, and provider secrets MUST NOT cross the boundary.
 
-## State boundary
-Phone owns client/UI state. Bridge owns only transient transport validation state.
-Governance owns authorization state. Runtime owns execution state. Evidence authority
-owns evidence truth.
-
-## Explicit non-goals
-- No privileged shell execution.
-- No GitHub credential access.
-- No governance bypass.
-- No evidence-status override from the phone.
-- No durable execution implementation inside the bridge.
-- No production endpoint claim from this checkpoint.
+## Production gate
+This protocol is implemented/tested on staging only. Runtime, durable replay, real AEGR, real Durable Execution, EvidenceLedger, device E2E, and production transport remain separate verification gates.
